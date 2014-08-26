@@ -1,0 +1,15 @@
+// PARAMETERS
+k3:0.1;
+KM:50;
+
+// SPECIES DEFINITIONS
+E(0);
+S(0);
+P(0);
+
+// INITIAL SOLUTION
+>>INIT[ 50 E + 1000 S ];
+
+// RULE SCHEMATA (Michaelis-Menten kinetics)
+E:e + S:s -> E + P @ (k3*#e*#s)/(KM+#s);
+

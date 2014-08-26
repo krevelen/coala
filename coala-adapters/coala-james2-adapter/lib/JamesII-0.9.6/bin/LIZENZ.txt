@@ -1,0 +1,94 @@
+﻿JAMESLIC 
+
+Präambel
+
+Diese Lizenz regelt die Benutzung der beigefügten Software JAMES II sowie deren Bearbeitungen und Erweiterungen. Mit der Nutzung der Software akzeptieren Sie diese Lizenz. 
+
+Diese Lizenz ermöglicht die kostenfreie und kostenpflichtige Nutzung an der Software „JAMES II“. Jede natürliche oder juristische Person darf die Software als Basis für beliebige (freie und kommerzielle) Anwendungen verwenden. Diese Anwendungen können dabei Systeme auf der Basis von JAMES II sein („reine“ Modellierungs- und Simulationssysteme), oder Systeme welche JAMES II nur verwenden. 
+
+
+
+1. 	Definitionen 
+- „Verbreitung“ ist die öffentliche Weitergabe körperlicher und unkörperlicher Vervielfältigungsstücke des Lizenzgegenstandes, also insbesondere die Weitergabe auf Datenträgern oder in Verbindung mit Hardware und/oder das Bereithalten zum Download. 
+- „Bearbeitung“ ist jede Erweiterung, Kürzung und Veränderung des Lizenzgegenstandes, insbesondere Weiterentwicklungen und Kombinationen.
+
+- „Dokumentation“ beschreibt den Aufbau und/oder die Struktur der Programmierung und/oder die Funktionalitäten des Programms.
+
+- „Lizenzgeber“ ist die Universität Rostock.
+	
+
+
+
+2. 	Lizenzgegenstand
+	
+Lizenzgegenstand ist die beigefügte Software JAMES II. 
+
+
+
+
+3. 	Rechte des Lizenznehmers
+
+Der Lizenznehmer darf den Lizenzgegenstand in nichtkompilierter oder kompilierter Form kostenlos und/oder kostenpflichtig verbreiten und vervielfältigen und/oder verbreiten und vervielfältigen lassen.
+
+Der Lizenznehmer darf den Lizenzgegenstand bearbeiten und kombinieren und die entsprechend bearbeitete bzw. kombinierte Version kostenlos und/oder kostenpflichtig verbreiten und vervielfältigen. 
+
+Die Rechte werden dem Lizenznehmer unentgeltlich eingeräumt.
+
+
+
+
+4.	Pflichten des Lizenznehmers
+	
+Der Lizenznehmer hat bei der Verbreitung und Vervielfältigung des Lizenzgegenstandes, sei es in unbearbeiteter und/oder bearbeiteter Form, folgende Pflichten einzuhalten:
+
+- Verbreitete und vervielfältigte Versionen müssen diese Lizenz enthalten. Insbesondere muss der vollständige Text dieser Lizenz enthalten sein und es muss auf die Haftungs- und Gewährleistungsbeschränkung in deutlich wahrnehmbarer Weise hingewiesen werden. Bei der nichtkompilierten Version sind die Hinweise und der Text im Quelltext aufzunehmen, bei der kompilierten Version sind die Hinweise und der Text in der Dokumentation und/oder anderen Materialien, die mit den Versionen verbreitet und vervielfältigt werden, aufzunehmen.
+- Es darf keine Werbung und keine Kennzeichnung des Lizenzgegenstandes mit den Namen der Rechteinhaber und/oder der Universität bzw. dem Lehrstuhl ohne deren ausdrückliche Genehmigung erfolgen. 
+
+Der Lizenznehmer hat bei der Verbreitung und Vervielfältigung des Lizenzgegenstandes in bearbeiteter Form, zusätzlich folgende Pflichten einzuhalten:
+
+- Die bearbeitete Version des Lizenzgegenstandes ist bei einer Verbreitung und Vervielfältigung in kompilierter oder nichtkompilierter Form durch den Lizenznehmer – mit Ausnahme von Klausel 5 – unter diese Lizenz zu stellen. Dritte können die bearbeitete Version ausschließlich unter dieser Lizenz nutzen, es sei denn, der Lizenznehmer und/oder Dritte  schließen einen eigenständigen Lizenzvertrag mit dem Lizenzgeber oder der Lizenznehmer macht von seinem Recht aus Klausel 5 Gebrauch.
+- Kostenfreie Bearbeitungen müssen der Allgemeinheit zugänglich gemacht werden.
+- Kostenfreie und kostenpflichtige Bearbeitungen müssen dokumentiert und kommentiert werden. Die Dokumentation und Kommentierung ist der Öffentlichkeit in deutlich wahrnehmbarer Weise zur Verfügung zu stellen. 
+- Bei einer kostenpflichtigen Bearbeitung muss explizit der zugrundeliegende Lizenzgegenstand genannt sowie der Hinweis: „Dieses Produkt enthält Software, die von der Universität Rostock und deren Mitarbeitern entwickelt wurde“ aufgenommen werden. 
+
+
+Der Lizenznehmer darf die Nutzung des Lizenzgegenstandes nicht von Pflichten oder Bedingungen abhängig machen, die nicht in dieser Lizenz vorgesehen sind.
+
+
+
+
+5. 	GPL - Kompatibilität
+
+Für den Fall, dass der modifizierte oder unmodifizierte Lizenzgegenstand in GPL-Code enthalten ist oder umgekehrt der modifizierte Lizenzgegenstand GPL-Code enthält, kann der Lizenznehmer den verbundenen Code unter der GPLv3 Lizenz lizenzieren (d.h. verbreiten, vervielfältigen und bearbeiten). Die in dieser Lizenz enthaltenen Pflichten bleiben bestehen, soweit Sie nicht den Anforderungen der GPLv3 und jüngeren GPL- Lizenzen widersprechen. 
+	
+
+
+
+6.	Gewährleistung
+
+Die Gewährleistung der Universität Rostock ist auf Fälle arglistig verschwiegener Mängeln und grober Fahrlässigkeit beschränkt.
+
+
+
+7.	Haftung
+
+Die Universität Rostock haftet im Zusammenhang mit der Einräumung der Lizenz gegenüber dem Lizenznehmer nur für Fälle von Vorsatz oder grober Fahrlässigkeit.  
+
+
+
+
+8.	Beendigung des Lizenzvertrages
+
+Verletzt der Lizenznehmer seine aus diesem Vertrag folgenden Pflichten fallen die in dieser Lizenz eingeräumten Rechte automatisch an den Lizenzgeber zurück. Rechte Dritter, die den Lizenzgegenstand oder Rechte an dem Lizenzgegenstand von dem Lizenznehmer erworben haben, bleiben hiervon unberührt.
+
+
+9.	Sprache und Gerichtsstand
+
+Für den Fall, dass diese Lizenz in andere Sprachen übersetzt wird, ist bei Streitigkeiten die deutsche Version maßgeblich.
+Gerichtsstand für alle Streitigkeiten aus dieser Lizenz ist Rostock, sofern der Lizenznehmer Kaufmann, eine juristische Person des öffentlichen Rechts oder ein öffentlich-rechtliches Sondervermögen ist. 
+Deutsches Recht ist anwendbar. 
+Sollte nach Internationalem Verfahrensrecht die Zuständigkeit eines deutschen Gerichts möglich sein, so vereinbaren die Parteien die Zuständigkeit der deutschen Gerichtsbarkeit und innerhalb Deutschlands die Zuständigkeit des Amtsgerichtes bzw. Landgerichtes Rostock.
+
+
+
+

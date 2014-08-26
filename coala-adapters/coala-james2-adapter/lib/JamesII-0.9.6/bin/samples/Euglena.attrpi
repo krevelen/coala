@@ -1,0 +1,37 @@
+// model goes here...
+model euglena
+
+reactions 
+// moving reaction of euglena
+move;
+
+variables
+//maximal level of euglena moving
+max :4;
+//number of euglena
+n : 100;
+
+species
+
+euglena(d){
+
+main: move[func(i){d*(1-i)}]?(){d:d-1}.main +
+      move[func(i){(max-d)*i}]?(){d:d+1}.main;   
+}
+
+light(i){
+
+main: move[i]!().main;
+}
+
+
+solution{
+
+add 1 of new light(0.5);
+add n of new euglena(max/2)
+
+}
+
+
+
+

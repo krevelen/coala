@@ -1,0 +1,46 @@
+
+Nee andere taken lenen zich niet tot splitsen alleen collectieve beveiliging geeft deze mogelijkheid. Wel is het zo dat bepaalde taken een heel ruim tijdsvenster hebben en deze kun je dan de ene dag vroeg uitvoeren en de andere dag laag. Dit geeft enige vorm van flexibiliteit dit zie je vooral terug bij externe en interne controle rondes en terrein surveillance. Overige taken zijn over het algemeen vrij star en lenen zich niet voor flexibele planning.
+
+Helaas heeft er nog geen prio toekenning ivm aanrijdtijden plaatsgevonden. Klanten als ABN AMRO, KPN, LIDL en Jumbo hebben een verplichte aanrijdtijd van 30 minuten. Alle klanten waarin deze naam voorkomt kun je dus als prio 1 benaderen.
+ 
+The word document contains all depot locations in this area from these depots all vehicles depart for duty, the amount of vehicles is flexible.
+The stam document contains the fixed tasks, the regression in this database is very small. Therefore this database can be used for a eight week input. In other words you can use the database repeatingly. Hereby a brief explanation of all columns due to the fact that there are still some questions
+
+A: Ordrnr is an unique number for the order
+B: Naam is the name of the client
+C: Klnr unique number for the client
+D: TaakID unique number for the task
+E: TaakID2 combination of columns for another unique number
+F: Comment1 type of task
+G: ORD_ID is not important
+H: Dag is the day when the job is executed (not flexible)
+I: VAST_LOS is the average time which is needed to execute the task (not flexible)
+J: S_BINT_0 start time of the time border for the task (not flexible)
+K: E_BINT_0 end time of the time border for the task (not flexible)
+L: Adres1 address where the task needs to be executed
+M: HN house number of the address mentioned in column L
+N: Postkd zip code of the address mentioned in column L
+O: Plaats city of the address mentioned in column L
+P: Country of the address mentioned in column L (all addresses are situated in the Netherlands)
+Q: Coll ID2 is not important
+R: Basis: is the district where the depot locations are managed from. Mainly accounting and registration wise. For flexible work is this important due to the fact that incidents from this district are labeled with this id.
+S: Sector is a sector where several routes are driving
+T: Treknr these are the operating vehicles and their starting time
+U: Contract is a unique contract number and starting date of the contract
+V: Order is not important
+W: Gem Over shows the amount of incidents that are used to calculate the avergae execution time.
+X: Gem uitgevoerd average time used for the execution
+Y: Gem verschil is the diffrence between contract and the operational execution
+Z: Gem min is the minimum time which is used to perform the task (not very reliable data)
+AA: Gem max is the maximum time which is used to perform the task (not very reliable data)
+
+All other columns are not relevant for the planning.  
+
+The document flexible incidents region 220 contain all incidents reported in 2013.
+
+Unfortunately I am not able to generate a house number component, it is only possible to generate a combination of street and house number. If that is valuable let me know.
+
+There is no reference between column BF and G it is just the combination vehicle and the drivers identity. This is something that can be different every day.
+
+The departure of a vehicle is random for flexible incidents. It can be the depot, it can be the location of a fixed task or the location of an other flexible incident.
+ 

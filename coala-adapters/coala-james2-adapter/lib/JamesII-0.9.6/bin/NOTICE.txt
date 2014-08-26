@@ -1,0 +1,90 @@
+Specifically, this distribution of JAMES II relies on the following open source software:
+
+* AntLR
+ANother Tool for Language Recognition
+http://www.antlr.org 
+by Terence Parr
+
+* ASM
+Java bytecode manipulation and analysis framework 
+http://asm.ow2.org 
+by INRIA, France Telecom
+
+* cglib
+Code Generation Library
+http://cglib.sourceforge.net
+by Apache Software Foundation
+("This product includes software developed by the Apache Software Foundation (http://www.apache.org/).") 
+
+* Eclipse (EMF, JDT, etc.)
+http://eclipse.org
+by Eclipse Foundation, Inc.
+
+* Apache Commons
+http://commons.apache.org
+by Apache Software Foundation
+
+* dom4j
+http://dom4j.sourceforge.net
+by MetaStuff, Ltd.
+
+* ehcache
+http://ehcache.org
+by Terracotta, Inc.
+
+* FreeMarker
+http://freemarker.org
+by The Visigoth Software Society
+
+* GlueGen, JOGL
+http://jogamp.org/gluegen/www, http://jogamp.org/jogl/www/
+by JogAmp Community
+
+* Hibernate
+http://hibernate.org
+by Red Hat Inc. and third-party contributors
+
+* HyperSQL
+http://hsqldb.org
+by The HSQL Development Group
+
+* JChart2D
+http://jchart2d.sourceforge.net
+by Achim Westermann
+
+* JIDE Common Layer
+http://www.jidesoft.com
+by JIDE Software Inc.
+
+* Joone
+an Object Oriented Neural Engine
+http://sourceforge.net/projects/joone
+by Paolo Marrone
+
+* JTA
+Java Transaction API
+http://www.oracle.com/technetwork/java/javaee/jta
+by Oracle
+
+* Log4J
+Logging Services
+http://logging.apache.org/log4j
+by Apache Software Foundation
+
+* MLJ
+Machine Learning Tools in Java
+http://mldev.sourceforge.net/
+by The MLJ Development Team
+
+* MySQL connector for Java (only at runtime)
+http://dev.mysql.com/downloads/connector/j
+by Oracle
+
+* SQLite JDBC driver
+http://www.xerial.org/trac/Xerial/wiki/SQLiteJDBC
+by Taro L. Saito
+
+* WEKA
+Waikato Environment for Knowledge Analysis
+http://www.cs.waikato.ac.nz/ml/weka
+by Machine Learning Group at University of Waikato

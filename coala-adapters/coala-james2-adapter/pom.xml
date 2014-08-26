@@ -1,0 +1,45 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>io.coala</groupId>
+		<artifactId>coala</artifactId>
+		<version>1.0.0</version>
+	</parent>
+
+	<artifactId>coala-james2-adapter</artifactId>
+
+	<name>${project.artifactId}</name>
+	<description>
+		Utility and demo code for the JAMES II framework
+		$Id: pom.xml 340 2014-08-05 10:26:40Z krevelen $
+		$URL: https://dev.almende.com/svn/abms/coala-james2-adapter/pom.xml $
+	</description>
+	<url>http://www.jamesii.org/</url>
+
+	<properties>
+		<james2.version>0.8.7</james2.version>
+	</properties>
+
+	<repositories>
+
+		<repository>
+			<id>JamesII-releases</id>
+			<name>Rostock University - JamesII releases</name>
+			<url>http://wwwmosi.informatik.uni-rostock.de/jamesIIreleases/maven/</url>
+		</repository>
+	</repositories>
+
+	<!-- 
+	<dependencies>
+		<dependency>
+			<groupId>james2</groupId>
+			<artifactId>assemblies-release</artifactId>
+			<version>${james2.version}</version>
+		</dependency>
+	</dependencies>
+	 -->
+
+</project>

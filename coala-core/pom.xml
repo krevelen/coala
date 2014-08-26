@@ -1,0 +1,225 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>io.coala</groupId>
+		<artifactId>coala</artifactId>
+		<version>1.0.0</version>
+		<relativePath>../coala</relativePath>
+	</parent>
+
+	<artifactId>coala-core</artifactId>
+
+	<name>${project.artifactId} ${project.version}</name>
+	<url>http://coala.io/</url>
+	<description>
+		Almende simulation common utilities and beans
+		$Id: pom.xml 349 2014-08-08 05:08:29Z krevelen $
+		$URL: https://dev.almende.com/svn/abms/coala-common/pom.xml $
+	</description>
+
+	<organization>
+		<name>Almende</name>
+		<url>http://www.almende.com/</url>
+	</organization>
+
+	<properties>
+		<jackson.version>2.4.0</jackson.version>
+		<lambdaj.version>2.3.3</lambdaj.version>
+		<rxjava.version>0.18.4</rxjava.version>
+		<hamcrest.version>1.3</hamcrest.version>
+		<commons-beanutils.version>1.9.2</commons-beanutils.version>
+		<commons-codec.version>1.9</commons-codec.version>
+		<commons-io.version>2.4</commons-io.version>
+		<commons-configuration.version>1.10</commons-configuration.version>
+		<commons-math3.version>3.3</commons-math3.version>
+		<owner.version>1.0.5.1</owner.version>
+		<easymock.version>3.2</easymock.version>
+	</properties>
+
+	<repositories>
+		<!-- COALA public Maven repository -->
+		<repository>
+			<name>COALA Public Maven Repository</name>
+			<id>coala-public</id>
+			<url>https://github.com/krevelen/coala/raw/mvn-repo/</url>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>daily</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</snapshots>
+		</repository>
+
+		<!-- eaio: UUID repository -->
+		<repository>
+			<name>EAIO Repository</name>
+			<id>eaio.com</id>
+			<url>http://eaio.com/maven2</url>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+
+		<!-- javax.inject-api repository -->
+		<repository>
+			<name>JBoss Repository</name>
+			<id>jboss.com</id>
+			<url>https://repository.jboss.org/nexus/content/repositories/thirdparty-releases</url>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<dependencies>
+		<!-- logging via SL4J -->
+		<dependency>
+			<!-- bind SLF4J onto log4j -->
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+		</dependency>
+		<dependency>
+			<!-- redirect commons-logging (used e.g. in Spring/WSAG4J) to SLF4J -->
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+		</dependency>
+		<dependency>
+			<!-- redirect java.util.logging to SLF4J -->
+			<groupId>org.slf4j</groupId>
+			<artifactId>jul-to-slf4j</artifactId>
+		</dependency>
+
+		<dependency>
+			<!-- used for the probability distributions -->
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-math3</artifactId>
+			<version>${commons-math3.version}</version>
+		</dependency>
+
+		<dependency>
+			<!-- used for the DynaBean implementation -->
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+			<version>${commons-beanutils.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<!-- used for -->
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>${commons-codec.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${commons-io.version}</version>
+		</dependency>
+
+		<dependency>
+			<!-- used for the properties file parsing implementation -->
+			<groupId>commons-configuration</groupId>
+			<artifactId>commons-configuration</artifactId>
+			<version>${commons-configuration.version}</version>
+		</dependency>
+
+		<dependency>
+			<!-- used for configurable properties injection -->
+			<groupId>org.aeonbits.owner</groupId>
+			<artifactId>owner</artifactId>
+			<version>${owner.version}</version>
+		</dependency>
+
+		<dependency>
+			<!-- Java Extension API for servlets -->
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<!-- Java Extension API for persistence via database, xml, etc. -->
+			<groupId>javax.persistence</groupId>
+			<artifactId>persistence-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<!-- Java Extension API for dependency injection (and/or aspect oriented 
+				programming) -->
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<!-- UUID (re)implementation that uses MAC-address -->
+			<groupId>com.eaio.uuid</groupId>
+			<artifactId>uuid</artifactId>
+		</dependency>
+
+		<dependency>
+			<!-- Observable pattern (re)implementation -->
+			<groupId>com.netflix.rxjava</groupId>
+			<artifactId>rxjava-core</artifactId>
+			<version>${rxjava.version}</version>
+		</dependency>
+
+		<dependency>
+			<!-- DateTime, Interval, Duration etc. standard implementations -->
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+		</dependency>
+
+		<dependency>
+			<!-- JSON <-> Java object mapping -->
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+
+		<dependency>
+			<!-- used for matcher technology in junit, lambdaj, etc. (reasoning?) -->
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-core</artifactId>
+			<version>${hamcrest.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<!-- used for callback/Lambda/closure utils (pre Java 8) -->
+			<groupId>com.googlecode.lambdaj</groupId>
+			<artifactId>lambdaj</artifactId>
+			<version>${lambdaj.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<!-- Used as unit testing framework, supports test-driven development -->
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<!-- used in unit testing to create mock dependency instances -->
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+			<version>${easymock.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+</project>

@@ -1,0 +1,155 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>io.coala</groupId>
+		<artifactId>coala</artifactId>
+		<version>1.0.0</version>
+	</parent>
+
+	<artifactId>coala-agentscape2-adapter</artifactId>
+
+	<name>${project.artifactId}</name>
+	<description>
+		Utility and demo code for the AgentScape agent platform
+		$Id: pom.xml 254 2014-05-05 07:37:23Z krevelen $
+		$URL: https://dev.almende.com/svn/abms/agentscape-util/pom.xml $
+	</description>
+	<url>http://agentscape.org/</url>
+
+	<properties>
+		<agentscape.version>2.0-m5</agentscape.version>
+		<!-- make sure the environment variable AGENTSCAPE_HOME is set to your 
+			local AgentScape 2.0-m5 installation directory -->
+		<org.iids.aos.install.path>${env.AGENTSCAPE_HOME}</org.iids.aos.install.path>
+	</properties>
+
+	<repositories>
+
+		<repository>
+			<!-- AgentScape repository (milestones 2.0-m4...2.0-m5) -->
+			<name>AgentScape Nexus Repository</name>
+			<id>agentscape-public</id>
+			<url>http://nexus.agentscape.org/content/groups/public-agentscape</url>
+		</repository>
+
+		<!-- Old agentscape repository (milestones 2.0-m1...2.0-m4) -->
+		<!-- <repository> <name>AgentScape Public Repository</name> <id>agentscape-old</id> 
+			<url>http://repo.agentscape.org/repo</url> </repository> -->
+	</repositories>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>coala-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.iids.aos</groupId>
+			<artifactId>agentscape-core</artifactId>
+			<version>${agentscape.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<!-- Configure the Maven2 Eclipse IDE Integration (m2e) for non-standard 
+					plug-in executions during the compile-test-run life-cycles by the IDE -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+
+								<!-- Configure "maven-dependency-plugin:copy-dependencies" goal execution -->
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-dependency-plugin</artifactId>
+										<versionRange>[1.0.0,)</versionRange>
+										<goals>
+											<goal>copy-dependencies</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<!-- Ignore dependency copying in IDE (re)builds -->
+										<ignore />
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+		<plugins>
+
+			<!-- copies (non-"provided") dependency jars to ${AOS}/lib/shared -->
+			<plugin>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<excludeGroupIds>junit</excludeGroupIds>
+							<includeScope>runtime</includeScope>
+							<outputDirectory>${org.iids.aos.install.path}/lib/shared</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-jar</id>
+						<phase>package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<tasks>
+								<copy
+									file="${project.build.directory}/${project.build.finalName}.${project.packaging}"
+									toDir="${org.iids.aos.install.path}/lib/shared" />
+							</tasks>
+						</configuration>
+					</execution>
+					<execution>
+						<id>clean</id>
+						<phase>clean</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<tasks>
+								<delete
+									dir="${org.iids.aos.install.path}/lib/shared/${project.build.finalName}.${project.packaging}" />
+							</tasks>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $HeadURL: https://dev.almende.com/svn/abms/coala-nodyn-adapter/src/main/webapp/WEB-INF/web.xml $ -->
+<!-- $Id: web.xml 350 2014-08-08 05:10:37Z krevelen $ -->
+<!-- set metadata-complete="true" for Jetty to skip annotation scanning in lib & classes-->
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+   version="2.5"
+   metadata-complete="true">
+         
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+
+	<!-- 
+	<servlet>
+		<servlet-name>RestServlet</servlet-name>
+		<servlet-class>org.apache.wink.server.internal.servlet.RestServlet</servlet-class>
+		<init-param> 
+		    <param-name>applicationConfigLocation</param-name> 
+		    <param-value>/WEB-INF/application</param-value> 
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RestServlet</servlet-name>
+		<url-pattern>/rest/*</url-pattern>
+	</servlet-mapping>
+	 -->
+	 		
+	<servlet>
+		<servlet-name>NodynServlet</servlet-name>
+		<servlet-class>io.coala.nodyn.servlet.NodynServlet</servlet-class>
+		<init-param>
+			<param-name>scriptPath</param-name>
+			<param-value>inertiaViss.js</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>NodynServlet</servlet-name>
+		<url-pattern>/nodyn/*</url-pattern>
+	</servlet-mapping>
+ 
+</web-app>

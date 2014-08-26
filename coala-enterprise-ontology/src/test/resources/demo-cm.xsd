@@ -1,0 +1,48 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:element name="Transactions">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="Transaction" type="TRANSACTION_KIND" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:complexType name="TRANSACTION_KIND">
+		<xsd:sequence>
+			<xsd:element name="Tname" type="xsd:string"/>
+			<xsd:element name="Initiator" type="ELEMENTARY_ACTOR_ROLE" minOccurs="1" maxOccurs="unbounded"/>
+			<xsd:element name="Executor" type="ELEMENTARY_ACTOR_ROLE" minOccurs="1" maxOccurs="1"/>
+			<xsd:element name="UseInformation" type="INFORMATION_BANK" minOccurs="1" maxOccurs="1"/>
+			<xsd:element name="Result" type="DeclaredFactType" minOccurs="1" maxOccurs="1"/>
+		</xsd:sequence>
+		<xsd:attribute name="TransactionID" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="ELEMENTARY_ACTOR_ROLE">
+		<xsd:sequence>
+			<xsd:element name="name" type="xsd:string"/>
+			<xsd:element name="UseInformation" type="INFORMATION_BANK" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="ActorID" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="INFORMATION_BANK">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:string">
+				<xsd:attribute name="BankType" use="optional">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:enumeration value="Production"/>
+							<xsd:enumeration value="Coordination"/>
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:attribute>
+				<xsd:attribute name="BankID" type="xsd:string" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="DeclaredFactType">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:string">
+				<xsd:attribute name="ResultID" type="xsd:string" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,42 @@
+package examples.spapi.mgcl2;
+
+Move					:={[1.0,0.0];
+                           360.0;
+                           1.0-2.0;
+                          }
+                          
+Space					:={[0.0,0.0];
+						   [100.0,100.0];
+						   Move;
+						  }
+
+Mg(i1, i2, d1, d2)      := Space;
+							{!i1@1.0[].Mgplus(i1, i2, d1, d2)}
+
+
+Mgplus(i1, i2, d1, d2)  := Space;
+							{!i2@10.0[].Mg2plus(i1, i2, d1, d2)
+                          +?d1@5.0[].Mg(i1, i2, d1, d2)}
+                        
+Mg2plus(i1, i2, d1, d2) := Space;
+							{?d2@0.5[].Mgplus(i1, i2, d1, d2)}
+
+Cl(i1, i2, d1, d2)		:=Space;
+							{?i1@1.0[].Clminus(i1, i2, d1, d2)
+                          +?i2@10.0[].Clminus(i1, i2, d1, d2)} 
+                          
+Clminus(i1, i2, d1, d2) :=Space;
+							{!d1@5.0[].Cl(i1, i2, d1, d2)
+                          +!d2@0.5[].Cl(i1, i2, d1, d2)} 
+                          
+                          
+                          
+Solution()				:= i1;
+                           i2;
+                           d1;
+                           d2;
+                           
+                           {Mg(i1, i2, d1, d2)*100
+                           |Cl(i1, i2, d1, d2)*100
+                           }
+                            

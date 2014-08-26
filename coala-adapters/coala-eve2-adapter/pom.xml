@@ -1,0 +1,64 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>io.coala</groupId>
+		<artifactId>coala</artifactId>
+		<version>1.0.0</version>
+	</parent>
+
+	<artifactId>coala-eve2-adapter</artifactId>
+
+	<name>${project.artifactId}</name>
+	<description>
+		Utility and demo code for the Eve agent platform
+		$Id: pom.xml 287 2014-05-30 15:13:48Z krevelen $
+		$URL: https://dev.almende.com/svn/abms/eve-util/pom.xml $
+	</description>
+	<url>https://eve.almende.com/</url>
+
+	<properties>
+		<eve.version>2.2.2</eve.version>
+	</properties>
+	
+	<repositories>
+	</repositories>
+	
+	<dependencies>
+
+		<dependency>
+			<!-- Java Extension API for dependency injection (and/or aspect oriented 
+				programming) -->
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.almende.eve</groupId>
+			<artifactId>eve-core</artifactId>
+			<version>${eve.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>coala-core</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>coala-guice3-adapter</artifactId>
+			<version>1.0.0</version>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+</project>

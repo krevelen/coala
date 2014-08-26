@@ -1,0 +1,36 @@
+[model]
+S: 
+	P,
+	P2,
+	P2_Gene,
+	Gene,
+	RNA;
+R: RepressionBinding = 1 Gene + 1 P2 -> 1 P2_Gene,
+   ReverseRepressionBinding = 1 P2_Gene -> 1 Gene + 1 P2,
+   Transcription = Gene -> Gene + RNA,
+   Translation = RNA -> RNA + P,
+   Dimerisation = 2P -> P2,
+   Dissociation = P2 -> 2P,
+   RNADegradation = RNA ->,
+   ProteinDegradation = P ->;
+name: ProkaryoticAutoRegulation;
+reference: http://www.amazon.de/Stochastic-Modelling-Systems-Mathematical-Computational/dp/1584885408;
+
+[parameters]
+Rc: RepressionBinding:1.0,
+ReverseRepressionBinding:10.0,
+Transcription:0.01,
+Translation:10.0,
+Dimerisation:1.0,
+Dissociation:1.0,
+RNADegradation:0.1,
+ProteinDegradation:0.01;
+
+X_0:
+	P:0,
+	P2:0,
+	P2_Gene:0,
+	Gene:10,
+	RNA:0;
+V: 1.0;
+

@@ -1,0 +1,21 @@
+/**
+ Rules for forrest fire model.
+ Best is to start with an "burned" grid.
+*/
+@caversion 1;
+
+dimensions 2;
+
+state BURNED, BURNING, WOODEN;
+
+//a burned cell becomes a wooden cell with a chance of 5%
+rule{BURNED} [0.05] : -> WOODEN;
+
+//a burning cell turns to a burned cell
+rule{BURNING}: -> BURNED;
+
+//a wooden cell becomes burning if there is at least one neighbor burning
+rule{WOODEN} : BURNING{1,} -> BURNING;
+
+//a wooden cell is hit by lightning with a change of 0.006%
+rule{WOODEN} [0.00006] : -> BURNING;

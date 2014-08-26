@@ -1,0 +1,8 @@
+The lincences of the JAMES II packages may vary. You can find them in LIZENZ.txt/LICENCE.txt text files within the JAR archives. 
+
+If no such licence file is available in a JAMES II package, the licence under james/LIZENZ.txt in the james2-core package applies.
+
+Note that although the legally binding lincence is in German, complying to the licence terms should not be difficult at all - this is basically an 
+(L)GPL/BSD dual licence that should make it very easy to build any other kind of software project on top. 
+
+Pleasse contact us if you need any help with this issue.

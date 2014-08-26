@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bookmarks>
+   <site url="http://download.eclipse.org/egit/github/updates-2.3" selected="true" name="Eclipse EGit Mylyn GitHub Repository"/>
+   <site url="http://eclipse-jetty.sourceforge.net/update/" selected="true" name="Eclipse Jetty Launcher Site"/>
+   <site url="http://download.eclipse.org/eclipse/updates/4.2" selected="true" name="Eclipse Juno updates"/>
+   <site url="http://download.eclipse.org/egit/updates-2.2" selected="true" name="EGit P2 Repository"/>
+   <site url="http://download.eclipse.org/egit/updates-2.3" selected="true" name="EGit P2 Repository"/>
+   <site url="http://download.eclipse.org/modeling/emf/emf/updates/releases/" selected="true" name="EMF"/>
+   <site url="http://download.eclipse.org/tools/gef/updates/releases/" selected="true" name="Graphical Editing Framework"/>
+   <site url="http://eclipse-javacc.sourceforge.net/" selected="true" name="JavaCC Eclipse Plug-in"/>
+   <site url="http://repo1.maven.org/maven2/.m2e/connectors/m2eclipse-buildhelper/0.15.0/N/0.15.0.201207090124/" selected="true" name="M2E Buildhelper Connector"/>
+   <site url="http://download.eclipse.org/releases/juno" selected="true" name="M2e Juno"/>
+   <site url="http://download.eclipse.org/m2e-wtp/releases/" selected="true" name="m2e-wtp releases repository"/>
+   <site url="http://download.eclipse.org/technology/m2e/releases/1.2/1.2.0.20120903-1050" selected="true" name="Maven Integration for Eclipse Update Site"/>
+   <site url="http://repo1.maven.org/maven2/.m2e/connectors/m2eclipse-egit/0.14.0/N/0.14.0.201207041402/" selected="true" name="Maven SCM Handler for EGit"/>
+   <site url="http://repo1.maven.org/maven2/.m2e/connectors/m2eclipse-subclipse/0.13.0/N/0.13.0.201207041403/" selected="true" name="Maven SCM Handler for Subclipse"/>
+   <site url="http://download.eclipse.org/mylyn/releases/juno" selected="true" name="Mylyn for Eclipse Juno"/>
+   <site url="http://subclipse.tigris.org/update_1.8.x" selected="true" name="Subclipse 1.8.x Update Site"/>
+   <site url="http://download.eclipse.org/webtools/repository/juno" selected="true" name="The Eclipse Web Tools Platform (WTP) software repository"/>
+   <site url="http://texlipse.sourceforge.net" selected="true" name="update site: http://texlipse.sourceforge.net"/>
+   <site url="http://m2eclipse.sonatype.org/sites/m2e-extras/" selected="false" name=""/>
+   <site url="http://m2eclipse.sonatype.org/update/" selected="false" name=""/>
+</bookmarks>

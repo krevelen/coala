@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  $Id: inertia.rnc 25 2014-07-31 11:14:14Z krevelen $
+  $URL: https://dev.almende.com/svn/inertia/inertia-xml/src/main/relaxng/inertia.rnc $
+  
+  Part of the EU project INERTIA, see http://www.inertia-project.eu/inertia/
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.demo.nl/2014/schema/eo/" xmlns:eo="http://www.demo.nl/2014/schema/eo/">
+  <xs:element name="Fact">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" ref="eo:from"/>
+        <xs:element minOccurs="0" ref="eo:to"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="eo:cc"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="from" type="eo:Organization"/>
+  <xs:element name="to" type="eo:Organization"/>
+  <xs:element name="cc" type="eo:Organization"/>
+  <xs:complexType name="Organization">
+    <xs:sequence>
+      <xs:element ref="eo:name"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="name" type="xs:string"/>
+</xs:schema>

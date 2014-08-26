@@ -1,0 +1,14 @@
+[model]
+S: A, B, C;
+R: 
+	r1 = 1A + 1B -> 2C,
+	r2 = 2C -> 1A + 1B;
+name: SRSTest;
+
+[parameters]
+grid: (3,3,3);
+lambda: 1;
+Rc: r1:1.0, r2:1.0;
+D: A:1.0, B:2.0, C:3.0;
+X_0: 
+	(1,1,1,A:100,B:0,C:0);

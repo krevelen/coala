@@ -1,0 +1,57 @@
+/* translation from the examples of SPiM 
+http://research.microsoft.com/en-us/projects/spim/examples.pdf */
+package examples.stopi.bistable;
+
+A1(bind, inhibit):= 
+  
+  { ~tA[0.2].{ A2(bind, inhibit) 
+        | A1(bind, inhibit)
+        }
+  }
+
+A2(bind, inhibit):= 
+  u@0.42;
+
+  { ~dA[0.002] 
+  + !bind[u].AB() 
+  + !inhibit[u].A_b(bind, inhibit, u)
+  }
+
+A_b(bind, inhibit,u):= 
+  { ?u.A2(bind, inhibit) }
+
+AB():= 
+  
+  { ~dAB[0.53] }
+
+B1(bind, inhibit):= 
+  
+  { ~tB[0.37].{ B2(bind) 
+        | B1(bind, inhibit)
+        }
+  + ?inhibit[u].BA1(bind, inhibit, u)
+  }
+  
+
+BA1(bind, inhibit, u):= 
+  
+  { !u.B1(bind, inhibit)
+  + ~tB2[0.027].{ B2(bind) 
+         | BA1(bind, inhibit, u)
+         }
+  }
+
+
+B2(bind):= 
+  
+  { ?bind[u] 
+  + ~dB[0.002]
+  }
+
+System():=
+  bind@0.72;
+  inhibit@0.19;
+
+  { A1(bind, inhibit) 
+  | B1(bind, inhibit)
+  } 

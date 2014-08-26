@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.6.0_34" class="java.beans.XMLDecoder">
+ <object class="org.jamesii.gui.application.preferences.config.MainConfFile">
+  <void property="values">
+   <void method="put">
+    <string>org.jamesii.confirm.exit</string>
+    <boolean>true</boolean>
+   </void>
+   <void method="put">
+    <string>org.jamesii.perspectives.open.org.jamesii.gui.workflow.WorkflowPerspective</string>
+    <boolean>true</boolean>
+   </void>
+   <void method="put">
+    <string>org.jamesii.views.size.left</string>
+    <int>0</int>
+   </void>
+   <void method="put">
+    <string>org.jamesii.perspectives.open.org.jamesii.gui.perspective.preset.PresetPerspective</string>
+    <boolean>true</boolean>
+   </void>
+   <void method="put">
+    <string>org.jamesii.history</string>
+    <object class="java.util.HashMap"/>
+   </void>
+   <void method="put">
+    <string>org.jamesii.iconset</string>
+    <string>org.jamesii.gui.icons.pinvoke.diagona.PinvokeDiagonaIconSet</string>
+   </void>
+   <void method="put">
+    <string>LookAndFeel</string>
+    <string>com.sun.java.swing.plaf.windows.WindowsLookAndFeel</string>
+   </void>
+   <void method="put">
+    <string>mainWindow.size</string>
+    <object class="java.awt.Dimension">
+     <int>1032</int>
+     <int>891</int>
+    </object>
+   </void>
+   <void method="put">
+    <string>org.jamesii.views.size.bottom</string>
+    <int>306</int>
+   </void>
+   <void method="put">
+    <string>mainWindow.state</string>
+    <int>0</int>
+   </void>
+   <void method="put">
+    <string>mainWindow.position</string>
+    <object class="java.awt.Point">
+     <int>444</int>
+     <int>140</int>
+    </object>
+   </void>
+   <void method="put">
+    <string>org.jamesii.perspectives.open.org.jamesii.gui.experiment.ExperimentPerspective</string>
+    <boolean>true</boolean>
+   </void>
+   <void method="put">
+    <string>org.jamesii.views.size.right</string>
+    <int>0</int>
+   </void>
+   <void method="put">
+    <string>org.jamesii.perspectives.open.org.jamesii.gui.model.ModelPerspective</string>
+    <boolean>true</boolean>
+   </void>
+   <void method="put">
+    <string>org.jamesii.windowmanager.contributionoverrides</string>
+    <object class="java.util.HashMap"/>
+   </void>
+   <void method="put">
+    <string>org.jamesii.perspectives.open.org.jamesii.gui.perspective.laf.LafPerspective</string>
+    <boolean>true</boolean>
+   </void>
+   <void method="put">
+    <string>org.jamesii.perspectives.open.org.jamesii.gui.perspective.DefaultPerspective</string>
+    <boolean>true</boolean>
+   </void>
+   <void method="put">
+    <string>org.jamesii.perspectives.open.org.jamesii.gui.server.ServerManagementPerspective</string>
+    <boolean>true</boolean>
+   </void>
+   <void method="put">
+    <string>org.jamesii.perspectives.open.james.gui.random.TestPerspective</string>
+    <boolean>true</boolean>
+   </void>
+   <void method="put">
+    <string>org.jamesii.perspectives.open.org.jamesii.gui.visualization.VisDataAnalysisPerspective</string>
+    <boolean>false</boolean>
+   </void>
+  </void>
+ </object>
+</java>

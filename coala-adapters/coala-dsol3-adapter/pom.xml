@@ -1,0 +1,74 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>io.coala</groupId>
+		<artifactId>coala</artifactId>
+		<version>1.0.0</version>
+	</parent>
+
+  <artifactId>coala-dsol3-adapter</artifactId>
+
+	<name>${project.artifactId}</name>
+	<description>
+		Utility and demo code for the Distributed Simulation Objects Library (DSOL)
+		$Id: pom.xml 341 2014-08-05 10:27:04Z krevelen $
+		$URL: https://dev.almende.com/svn/abms/coala-dsol3-adapter/pom.xml $
+	</description>
+
+	<properties>
+		<dsol.version>3.0.0</dsol.version>
+	</properties>
+
+	<repositories>
+		
+		<!-- TU Delft simulation repository -->
+		<repository>
+			<name>DSOL Public Repository</name>
+			<id>dsol</id>
+			<url>http://simulation.tudelft.nl/maven</url>
+		</repository>
+	</repositories>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>coala-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>dsol</groupId>
+			<artifactId>dsol</artifactId>
+			<version>${dsol.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>coala-guice3-adapter</artifactId>
+			<version>1.0.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>coala-eve2-adapter</artifactId>
+			<version>1.0.0</version>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+</project>

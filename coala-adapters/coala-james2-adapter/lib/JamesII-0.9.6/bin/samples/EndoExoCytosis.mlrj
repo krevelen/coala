@@ -1,0 +1,24 @@
+// SPECIES DEFINITIONS
+Cell(0);
+Vesicle(0);
+A(0);
+B(0);
+
+// INITIAL SOLUTION
+>>INIT[ 100A + 1Cell ];
+
+// A -> B
+A:a -> B @ #a;
+
+// endocytosis of B
+B:b + Cell[sol?]:c -> Cell[Vesicle[B] + sol?] @ #b*#c;
+
+// 2B -> 2A (only inside vesicle)
+Vesicle[2B:b + sol?]:v -> Vesicle[2A + sol?] @ #v*binom(#b,2);
+
+// fusion of vesicles
+Vesicle[sol1?]:v1 + Vesicle[sol2?]:v2 -> Vesicle[sol1? + sol2?] @ #v1*#v2;
+
+// exocytosis
+Cell[Vesicle[sV?]:v + sC?]:c -> Cell[sC?] + sV? @ #v*#c;
+

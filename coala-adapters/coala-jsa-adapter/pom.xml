@@ -1,0 +1,75 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+ 	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>io.coala</groupId>
+		<artifactId>coala</artifactId>
+		<version>1.0.0</version>
+	</parent>
+
+	<artifactId>coala-jsa-adapter</artifactId>
+
+	<name>${project.artifactId}</name>
+	<description>
+		Utility and demo code for the JADE Semantics Add-on
+		$Id: pom.xml 317 2014-06-27 13:59:56Z krevelen $
+		$URL: https://dev.almende.com/svn/abms/jsa-util/pom.xml $
+	</description>
+	<url>https://eve.almende.com/</url>
+
+	<properties>
+		<jade-semantics-addon.version>1.8</jade-semantics-addon.version>
+	</properties>
+
+	<repositories>
+	</repositories>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>coala-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.tilab.jade</groupId>
+			<artifactId>jade-semantics-addon</artifactId>
+			<version>${jade-semantics-addon.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.coala</groupId>
+			<artifactId>coala-jade4-adapter</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>coala-guice3-adapter</artifactId>
+			<version>1.0.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>coala-eve2-adapter</artifactId>
+			<version>1.0.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<!-- Java Extension API for dependency injection (and/or aspect oriented 
+				programming) -->
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+</project>

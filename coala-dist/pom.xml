@@ -1,0 +1,62 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<!-- <parent> <groupId>io.coala</groupId> <artifactId>coala-parent</artifactId> 
+		<version>1.0.0-SNAPSHOT</version> </parent> -->
+		
+	<groupId>io.coala</groupId>
+	<artifactId>coala-dist</artifactId>
+	<version>1.0.0</version>
+	<packaging>pom</packaging>
+
+	<name>${project.artifactId} ${project.version}</name>
+	<url>http://coala.io/</url>
+	<description>
+		COALA distributable build configuration
+		$Id: pom.xml 331 2014-07-14 12:19:00Z krevelen $
+		$URL: https://dev.almende.com/svn/abms/coala-dist/pom.xml $
+	</description>
+
+	<organization>
+		<name>Almende</name>
+		<url>http://www.almende.com/</url>
+	</organization>
+
+	<!-- TODO Consider using the https://maven.apache.org/plugins/maven-shade-plugin/ -->
+
+	<properties>
+		<maven-deploy-plugin.version>2.7</maven-deploy-plugin.version>
+		<maven-surefire-plugin.version>2.17</maven-surefire-plugin.version>
+		<wagon-ssh.version>1.0-beta-7</wagon-ssh.version>
+		<skipTests>true</skipTests>
+		<maven.test.skip>${skipTests}</maven.test.skip>
+	</properties>
+
+	<build>
+		<plugins>
+
+			<plugin>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>${maven-deploy-plugin.version}</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.wagon</groupId>
+						<artifactId>wagon-ssh</artifactId>
+						<version>${wagon-ssh.version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven-surefire-plugin.version}</version>
+				<configuration>
+					<skipTests>${skipTests}</skipTests>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

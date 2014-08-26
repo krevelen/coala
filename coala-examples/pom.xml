@@ -1,0 +1,89 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>io.coala</groupId>
+		<artifactId>coala</artifactId>
+		<version>1.0.0</version>
+		<relativePath>../coala</relativePath>
+	</parent>
+
+	<artifactId>coala-examples</artifactId>
+
+	<name>${project.artifactId}</name>
+	<description>
+		Example code for the sim-common artifact
+		$Id: pom.xml 331 2014-07-14 12:19:00Z krevelen $
+		$URL: https://dev.almende.com/svn/abms/coala-examples/pom.xml $
+	</description>
+	<url>http://sim.almende.com/</url>
+
+	<properties>
+		<!-- plugin versions -->
+		<maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
+		<maven-surefire-plugin.version>2.15</maven-surefire-plugin.version>
+	</properties>
+
+	<repositories>
+	</repositories>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>io.coala</groupId>
+			<artifactId>coala-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>coala-guice3-adapter</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>coala-eve2-adapter</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>coala-aglobe5-adapter</artifactId>
+			<version>1.0.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>io.coala</groupId>
+			<artifactId>coala-dsol2-adapter</artifactId>
+			<version>1.0.0</version>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.google.oauth-client</groupId>
+			<artifactId>google-oauth-client</artifactId>
+			<version>1.18.0-rc</version>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+			</plugins>
+		</pluginManagement>
+
+		<plugins>
+		</plugins>
+	</build>
+</project>

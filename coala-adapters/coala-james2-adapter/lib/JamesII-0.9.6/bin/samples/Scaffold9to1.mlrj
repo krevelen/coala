@@ -1,0 +1,48 @@
+// SPECIES DEFINITIONS
+Scaf(9);
+P1(1);
+P2(1);
+P3(1);
+P4(1);
+P5(1);
+P6(1);
+P7(1);
+P8(1);
+P9(1);
+
+// INITIAL SOLUTION
+>>INIT[ 
+  1 Scaf(0,0,0,0,0,0,0,0,0) +
+  1 P1(0) + 
+  1 P2(0) + 
+  1 P3(0) + 
+  1 P4(0) + 
+  1 P5(0) + 
+  1 P6(0) + 
+  1 P7(0) + 
+  1 P8(0) + 
+  1 P9(0)
+];
+
+// BINDING REACTIONS
+Scaf(0,s2,s3,s4,s5,s6,s7,s8,s9):scaf + P1(0):p -> Scaf(1,s2,s3,s4,s5,s6,s7,s8,s9) + P1(1) @ #scaf*#p;
+Scaf(s1,0,s3,s4,s5,s6,s7,s8,s9):scaf + P2(0):p -> Scaf(s1,1,s3,s4,s5,s6,s7,s8,s9) + P2(1) @ #scaf*#p;
+Scaf(s1,s2,0,s4,s5,s6,s7,s8,s9):scaf + P3(0):p -> Scaf(s1,s2,1,s4,s5,s6,s7,s8,s9) + P3(1) @ #scaf*#p;
+Scaf(s1,s2,s3,0,s5,s6,s7,s8,s9):scaf + P4(0):p -> Scaf(s1,s2,s3,1,s5,s6,s7,s8,s9) + P4(1) @ #scaf*#p;
+Scaf(s1,s2,s3,s4,0,s6,s7,s8,s9):scaf + P5(0):p -> Scaf(s1,s2,s3,s4,1,s6,s7,s8,s9) + P5(1) @ #scaf*#p;
+Scaf(s1,s2,s3,s4,s5,0,s7,s8,s9):scaf + P6(0):p -> Scaf(s1,s2,s3,s4,s5,1,s7,s8,s9) + P6(1) @ #scaf*#p;
+Scaf(s1,s2,s3,s4,s5,s6,0,s8,s9):scaf + P7(0):p -> Scaf(s1,s2,s3,s4,s5,s6,1,s8,s9) + P7(1) @ #scaf*#p;
+Scaf(s1,s2,s3,s4,s5,s6,s7,0,s9):scaf + P8(0):p -> Scaf(s1,s2,s3,s4,s5,s6,s7,1,s9) + P8(1) @ #scaf*#p;
+Scaf(s1,s2,s3,s4,s5,s6,s7,s8,0):scaf + P9(0):p -> Scaf(s1,s2,s3,s4,s5,s6,s7,s8,1) + P9(1) @ #scaf*#p;
+
+// UNBINDING REACTIONS
+Scaf(1,s2,s3,s4,s5,s6,s7,s8,s9):scaf + P1(1):p -> Scaf(0,s2,s3,s4,s5,s6,s7,s8,s9) + P1(0) @ #scaf*#p;
+Scaf(s1,1,s3,s4,s5,s6,s7,s8,s9):scaf + P2(1):p -> Scaf(s1,0,s3,s4,s5,s6,s7,s8,s9) + P2(0) @ #scaf*#p;
+Scaf(s1,s2,1,s4,s5,s6,s7,s8,s9):scaf + P3(1):p -> Scaf(s1,s2,0,s4,s5,s6,s7,s8,s9) + P3(0) @ #scaf*#p;
+Scaf(s1,s2,s3,1,s5,s6,s7,s8,s9):scaf + P4(1):p -> Scaf(s1,s2,s3,0,s5,s6,s7,s8,s9) + P4(0) @ #scaf*#p;
+Scaf(s1,s2,s3,s4,1,s6,s7,s8,s9):scaf + P5(1):p -> Scaf(s1,s2,s3,s4,0,s6,s7,s8,s9) + P5(0) @ #scaf*#p;
+Scaf(s1,s2,s3,s4,s5,1,s7,s8,s9):scaf + P6(1):p -> Scaf(s1,s2,s3,s4,s5,0,s7,s8,s9) + P6(0) @ #scaf*#p;
+Scaf(s1,s2,s3,s4,s5,s6,1,s8,s9):scaf + P7(1):p -> Scaf(s1,s2,s3,s4,s5,s6,0,s8,s9) + P7(0) @ #scaf*#p;
+Scaf(s1,s2,s3,s4,s5,s6,s7,1,s9):scaf + P8(1):p -> Scaf(s1,s2,s3,s4,s5,s6,s7,0,s9) + P8(0) @ #scaf*#p;
+Scaf(s1,s2,s3,s4,s5,s6,s7,s8,1):scaf + P9(1):p -> Scaf(s1,s2,s3,s4,s5,s6,s7,s8,0) + P9(0) @ #scaf*#p;
+
