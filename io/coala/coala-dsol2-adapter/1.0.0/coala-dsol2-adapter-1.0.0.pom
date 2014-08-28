@@ -1,0 +1,109 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>io.coala</groupId>
+		<artifactId>coala</artifactId>
+		<version>1.0.0</version>
+	</parent>
+
+	<artifactId>coala-dsol2-adapter</artifactId>
+
+	<name>${project.artifactId}</name>
+	<description>
+		Utility and demo code for the Distributed Simulation Objects Library (DSOL)
+		$Id: pom.xml 354 2014-08-09 06:14:14Z krevelen $
+		$URL: https://dev.almende.com/svn/abms/dsol-util/pom.xml $
+	</description>
+
+	<properties>
+		<dsol.version>2.1.0</dsol.version>
+		<javafx.version>2.2</javafx.version>
+		<javafx.path>${java.home}/lib/jfxrt.jar</javafx.path>
+		<!-- jre8: ${java.home}/lib/jfxswt.jar -->
+	</properties>
+
+	<repositories>
+		
+		<!-- TU Delft simulation repository -->
+		<repository>
+			<name>DSOL Public Repository</name>
+			<id>dsol</id>
+			<url>http://simulation.tudelft.nl/maven</url>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>daily</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+				<updatePolicy>daily</updatePolicy>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>coala-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>dsol</groupId>
+			<artifactId>dsol</artifactId>
+			<version>${dsol.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>jcommon</groupId>
+					<artifactId>jcommon</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>javafx</artifactId>
+			<version>${javafx.version}</version>
+			<systemPath>${javafx.path}</systemPath>
+			<scope>system</scope>
+		</dependency>
+
+		<dependency>
+			<!-- Java Extension API for dependency injection (and/or aspect oriented 
+				programming) -->
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>coala-guice3-adapter</artifactId>
+			<version>1.0.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>coala-eve2-adapter</artifactId>
+			<version>1.0.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>coala-aglobe5-adapter</artifactId>
+			<version>1.0.0</version>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+</project>

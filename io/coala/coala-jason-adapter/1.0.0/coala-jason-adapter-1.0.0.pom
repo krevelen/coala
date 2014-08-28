@@ -1,0 +1,48 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>io.coala</groupId>
+		<artifactId>coala</artifactId>
+		<version>1.0.0</version>
+	</parent>
+
+	<artifactId>coala-jason-adapter</artifactId>
+
+	<name>${project.artifactId}</name>
+	<description>
+		Utility and demo code for the Jason agent platform
+		$Id: pom.xml 254 2014-05-05 07:37:23Z krevelen $
+		$URL: https://dev.almende.com/svn/abms/jason-util/pom.xml $
+	</description>
+	<url>http://jason.sf.net/</url>
+
+	<properties>
+		<jason.version>1.3.9</jason.version>
+	</properties>
+
+	<repositories>
+	</repositories>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>coala-core</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>jason</groupId>
+			<artifactId>jason</artifactId>
+			<version>${jason.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+</project>

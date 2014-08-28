@@ -1,0 +1,64 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>io.coala</groupId>
+		<artifactId>coala</artifactId>
+		<version>1.0.0</version>
+	</parent>
+
+	<artifactId>coala-aglobe5-adapter</artifactId>
+
+	<name>${project.artifactId}</name>
+	<description>
+		Utility and demo code for the AGLOBE agent platform
+		$Id: pom.xml 330 2014-07-14 10:38:27Z suki $
+		$URL: https://dev.almende.com/svn/abms/aglobe-util/pom.xml $
+	</description>
+	<url>http://exile.felk.cvut.cz/aglobe/</url>
+
+	<properties>
+		<aglobe.version>5.5</aglobe.version>
+	</properties>
+
+	<repositories>
+	</repositories>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>coala-core</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>aglobe</groupId>
+			<artifactId>aglobe</artifactId>
+			<version>${aglobe.version}</version>
+		</dependency>
+		
+		<dependency>
+			<!-- Java Extension API for dependency injection (and/or aspect oriented 
+				programming) -->
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>coala-guice3-adapter</artifactId>
+			<version>1.0.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+</project>

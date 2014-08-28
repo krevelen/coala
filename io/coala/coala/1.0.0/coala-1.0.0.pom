@@ -1,0 +1,408 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>io.coala</groupId>
+	<artifactId>coala</artifactId>
+	<version>1.0.0</version>
+	<packaging>pom</packaging>
+
+	<name>${project.artifactId} ${project.version}</name>
+	<url>http://coala.io/</url>
+	<description>
+		Almende agent-based modeling and simulation parent POM
+		$Id: pom.xml 354 2014-08-09 06:14:14Z krevelen $
+		$URL: https://dev.almende.com/svn/abms/coala-parent/pom.xml $
+	</description>
+
+	<modules>
+		<module>../coala-core</module>
+
+		<module>../coala-adapters/coala-guice3-adapter</module>
+
+		<module>../../mavenized-3rd-party/aglobe</module>
+		<module>../coala-adapters/coala-aglobe5-adapter</module>
+
+		<module>../coala-adapters/coala-dsol2-adapter</module>
+
+		<module>../coala-adapters/coala-ecj20-adapter</module>
+
+		<module>../coala-adapters/coala-eve2-adapter</module>
+
+		<module>../coala-adapters/coala-httpclient4-adapter</module>
+
+		<module>../coala-adapters/coala-jade4-adapter</module>
+
+		<module>../../mavenized-3rd-party/jade-semantics-addon</module>
+		<module>../coala-adapters/coala-jsa-adapter</module>
+
+		<module>../../mavenized-3rd-party/jason</module>
+		<module>../coala-adapters/coala-jason-adapter</module>
+
+		<module>../coala-adapters/coala-nodyn-adapter</module>
+
+		<module>../coala-enterprise-ontology</module>
+
+		<module>../coala-examples</module>
+
+	</modules>
+
+	<properties>
+		<source>1.7</source>
+		<encoding>UTF-8</encoding>
+		<skipTests>false</skipTests>
+
+		<!-- Github server corresponds to entry in ~/.m2/settings.xml -->
+		<github.global.server>github</github.global.server>
+		<github.repository.name>coala</github.repository.name>
+		<github.repository.branch>mvn-repo</github.repository.branch>
+		<github.repository.owner>krevelen@gmail.com</github.repository.owner>
+		<github.repository.localid>internal.repo</github.repository.localid>
+		<github.repository.tmpdir>D:/GitHub/coala/coala/target/mvn-repo</github.repository.tmpdir>
+		<github.repository.url>https://raw.github.com/krevelen/coala/mvn-repo/</github.repository.url>
+
+		<maven.test.skip>${skipTests}</maven.test.skip>
+		<project.build.sourceLevel>${source}</project.build.sourceLevel>
+		<project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
+
+		<!-- set distribution versions -->
+		<wagon-ssh.version>1.0-beta-7</wagon-ssh.version>
+		<site-maven-plugin.version>0.9</site-maven-plugin.version>
+
+		<!-- set dependency versions -->
+		<junit.version>4.11</junit.version>
+		<log4j.version>1.2.17</log4j.version>
+		<slf4j.version>1.7.5</slf4j.version>
+		<joda-time.version>2.1</joda-time.version>
+		<uuid.version>3.2</uuid.version>
+		<javaee-api.version>6.0</javaee-api.version>
+		<javax.servlet-api.version>3.0.1</javax.servlet-api.version>
+		<javax.inject.version>1</javax.inject.version>
+		<javax.inject-api.version>1.0.0-PRD</javax.inject-api.version>
+		<persistence-api.version>1.0.2</persistence-api.version>
+
+		<!-- set maven mojo execution plugin versions -->
+		<lifecycle-mapping.version>1.0.0</lifecycle-mapping.version>
+		<maven-eclipse-plugin.version>2.9</maven-eclipse-plugin.version>
+		<maven-clean-plugin.version>2.5</maven-clean-plugin.version>
+		<maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
+		<maven-surefire-plugin.version>2.15</maven-surefire-plugin.version>
+		<maven-source-plugin.version>2.1.2</maven-source-plugin.version>
+		<maven-resources-plugin.version>2.5</maven-resources-plugin.version>
+		<xmlbeans-maven-plugin.version>2.3.3</xmlbeans-maven-plugin.version>
+		<maven-war-plugin.version>2.4</maven-war-plugin.version>
+		<maven-dependency-plugin.version>2.8</maven-dependency-plugin.version>
+		<maven-deploy-plugin.version>2.8.1</maven-deploy-plugin.version>
+		<maven-resources-plugin.version>2.6</maven-resources-plugin.version>
+		<maven-jar-plugin.version>2.4</maven-jar-plugin.version>
+		<exec-maven-plugin.version>1.3.2</exec-maven-plugin.version>
+		<maven-assembly-plugin.version>2.4</maven-assembly-plugin.version>
+		<build-helper-maven-plugin.version>1.8</build-helper-maven-plugin.version>
+	</properties>
+
+	<distributionManagement>
+		<repository>
+			<id>${github.repository.localid}</id>
+			<name>Temporary Staging Repository</name>
+			<url>file://${github.repository.tmpdir}</url>
+		</repository>
+	</distributionManagement>
+
+	<dependencyManagement>
+		<dependencies>
+
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>coala-core</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>log4j</groupId>
+				<artifactId>log4j</artifactId>
+				<version>${log4j.version}</version>
+			</dependency>
+			<dependency>
+				<!-- bind SLF4J onto log4j -->
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-log4j12</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+			<dependency>
+				<!-- redirect commons-logging (used e.g. in Spring/WSAG4J) to SLF4J -->
+				<groupId>org.slf4j</groupId>
+				<artifactId>jcl-over-slf4j</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+			<dependency>
+				<!-- redirect java.util.logging to SLF4J -->
+				<groupId>org.slf4j</groupId>
+				<artifactId>jul-to-slf4j</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>joda-time</groupId>
+				<artifactId>joda-time</artifactId>
+				<version>${joda-time.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.eaio.uuid</groupId>
+				<artifactId>uuid</artifactId>
+				<version>${uuid.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>javax</groupId>
+				<artifactId>javaee-api</artifactId>
+				<version>${javaee-api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>javax</groupId>
+				<artifactId>javaee-web-api</artifactId>
+				<version>${javaee-api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>javax.servlet-api</artifactId>
+				<version>${javax.servlet-api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.inject</groupId>
+				<artifactId>inject-api</artifactId>
+				<version>${javax.inject-api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.inject</groupId>
+				<artifactId>javax.inject</artifactId>
+				<version>${javax.inject.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.persistence</groupId>
+				<artifactId>persistence-api</artifactId>
+				<version>${persistence-api.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<extensions>
+			<!-- Enabling the use of SFTP, e.g. for artifact deployment -->
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-ssh</artifactId>
+				<version>${wagon-ssh.version}</version>
+			</extension>
+		</extensions>
+
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-eclipse-plugin</artifactId>
+					<version>${maven-eclipse-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${maven-compiler-plugin.version}</version>
+					<configuration>
+						<source>${project.build.sourceLevel}</source>
+						<target>${project.build.sourceLevel}</target>
+						<encoding>${project.build.sourceEncoding}</encoding>
+						<compilerArgument>-Xlint:deprecation</compilerArgument>
+						<compilerArgument>-Xlint:unchecked</compilerArgument>
+						<verbose>true</verbose>
+					</configuration>
+				</plugin>
+				<plugin>
+					<artifactId>maven-clean-plugin</artifactId>
+					<version>${maven-clean-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${maven-surefire-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-source-plugin</artifactId>
+					<version>${maven-source-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>${maven-war-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-dependency-plugin</artifactId>
+					<version>${maven-dependency-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>${maven-resources-plugin.version}</version>
+					<configuration>
+						<encoding>${project.build.sourceEncoding}</encoding>
+					</configuration>
+				</plugin>
+				<plugin>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>${maven-jar-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<version>${maven-assembly-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-deploy-plugin</artifactId>
+					<version>${maven-deploy-plugin.version}</version>
+					<configuration>
+						<altDeploymentRepository>${github.repository.localid}::default::file://${github.repository.tmpdir}</altDeploymentRepository>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>com.github.github</groupId>
+					<artifactId>site-maven-plugin</artifactId>
+					<version>${site-maven-plugin.version}</version>
+					<configuration>
+						<message>Maven artifacts for ${project.version}</message>
+						<noJekyll>true</noJekyll> <!-- disable webpage processing -->
+						<outputDirectory>${github.repository.tmpdir}</outputDirectory>
+						<branch>refs/heads/${github.repository.branch}</branch>
+						<includes>
+							<include>**/*</include>
+						</includes>
+						<repositoryName>${github.repository.name}</repositoryName>
+						<repositoryOwner>${github.repository.owner}</repositoryOwner>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<version>${build-helper-maven-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>exec-maven-plugin</artifactId>
+					<version>${exec-maven-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>xmlbeans-maven-plugin</artifactId>
+					<version>${xmlbeans-maven-plugin.version}</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+		<plugins>
+			<!-- Have Eclipse IDE's Maven integration (specified in <pluginManagement/>) 
+				download sources and javadoc -->
+			<plugin>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<configuration>
+					<downloadSources>true</downloadSources>
+					<downloadJavadocs>true</downloadJavadocs>
+				</configuration>
+			</plugin>
+
+			<!-- Set Java compiler configuration -->
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>${project.build.sourceLevel}</source>
+					<target>${project.build.sourceLevel}</target>
+					<encoding>${project.build.sourceEncoding}</encoding>
+					<compilerArguments>
+						<!-- <verbose /> <Xlint:deprecation/> <Xlint:-path/> -->
+						<Xmaxerrs>1000</Xmaxerrs>
+						<Averbose>true</Averbose>
+						<Xlint />
+					</compilerArguments>
+				</configuration>
+			</plugin>
+
+			<!-- Set resources configuration <plugin> <groupId>org.apache.maven.plugins</groupId> 
+				<artifactId>maven-resources-plugin</artifactId> <configuration> <encoding>${encoding}</encoding> 
+				</configuration> </plugin> -->
+
+			<!-- Set testing configuration -->
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<!-- <skipTests>true</skipTests> -->
+					<parallel>methods</parallel>
+					<threadCount>1</threadCount>
+					<skipTests>${maven.test.skip}</skipTests>
+				</configuration>
+			</plugin>
+
+			<!-- Attach sources -->
+			<plugin>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>com.github.github</groupId>
+				<artifactId>site-maven-plugin</artifactId>
+				<executions>
+					<!-- run site-maven-plugin's 'site' target as part of the build's normal 
+						'deploy' phase -->
+					<execution>
+						<goals>
+							<goal>site</goal>
+						</goals>
+						<phase>deploy</phase>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<organization>
+		<name>Almende</name>
+		<url>http://www.almende.com</url>
+	</organization>
+
+	<developers>
+		<developer>
+			<id>krevelen</id>
+			<name>Rick van Krevelen</name>
+			<organization>Almende</organization>
+			<roles>
+				<role>developer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>suki</id>
+			<name>Suki van Beusekom</name>
+			<organization>Almende</organization>
+			<roles>
+				<role>developer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>jos</id>
+			<name>Jos de Jong</name>
+			<organization>Almende</organization>
+			<roles>
+				<role>developer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>ludo</id>
+			<name>Ludo Stellingwerff</name>
+			<organization>Almende</organization>
+			<roles>
+				<role>developer</role>
+			</roles>
+		</developer>
+	</developers>
+</project>

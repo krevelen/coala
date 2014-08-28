@@ -1,0 +1,305 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>io.coala</groupId>
+		<artifactId>coala</artifactId>
+		<version>1.0.0</version>
+		<relativePath>../coala</relativePath>
+	</parent>
+
+	<artifactId>coala-enterprise-ontology</artifactId>
+
+	<name>${project.artifactId}</name>
+	<description>
+		Utility and demo code for applying the DEMO ontology
+		$Id: pom.xml 354 2014-08-09 06:14:14Z krevelen $
+		$URL: https://dev.almende.com/svn/abms/enterprise-ontology/pom.xml $
+	</description>
+	<url>https://demo.nl/</url>
+
+	<properties>
+		<woodstox.version>4.3.0</woodstox.version>
+		<jaxb-api.version>2.2.11</jaxb-api.version>
+		<cxf-xjc-plugin.version>3.0.1</cxf-xjc-plugin.version>
+		<maven-jaxb2-plugin.version>0.9.0</maven-jaxb2-plugin.version>
+		<jaxb2-basics.version>0.6.5.1</jaxb2-basics.version>
+		<relaxng.version>1.1</relaxng.version>
+		<relaxng.sourcedir>${basedir}/src/main/relaxng</relaxng.sourcedir>
+		<relaxng.targetdir>${basedir}/src/main/relaxng</relaxng.targetdir>
+		<jaxb.sourcedir>${relaxng.targetdir}</jaxb.sourcedir>
+		<jaxb.targetdir>${project.build.directory}/generated-sources/xjc</jaxb.targetdir>
+		<avro.version>1.7.6</avro.version>
+		<avro.sourcedir>${basedir}/src/main/avro</avro.sourcedir>
+		<avro.targetdir>${project.build.directory}/generated-sources/avro</avro.targetdir>
+	</properties>
+
+	<repositories>
+	</repositories>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>coala-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<!-- Java Extension API for dependency injection (and/or aspect oriented 
+				programming) -->
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.avro</groupId>
+			<artifactId>avro</artifactId>
+			<version>${avro.version}</version>
+		</dependency>
+
+		<dependency>
+			<!-- Replace Java's StAX API with Woodstox -->
+			<groupId>org.codehaus.woodstox</groupId>
+			<artifactId>woodstox-core-asl</artifactId>
+			<version>${woodstox.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- <dependency> <groupId>org.apache.xmlbeans</groupId> <artifactId>xmlbeans</artifactId> 
+			<exclusions> <exclusion> <groupId>stax</groupId> <artifactId>stax-api</artifactId> 
+			</exclusion> </exclusions> </dependency> -->
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>${jaxb-api.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.xml.stream</groupId>
+					<artifactId>stax-api</artifactId>
+				</exclusion>
+			</exclusions>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- XML to JSON using JAXB and Jackson -->
+		<!-- <dependency> <groupId>com.fasterxml.jackson.module</groupId> <artifactId>jackson-module-jaxb-annotations</artifactId> 
+			<version>${jackson.version}</version> <scope>test</scope> </dependency> -->
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>coala-dsol2-adapter</artifactId>
+			<version>1.0.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>coala-eve2-adapter</artifactId>
+			<version>1.0.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<!-- Configure the Maven2 Eclipse IDE Integration (m2e) for non-standard 
+						plug-in executions during the compile-test-run life-cycles by the IDE -->
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>${lifecycle-mapping.version}</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+
+								<!-- Configure "org.codehaus.mojo.build-helper-maven-plugin:add-source" goal execution 
+									in Eclipse IDE -->
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.codehaus.mojo</groupId>
+										<artifactId>build-helper-maven-plugin</artifactId>
+										<versionRange>[1.0.0,)</versionRange>
+										<goals>
+											<goal>add-source</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+
+								<!-- Configure "org.apache.avro.avro-maven:schema" goal execution 
+									in Eclipse IDE -->
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.avro</groupId>
+										<artifactId>avro-maven-plugin</artifactId>
+										<versionRange>[1.0.0,)</versionRange>
+										<goals>
+											<goal>schema</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+
+								<!-- Configure "us.bryon.relaxng-maven-plugin:trang" goal execution 
+									in Eclipse IDE -->
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>us.bryon</groupId>
+										<artifactId>relaxng-maven-plugin</artifactId>
+										<versionRange>[1.0.0,)</versionRange>
+										<goals>
+											<goal>trang</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+
+								<!-- Configure "org.apache.cxf.cxf-xjc-plugin:xsdtojava" goal 
+									execution in Eclipse IDE -->
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.cxf</groupId>
+										<artifactId>cxf-xjc-plugin</artifactId>
+										<versionRange>[0.0.1,)</versionRange>
+										<goals>
+											<goal>xsdtojava</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+								
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>jaxb2-maven-plugin</artifactId>
+					<version>${jaxb2-maven-plugin.version}</version>
+					<configuration>
+						<outputDirectory>${jaxb.targetdir}</outputDirectory>
+						<schemaDirectory>${jaxb.sourcedir}</schemaDirectory>
+						<packageName>eu.inertia.xml.agent</packageName>
+						<arguments>-disableXmlSecurity</arguments>
+						<clearOutputDir>true</clearOutputDir>
+					</configuration>
+				</plugin>
+	
+				<plugin>
+					<groupId>us.bryon</groupId>
+					<artifactId>relaxng-maven-plugin</artifactId>
+					<version>${relaxng.version}</version>
+					<configuration>
+						<translations>
+							<translation>
+								<in>${relaxng.sourcedir}/enterprise-ontology.rnc</in>
+								<out>${relaxng.targetdir}/enterprise-ontology.xsd</out>
+							</translation>
+						</translations>
+					</configuration>
+				</plugin>
+
+				<!-- Used to generate source code based on XSD (schema) file -->
+				<!-- http://cxf.apache.org/cxf-xjc-plugin.html -->
+				<plugin>
+					<groupId>org.apache.cxf</groupId>
+					<artifactId>cxf-xjc-plugin</artifactId>
+					<version>${cxf-xjc-plugin.version}</version>
+					<configuration>
+						<extensions>
+							<extension>net.java.dev.jaxb2-commons:jaxb-fluent-api:2.1.8</extension>
+						</extensions>
+						<sourceRoot>${jaxb.targetdir}</sourceRoot>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		
+		<plugins>
+			<plugin>
+				<!-- include generated XMLBean sources in class path -->
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${avro.targetdir}</source>
+								<source>${jaxb.targetdir}</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.avro</groupId>
+				<artifactId>avro-maven-plugin</artifactId>
+				<version>${avro.version}</version>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>schema</goal>
+						</goals>
+						<configuration>
+							<sourceDirectory>${avro.sourcedir}</sourceDirectory>
+							<outputDirectory>${avro.targetdir}</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+ 
+			<!-- Used to generate source code based on XSD (schema) file -->
+			<!-- http://cxf.apache.org/cxf-xjc-plugin.html -->
+			<plugin>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-xjc-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>generate-enterprise-ontology</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>xsdtojava</goal>
+						</goals>
+						<configuration>
+							<xsdOptions>
+								<xsdOption>
+									<xsd>${jaxb.sourcedir}/enterprise-ontology.xsd</xsd>
+									<packagename>io.coala.enterprise</packagename>
+									<extensionArgs>
+										<extensionArg>-Xfluent-api</extensionArg>
+									</extensionArgs>
+								</xsdOption>
+							</xsdOptions>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

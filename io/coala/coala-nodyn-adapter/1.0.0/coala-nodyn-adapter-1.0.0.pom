@@ -1,0 +1,249 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>io.coala</groupId>
+		<artifactId>coala</artifactId>
+		<version>1.0.0</version>
+	</parent>
+
+	<artifactId>coala-nodyn-adapter</artifactId>
+
+	<name>${project.artifactId}</name>
+	<description>
+		Utility and demo code for the NoDyn libraries
+		$Id: pom.xml 354 2014-08-09 06:14:14Z krevelen $
+		$URL: https://dev.almende.com/svn/abms/coala-nodyn-adapter/pom.xml $
+	</description>
+
+	<properties>
+		<nodyn.version>0.1.1-SNAPSHOT</nodyn.version>
+		<vertx.version>2.1.1</vertx.version>
+		<jetty.version>9.2.0.v20140526</jetty.version>
+		<evejs.version>0.3.3</evejs.version>
+	</properties>
+
+	<repositories>
+
+		<!-- nodyn: SonaType repository -->
+		<repository>
+			<name>SonaType Snapshots repository</name>
+			<id>sonatype-snapshots</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</snapshots>
+		</repository>
+
+		<!-- <repository> <id>mulesoft-releases</id> <name>MuleSoft Repository</name> 
+			<url>https://repository.mulesoft.org/nexus/content/repositories/releases</url> 
+			<releases> <enabled>true</enabled> <updatePolicy>never</updatePolicy> </releases> 
+			<snapshots> <enabled>false</enabled> <updatePolicy>never</updatePolicy> </snapshots> 
+			</repository> -->
+	</repositories>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>coala-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>io.nodyn</groupId>
+			<artifactId>nodyn</artifactId>
+			<version>${nodyn.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>io.vertx</groupId>
+			<artifactId>vertx-hazelcast</artifactId>
+			<version>${vertx.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>coala-guice3-adapter</artifactId>
+			<version>1.0.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>coala-eve2-adapter</artifactId>
+			<version>1.0.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-servlet</artifactId>
+			<version>${jetty.version}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+
+				<plugin>
+					<!-- Configure the Maven2 Eclipse IDE Integration (m2e) for non-standard 
+						plug-in executions during the compile-test-run life-cycles by the IDE -->
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>${lifecycle-mapping.version}</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+
+								<!-- Configure "org.codehaus.mojo.build-helper-maven-plugin:add-source" 
+									goal execution in Eclipse IDE -->
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.codehaus.mojo</groupId>
+										<artifactId>build-helper-maven-plugin</artifactId>
+										<versionRange>[1.0.0,)</versionRange>
+										<goals>
+											<goal>add-source</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+
+								<!-- Configure "org.codehaus.mojo.exec-maven-plugin:exec" goal execution 
+									in Eclipse IDE -->
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.codehaus.mojo</groupId>
+										<artifactId>exec-maven-plugin</artifactId>
+										<versionRange>[1.0.0,)</versionRange>
+										<goals>
+											<goal>exec</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+
+				<!-- test webapp with "mvn jetty:run" or "mvn jetty:run-exploded" -->
+				<plugin>
+					<groupId>org.eclipse.jetty</groupId>
+					<artifactId>jetty-maven-plugin</artifactId>
+					<version>${jetty.version}</version>
+					<configuration>
+						<scanIntervalSeconds>3</scanIntervalSeconds>
+						<stopKey>foo</stopKey>
+						<stopPort>9999</stopPort>
+						<useTestScope>true</useTestScope>
+						<!-- <webAppSourceDirectory>src/test/webapp</webAppSourceDirectory> -->
+					</configuration>
+				</plugin>
+
+			</plugins>
+		</pluginManagement>
+
+		<plugins>
+
+			<!-- <plugin> <groupId>org.mule.tools.javascript</groupId> <artifactId>npm-maven-plugin</artifactId> 
+				<version>1.0</version> <executions> <execution> <phase>generate-sources</phase> 
+				<goals> <goal>fetch-modules</goal> </goals> <configuration> <packages> <package>evejs:0.3.3</package> 
+				</packages> </configuration> </execution> </executions> </plugin> -->
+
+			<plugin>
+				<!-- clean directory "node_modules" -->
+				<artifactId>maven-clean-plugin</artifactId>
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>node_modules</directory>
+							<followSymlinks>false</followSymlinks>
+						</fileset>
+					</filesets>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<!-- includes javascript sources in classpath -->
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>add-test-javascript</id>
+						<phase>generate-test-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>src/test/javascript</source>
+							</sources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>add-javascript</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>src/main/javascript</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<!-- executes "npm install evejs@0.3.3" -->
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-test-sources</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<executable>npm</executable>
+					<workingDirectory>${basedir}</workingDirectory>
+					<arguments>
+						<argument>install</argument>
+						<argument>evejs@${evejs.version}</argument>
+					</arguments>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
