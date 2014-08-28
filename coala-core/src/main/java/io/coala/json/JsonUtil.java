@@ -166,4 +166,20 @@ public class JsonUtil implements Util
 		}
 	}
 
+	/**
+	 * @param string
+	 * @return
+	 */
+	public static JsonNode fromJSON(final String json)
+	{
+		try
+		{
+			return getJOM().readTree(json);
+		} catch (final Exception e)
+		{
+			throw CoalaExceptionFactory.UNMARSHAL_FAILED.createRuntime(e, json,
+					JsonNode.class);
+		}
+	}
+
 }

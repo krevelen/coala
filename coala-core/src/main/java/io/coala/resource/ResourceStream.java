@@ -75,18 +75,18 @@ public class ResourceStream
 		this.path = path;
 	}
 
-//	private StackTraceElement[] read = null;
+	// private StackTraceElement[] read = null;
 
 	/**
 	 * @return the {@link InputStream}
 	 */
 	public InputStream getStream()
 	{
-//		if (this.read != null)
-//			throw new RuntimeException("Already read, stack trace: "
-//					+ Arrays.asList(this.read).toString()
-//							.replace(", ", "\n\t\tat ") + "\n\n");
-//		this.read = Thread.currentThread().getStackTrace();
+		// if (this.read != null)
+		// throw new RuntimeException("Already read, stack trace: "
+		// + Arrays.asList(this.read).toString()
+		// .replace(", ", "\n\t\tat ") + "\n\n");
+		// this.read = Thread.currentThread().getStackTrace();
 		return this.stream;
 	}
 
@@ -138,7 +138,14 @@ public class ResourceStream
 	 */
 	public JsonNode toJSON()
 	{
-		return JsonUtil.fromJSON(getStream());
+		try
+		{
+			return JsonUtil.fromJSON(IOUtils.toString(getStream()));// getStream());
+		} catch (final IOException e)
+		{
+			throw CoalaExceptionFactory.UNMARSHAL_FAILED.createRuntime(e,
+					"<stream>", JsonNode.class);
+		}
 	}
 
 	/**
@@ -149,7 +156,15 @@ public class ResourceStream
 	 */
 	public <T> T toJSON(final Class<T> resultType)
 	{
-		return JsonUtil.fromJSON(getStream(), resultType);
+		try
+		{
+			return JsonUtil.fromJSONString(IOUtils.toString(getStream()),
+					resultType);// fromJSON(getStream(), resultType);
+		} catch (final IOException e)
+		{
+			throw CoalaExceptionFactory.UNMARSHAL_FAILED.createRuntime(e,
+					"<stream>", resultType);
+		}
 	}
 
 	/**

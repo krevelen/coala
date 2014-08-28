@@ -22,13 +22,11 @@ package io.coala.capability.online;
 
 import io.coala.bind.Binder;
 import io.coala.capability.configure.ConfiguringCapability;
-import io.coala.capability.online.BasicOnlineCapability;
 import io.coala.log.LogUtil;
 import io.coala.resource.ResourceStream;
 import io.coala.resource.ResourceStreamer;
 import io.coala.resource.ResourceType;
 import io.coala.web.HttpMethod;
-import io.coala.web.WebUtil;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -45,7 +43,6 @@ import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -154,32 +151,18 @@ public class FluentHCOnlineCapability extends BasicOnlineCapability
 			request = Request.Put(uri);
 			break;
 		case DELETE:
-			request = Request.Delete(uri);
+			request = Request.Delete(toFormDataURI(uri, formData));
+			break;
+		case OPTIONS:
+			request = Request.Options(toFormDataURI(uri, formData));
+			break;
+		case TRACE:
+			request = Request.Trace(toFormDataURI(uri, formData));
 			break;
 		default:
 			throw new IllegalStateException("UNSUPPORTED: " + method);
 		}
 		return request.useExpectContinue().version(HttpVersion.HTTP_1_1);
-	}
-
-	/**
-	 * @param uri
-	 * @param formData
-	 * @return
-	 */
-	@SuppressWarnings("rawtypes")
-	public static URI toFormDataURI(final URI uri, final Map.Entry... formData)
-	{
-		if (formData == null || formData.length == 0)
-			return uri;
-
-		final StringBuilder result = new StringBuilder();
-		for (Entry entry : formData)
-			result.append(result.length() == 0 ? '?' : '&')
-					.append(entry.getKey()).append('=')
-					.append(entry.getValue());
-		return URI.create(uri.toASCIIString()
-				+ WebUtil.urlEncode(result.toString()));
 	}
 
 	public static HttpUriRequest getRequest(final HttpMethod method,
@@ -285,6 +268,18 @@ public class FluentHCOnlineCapability extends BasicOnlineCapability
 		return doRequest(uri, method, resultType, null, formData);
 	}
 
+	private static void scheduleCountdown(final CountDownLatch latch)
+	{
+		Schedulers.io().createWorker().schedule(new Action0()
+		{
+			@Override
+			public void call()
+			{
+				latch.countDown();
+			}
+		});
+	}
+
 	@SuppressWarnings("rawtypes")
 	protected static ResourceStreamer doRequest(final URI uri,
 			final HttpMethod method, final ResourceType resultType,
@@ -298,14 +293,15 @@ public class FluentHCOnlineCapability extends BasicOnlineCapability
 							final Subscriber<? super ResourceStream> sub)
 					{
 						final CountDownLatch latch = new CountDownLatch(1);
-						final MyResponseHandler handler = new MyResponseHandler(
-								uri, sub, latch);
 
 						// final HttpUriRequest request = getRequest(method,
 						// uri);
 						// if (request instanceof HttpEntityEnclosingRequest)
 						final Request request = getFluentRequest(method, uri,
 								formData);
+						final MyResponseHandler handler = new MyResponseHandler(
+								request, resultType, sub, latch);
+
 						if (method == HttpMethod.POST
 								|| method == HttpMethod.PUT)
 						{
@@ -313,15 +309,35 @@ public class FluentHCOnlineCapability extends BasicOnlineCapability
 							{
 								if (content != null)
 									LOG.warn("IGNORING NON-EMPTY CONTENT, prioritizing non-empty form data");
-								execute(request, handler, sub,
-										toFormEntity(toFormData(formData)));
-								latch.countDown();
+								Schedulers.io().createWorker()
+										.schedule(new Action0()
+										{
+											@Override
+											public void call()
+											{
+												execute(request,
+														handler,
+														sub,
+														toFormEntity(toFormData(formData)));
+												scheduleCountdown(latch);
+											}
+										});
 							} else if (content == null)
 							{
-								execute(request, handler, sub, null);
-								latch.countDown();
+								Schedulers.io().createWorker()
+										.schedule(new Action0()
+										{
+											@Override
+											public void call()
+											{
+												execute(request, handler, sub,
+														null);
+												scheduleCountdown(latch);
+											}
+										});
 							} else
 							{
+								// TODO is this allowing parallel streaming?
 								Schedulers.io().createWorker()
 										.schedule(new Action0()
 										{
@@ -336,18 +352,7 @@ public class FluentHCOnlineCapability extends BasicOnlineCapability
 																	public void onCompleted()
 																	{
 																		sub.onCompleted();
-																		Schedulers
-																				.io()
-																				.createWorker()
-																				.schedule(
-																						new Action0()
-																						{
-																							@Override
-																							public void call()
-																							{
-																								latch.countDown();
-																							}
-																						});
+																		scheduleCountdown(latch);
 																	}
 
 																	@Override
@@ -355,18 +360,7 @@ public class FluentHCOnlineCapability extends BasicOnlineCapability
 																			final Throwable e)
 																	{
 																		sub.onError(e);
-																		Schedulers
-																				.io()
-																				.createWorker()
-																				.schedule(
-																						new Action0()
-																						{
-																							@Override
-																							public void call()
-																							{
-																								latch.countDown();
-																							}
-																						});
+																		scheduleCountdown(latch);
 																	}
 
 																	@Override
@@ -384,13 +378,14 @@ public class FluentHCOnlineCapability extends BasicOnlineCapability
 										});
 							}
 						} else
-						// GET or DELETE
+						// GET, OPTIONS, HEADER, TRACE, or DELETE
 						{
 							if (content != null)
 								LOG.warn("IGNORING NON-EMPTY CONTENT, not applicable for HTTP request method: "
 										+ method);
 							execute(request, handler, sub, null);
-							latch.countDown();
+							sub.onCompleted();
+							scheduleCountdown(latch);
 						}
 					}
 				}));
@@ -484,20 +479,36 @@ public class FluentHCOnlineCapability extends BasicOnlineCapability
 	 */
 	static class MyResponseHandler implements ResponseHandler<Void>
 	{
+
+		/** */
+		private final Request request;
+
+		/** */
+		private final ResourceType expectedType;
+
 		/** */
 		@JsonIgnore
-		private final Subscriber<? super ResourceStream> sub;
+		private final Subscriber<? super ResourceStream> subscriber;
 
-		private final URI requestPath;
-
+		/** */
 		private final CountDownLatch latch;
 
-		public MyResponseHandler(final URI requestPath,
-				final Subscriber<? super ResourceStream> sub,
+		/**
+		 * {@link MyResponseHandler} constructor
+		 * 
+		 * @param requestPath
+		 * @param expectedType
+		 * @param subscriber
+		 * @param latch
+		 */
+		public MyResponseHandler(final Request request,
+				final ResourceType expectedType,
+				final Subscriber<? super ResourceStream> subscriber,
 				final CountDownLatch latch)
 		{
-			this.requestPath = requestPath;
-			this.sub = sub;
+			this.request = request;
+			this.expectedType = expectedType;
+			this.subscriber = subscriber;
 			this.latch = latch;
 		}
 
@@ -513,37 +524,39 @@ public class FluentHCOnlineCapability extends BasicOnlineCapability
 			final HttpEntity entity = response.getEntity();
 			if (entity == null)
 			{
-				this.sub.onError(new ClientProtocolException(
+				this.subscriber.onError(new ClientProtocolException(
 						"Response contains no content"));
 				return null;
 			}
 
-			final ResourceType type = ResourceType.ofMIMEType(entity
-					.getContentType().getValue());
-			try
-			{
-				this.sub.onNext(ResourceStream.of(entity.getContent(), type,
-						this.requestPath.toASCIIString()));
-			} catch (final Exception e)
-			{
-				this.sub.onError(e);
-			}
+			final ResourceType type = entity.getContentType() == null ? expectedType
+					: ResourceType.ofMIMEType(entity.getContentType()
+							.getValue());
+//			Schedulers.io().createWorker().schedule(new Action0()
+//			{
+//				@Override
+//				public void call()
+//				{
+					try
+					{
+						subscriber.onNext(ResourceStream.of(
+								entity.getContent(), type, request.toString()));
 
-			int secs = 0;
-			while (latch.getCount() > 0)
-			{
-				try
-				{
-					if (secs > 0)
-						LOG.trace("Holding response Thread for "
-								+ this.requestPath.toASCIIString() + "...");
-					this.latch.await(1, TimeUnit.SECONDS);
-					secs++;
-				} catch (final InterruptedException e)
-				{
-					e.printStackTrace();
-				}
-			}
+						int secs = 0;
+						while (latch.getCount() > 0)
+						{
+							if (secs > 0)
+								LOG.trace("Blocking after response from "
+										+ request + "...");
+							latch.await(3, TimeUnit.SECONDS);
+							secs++;
+						}
+					} catch (final Exception e)
+					{
+						subscriber.onError(e);
+					}
+//				}
+//			});
 			return null;
 		}
 	}

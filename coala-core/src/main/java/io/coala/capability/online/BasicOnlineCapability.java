@@ -25,9 +25,11 @@ import io.coala.capability.BasicCapability;
 import io.coala.resource.ResourceStreamer;
 import io.coala.resource.ResourceType;
 import io.coala.web.HttpMethod;
+import io.coala.web.WebUtil;
 
 import java.net.URI;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.inject.Inject;
 
@@ -45,9 +47,29 @@ public class BasicOnlineCapability extends BasicCapability implements
 	private static final long serialVersionUID = 1L;
 
 	@Inject
-	public BasicOnlineCapability(final Binder binder)
+	protected BasicOnlineCapability(final Binder binder)
 	{
 		super(binder);
+	}
+
+	/**
+	 * @param uri
+	 * @param formData
+	 * @return
+	 */
+	@SuppressWarnings("rawtypes")
+	public static URI toFormDataURI(final URI uri, final Map.Entry... formData)
+	{
+		if (formData == null || formData.length == 0)
+			return uri;
+
+		final StringBuilder result = new StringBuilder();
+		for (Entry entry : formData)
+			result.append(result.length() == 0 ? '?' : '&')
+					.append(WebUtil.urlEncode(entry.getKey().toString()))
+					.append('=')
+					.append(WebUtil.urlEncode(entry.getValue().toString()));
+		return URI.create(uri.toASCIIString() + result.toString());
 	}
 
 	@Override
@@ -101,11 +123,15 @@ public class BasicOnlineCapability extends BasicCapability implements
 	public ResourceStreamer request(final URI uri, final HttpMethod method,
 			final ResourceType resultType, final Map<String, ?> formData)
 	{
-		if (formData != null && !formData.isEmpty())
+		if (formData != null && !formData.isEmpty()
+				&& (method == HttpMethod.POST || method == HttpMethod.PUT))
 			return ResourceStreamer.error(new IllegalStateException(
-					"NOT IMPLEMENTED: <formData>"));
+					"NOT IMPLEMENTED: PUT/POST with <formData>"));
 
-		return request(uri, method, resultType, (ResourceStreamer) null);
+		return request(
+				toFormDataURI(uri, formData == null ? null : formData
+						.entrySet().toArray(new Map.Entry[formData.size()])),
+				method, resultType, (ResourceStreamer) null);
 	}
 
 	@Override
@@ -113,11 +139,13 @@ public class BasicOnlineCapability extends BasicCapability implements
 	public ResourceStreamer request(final URI uri, final HttpMethod method,
 			final ResourceType resultType, final Map.Entry... formData)
 	{
-		if (formData != null && formData.length > 0)
+		if (formData != null && formData.length > 0
+				&& (method == HttpMethod.POST || method == HttpMethod.PUT))
 			return ResourceStreamer.error(new IllegalStateException(
-					"NOT IMPLEMENTED: <formData>"));
+					"NOT IMPLEMENTED: PUT/POST with <formData>"));
 
-		return request(uri, method, resultType, (ResourceStreamer) null);
+		return request(toFormDataURI(uri, formData), method, resultType,
+				(ResourceStreamer) null);
 	}
 
 }
