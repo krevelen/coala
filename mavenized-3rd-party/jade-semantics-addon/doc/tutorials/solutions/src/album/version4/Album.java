@@ -1,0 +1,145 @@
+package album.version4;
+
+import jade.semantics.actions.OntologicalAction;
+import jade.semantics.actions.SemanticAction;
+import jade.semantics.actions.SemanticActionTable;
+import jade.semantics.behaviours.OntoActionBehaviour;
+import jade.semantics.interpreter.SemanticAgent;
+import jade.semantics.interpreter.SemanticCapabilities;
+import jade.semantics.kbase.FilterKBase;
+import jade.semantics.kbase.KBase;
+import jade.semantics.kbase.filter.KBQueryFilter;
+import jade.semantics.kbase.filter.KBQueryFilterAdapter;
+import jade.semantics.lang.sl.grammar.ByteConstantNode;
+import jade.semantics.lang.sl.grammar.Constant;
+import jade.semantics.lang.sl.grammar.Formula;
+import jade.semantics.lang.sl.grammar.IntegerConstantNode;
+import jade.semantics.lang.sl.grammar.ListOfTerm;
+import jade.semantics.lang.sl.grammar.Term;
+import jade.semantics.lang.sl.grammar.TermSet;
+import jade.semantics.lang.sl.grammar.TrueNode;
+import jade.semantics.lang.sl.tools.MatchResult;
+import jade.semantics.lang.sl.tools.SL;
+import jade.semantics.lang.sl.tools.SL.WrongTypeException;
+import album.tools.JPEGUtilities;
+
+public class Album extends SemanticAgent {
+    Formula B_IMAGE_CONTENT_PATTERN =
+    	SL.fromFormula("(B ??myself (image-content ??id ??content))");
+
+    // Define the functional term pattern to be used to define the PLAY-DIAPO action
+    Term DIAPORAMA_ACTION_PATTERN =
+    	SL.fromTerm("(PLAY-DIAPO :images ??images (::? :tempo ??tempo) :viewer ??viewer)");
+
+
+    Formula I_BREF_IMAGE_CONTENT_PATTERN =
+	SL.fromFormula("(I ??myself (exists ?x (B ??viewer (image-content ??id ?x))))");
+
+    public Album() {
+    	setSemanticCapabilities(new AlbumSemanticCapabilities());
+    }
+
+    public class AlbumSemanticCapabilities extends SemanticCapabilities {
+
+	protected KBase setupKbase() {
+		FilterKBase res_kbase = (FilterKBase)super.setupKbase();
+	    KBQueryFilter filter = new KBQueryFilterAdapter(B_IMAGE_CONTENT_PATTERN) {
+		    public MatchResult doApply(Formula formula, MatchResult matchResult) {
+			String imageId = ((Constant)matchResult.term("id")).stringValue();
+			byte[] imageCt = JPEGUtilities.toBytesArray(imageId);
+			if (matchResult.set("content", new ByteConstantNode(imageCt))) {
+			    return matchResult;
+			}
+			else {
+			    return null;
+			}
+		    }
+		};
+	    res_kbase.addKBQueryFilter(filter);
+	    return res_kbase;
+	}
+
+	// Override the setupSemanticActions method
+	protected SemanticActionTable setupSemanticActions() {
+		// Create a default semantic action table
+	    SemanticActionTable res_table = super.setupSemanticActions();
+
+        // Create a new ontological action to define the PLAY-DIAPO action
+	    OntologicalAction action = new OntologicalAction(this,
+	    												DIAPORAMA_ACTION_PATTERN,
+	    												new TrueNode(),
+	    												new TrueNode()) {
+		    TermSet imageSet;
+		    Long tempo;
+		    int index = 0;
+		    Term viewer;
+
+		    // Define the perform method (with the same programming style as the action method of JADE behaviours)
+		    public void perform(OntoActionBehaviour behaviour) {
+			switch (behaviour.getState()) {
+
+			    // If the action performance has just started
+			    case OntoActionBehaviour.START:
+				// Retrieve the value of the "images" parameter
+				Term paramValue = getActionParameter("images");
+				if (paramValue instanceof TermSet) {
+				    imageSet = (TermSet)paramValue;
+
+				    // Then change the performance state to RUNNING
+				    behaviour.setState(OntoActionBehaviour.RUNNING);
+				}
+				else {
+				    // Otherwise, change the performance state to EXECUTION_FAILURE
+				    behaviour.setState(OntoActionBehaviour.EXECUTION_FAILURE);
+				}
+
+				// Retrieve the value of the "tempo" parameter or set a default value if it is not specified
+				paramValue = getActionParameter("tempo");
+				if (paramValue!=null && paramValue instanceof IntegerConstantNode) {
+				    tempo = ((Constant)paramValue).intValue();
+				}
+				else {
+				    tempo = new Long(10000);
+				}
+
+				// Retrieve the value of the "viewer" parameter
+				viewer = getActionParameter("viewer");
+				break;
+
+			  // If the action action is being performed
+			  case OntoActionBehaviour.RUNNING:
+			    if (index > imageSet.size()) {
+
+				// All pictures have been sent to the viewer, change the performance state to SUCCESS
+				behaviour.setState(OntoActionBehaviour.SUCCESS);
+			    }
+			    else {
+				try {
+
+				    // Instantiate the I_BREF_IMAGE_CONTENT_PATTERN pattern with the new picture to send
+				    Formula f = (Formula)SL
+				    	.instantiate(I_BREF_IMAGE_CONTENT_PATTERN,
+				    			"viewer", viewer,
+				    			"id", imageSet.getTerm(index));
+
+				    // Interpret the resulting formula
+				    getSemanticCapabilities().interpret(f);
+
+				} catch (WrongTypeException e) {
+				    e.printStackTrace();
+				}
+				index++;
+
+				// Block the behaviour for the time specified in the "tempo" parameter
+				behaviour.block(tempo.longValue());
+			    }
+			}
+		    }
+		};
+
+	    // Add the created action to the semantic action table
+	    res_table.addSemanticAction((SemanticAction)action);
+	    return res_table;
+	}
+    }
+}

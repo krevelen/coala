@@ -1,0 +1,352 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>io.coala</groupId>
+		<artifactId>coala</artifactId>
+		<version>1.0.0</version>
+	</parent>
+
+	<groupId>jason</groupId>
+	<artifactId>jason</artifactId>
+	<version>1.4.0a</version>
+
+	<name>${project.artifactId}</name>
+	<url>http://jason.sf.net</url>
+	<licenses>
+		<license>
+			<name>GNU Library or Lesser General Public License version 2.0 (LGPLv2)</name>
+			<url>http://www.gnu.org/licenses/gpl-2.0.html</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<developers>
+		<developer>
+			<id>Jomi</id>
+			<name>Jomi F. Hubner</name>
+			<email>jomifred@gmail.com</email>
+		</developer>
+		<developer>
+			<id>Rafael</id>
+			<name>Rafael H. Bordini</name>
+			<email>rafael.h.bordini@gmail.com</email>
+		</developer>
+	</developers>
+	<description>
+		Mavenized version of original Jason distribution
+		$Id: pom.xml 13 2014-01-16 16:06:10Z krevelen $
+		$URL: https://dev.almende.com/svn/abms/jason/pom.xml $
+	</description>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.build.sourceLevel>1.5</project.build.sourceLevel>
+		<project.build.targetLevel>1.5</project.build.targetLevel>
+		
+		<jason.file>Jason-1.4.0a.zip</jason.file>
+		<jason.dir>${project.build.directory}/${jason.file}</jason.dir>
+		<jason.src.dir>${jason.dir}/Jason-1.4.0a/src</jason.src.dir>
+	</properties>
+
+	<repositories>
+		<repository>
+			<id>tilab (for JADE)</id>
+			<url>http://jade.tilab.com/maven/</url>
+		</repository>
+	</repositories>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.tilab.jade</groupId>
+			<artifactId>jade</artifactId>
+			<version>4.3.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- <dependency> <groupId>com.sourcetohtml</groupId> <artifactId>sourcetohtml</artifactId> 
+			<version>0.8.1</version> <scope>provided</scope> </dependency> -->
+
+		<!-- <dependency> <groupId>jedit.plugins</groupId> <artifactId>SideKick</artifactId> 
+			<version>0.6.2</version> <scope>provided</scope> </dependency> -->
+
+		<!-- <dependency> <groupId>net.sf.jedit-syntax</groupId> <artifactId>jedit-syntax</artifactId> 
+			<version>2.2.2</version> </dependency> -->
+
+		<dependency>
+			<groupId>cartago</groupId>
+			<artifactId>c4jason</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/c4jason.jar</systemPath>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jedit</groupId>
+			<artifactId>BufferTabs</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/jedit/BufferTabs.jar</systemPath>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jedit</groupId>
+			<artifactId>ErrorList</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/jedit/ErrorList.jar</systemPath>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jedit</groupId>
+			<artifactId>jedit</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/jedit/jedit.jar</systemPath>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jedit</groupId>
+			<artifactId>SideKick</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/jedit/SideKick.jar</systemPath>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>1.7.2.2</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<!-- Configure the Maven2 Eclipse IDE Integration (m2e) for non-standard 
+						plug-in executions during the compile-test-run life-cycles by the IDE -->
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								
+								<!-- Configure "maven-antrun-plugin:run" goal execution 
+									in Eclipse IDE -->
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-antrun-plugin</artifactId>
+										<versionRange>[1.0.0,)</versionRange>
+										<goals>
+											<goal>run</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute />
+									</action>
+								</pluginExecution>
+
+								<!-- Configure "build-helper-maven-plugin:add-source" goal execution 
+									in Eclipse IDE -->
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.codehaus.mojo</groupId>
+										<artifactId>build-helper-maven-plugin</artifactId>
+										<versionRange>[1.0.0,)</versionRange>
+										<goals>
+											<goal>add-source</goal>
+											<goal>add-test-source</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute />
+									</action>
+								</pluginExecution>
+
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>prepare</id>
+						<phase>validate</phase>
+						<configuration>
+							<tasks>
+								<echo message="prepare phase" />
+								<unzip src="${jason.file}" dest="${jason.dir}" />
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<plugin>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+
+<!-- 
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>pre-install-dependencies</id>
+						<phase>clean</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<tasks>
+								<mkdir dir="${jason.dir}" />
+								<unzip src="${jason.file}" dest="${project.build.directory}" />
+								<exec executable="cmd" dir="${env.MAVEN_HOME}\bin">
+									<arg value="/c" />
+									<arg
+										value="mvn install:install-file -Dversion=1.0 -Dpackaging=jar -DgroupId=cartago -DartifactId=c4jason -Dfile=${jason.dir}/lib/c4jason.jar" />
+								</exec>
+								<exec executable="cmd" dir="${env.MAVEN_HOME}\bin">
+									<arg value="/c" />
+									<arg
+										value="mvn install:install-file -Dversion=1.0 -Dpackaging=jar -DgroupId=org.jedit -DartifactId=BufferTabs -Dfile=${jason.dir}/lib/jedit/BufferTabs.jar" />
+								</exec>
+								<exec executable="cmd" dir="${env.MAVEN_HOME}\bin">
+									<arg value="/c" />
+									<arg
+										value="mvn install:install-file -Dversion=1.0 -Dpackaging=jar -DgroupId=org.jedit -DartifactId=ErrorList -Dfile=${jason.dir}/lib/jedit/ErrorList.jar" />
+								</exec>
+								<exec executable="cmd" dir="${env.MAVEN_HOME}\bin">
+									<arg value="/c" />
+									<arg
+										value="mvn install:install-file -Dversion=1.0 -Dpackaging=jar -DgroupId=org.jedit -DartifactId=jedit -Dfile=${jason.dir}/lib/jedit/jedit.jar" />
+								</exec>
+								<exec executable="cmd" dir="${env.MAVEN_HOME}\bin">
+									<arg value="/c" />
+									<arg
+										value="mvn install:install-file -Dversion=1.0 -Dpackaging=jar -DgroupId=org.jedit -DartifactId=SideKick -Dfile=${jason.dir}/lib/jedit/SideKick.jar" />
+								</exec>
+							</tasks>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+-->
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${jason.src.dir}</source>
+								<source>${jason.src.dir}/asl</source>
+							</sources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>add-test-source</id>
+						<phase>generate-test-sources</phase>
+						<goals>
+							<goal>add-test-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${jason.src.dir}</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<workingDirectory>${jason.dir}</workingDirectory>
+					<skipTests>true</skipTests>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.wagon</groupId>
+						<artifactId>wagon-ssh</artifactId>
+						<version>1.0-beta-7</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-assembly-plugin</artifactId> 
+				<configuration> <descriptorRefs> <descriptorRef>jar-with-dependencies</descriptorRef> 
+				</descriptorRefs> </configuration> <executions> <execution> <id>make-assembly</id> 
+				<phase>package</phase> <goals> <goal>single</goal> </goals> </execution> 
+				</executions> </plugin> -->
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>**/test/**</exclude>
+					</excludes>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<mainClass>jason.infra.centralised.RunCentralisedMAS</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

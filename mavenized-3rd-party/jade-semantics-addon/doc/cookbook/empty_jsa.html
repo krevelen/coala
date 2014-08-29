@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=windows-1252">
+	<TITLE></TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 2.0  (Win32)">
+	<META NAME="CREATED" CONTENT="20070423;9430200">
+	<META NAME="CHANGEDBY" CONTENT="Vincent LOUIS">
+	<META NAME="CHANGED" CONTENT="20070618;15481270">
+	<STYLE>
+	<!--
+		@page { size: 21cm 29.7cm; margin: 2cm }
+		H1 { margin-bottom: 0.21cm }
+		H1.western { font-family: "Arial", sans-serif; font-size: 16pt }
+		H1.cjk { font-family: "MS Mincho"; font-size: 16pt }
+		H1.ctl { font-family: "Tahoma"; font-size: 16pt }
+		P { margin-bottom: 0.21cm }
+		P.code-source-western { text-indent: 0.5cm; font-family: "Courier New", monospace }
+		P.code-source-cjk { text-indent: 0.5cm }
+		P.code-source-ctl { text-indent: 0.5cm }
+	-->
+	</STYLE>
+</HEAD>
+<BODY LANG="fr-FR" DIR="LTR">
+<H1 LANG="en-GB" CLASS="western" ALIGN=CENTER>JSA Cookbook</H1>
+<P LANG="en-GB" ALIGN=CENTER STYLE="margin-top: 0.42cm; page-break-after: avoid">
+<FONT FACE="Arial, sans-serif"><FONT SIZE=5>An empty (naive) JSA-base
+agent</FONT></FONT></P>
+<P LANG="en-GB" ALIGN=CENTER><SDFIELD TYPE=DATETIME SDVAL="39195,4236875" SDNUM="1036;2057;YYYY-MM-DD">2007-04-23</SDFIELD></P>
+<H1 LANG="en-GB" CLASS="western">Scenario</H1>
+<P LANG="en-GB">In a multi-agent system, some agents may be needed to
+store and retrieve some pieces of information. Other agents may
+interact with such agents to inform or request them about these
+pieces of information. 
+</P>
+<H1 LANG="en-GB" CLASS="western">Implementation</H1>
+<P LANG="en-GB">A first means to run the so called <FONT FACE="Times New Roman, serif">&quot;</FONT>empty<FONT FACE="Times New Roman, serif">&quot;
+or &quot;naive&quot;</FONT> agent is to simply add an argument to the
+Jade.Boot command line, the form of which is the following :</P>
+<P LANG="en-GB" CLASS="code-source-western">&lt;agent
+name&gt;:jade.semantics.interpreter.SemanticAgentBase 
+</P>
+<P LANG="en-GB">Where SemanticAgentBase can be replaced by
+SemanticAgent from version 1.4 of the JSA framework. Another
+possibility is to extend the SemanticAgentBase class, as shown
+hereunder.</P>
+<P LANG="en-GB" CLASS="code-source-western">class &lt;my agent class
+name&gt; extends SemanticAgentBase {};</P>
+<P LANG="en-GB">By choosing this second means you define the
+framework to specialise later the capabilities of this agent.</P>
+<H1 LANG="en-GB" CLASS="western">Example</H1>
+<P LANG="en-GB"><SPAN ID="Cadre1" DIR="LTR" STYLE="float: left; width: 13.07cm; height: 7.91cm; border: none; padding: 0cm; background: #ffffff">
+	<P ALIGN=CENTER STYLE="margin-top: 0.21cm"><IMG SRC="empty_jsa_html_m4ec77e2e.png" NAME="Image1" ALIGN=LEFT WIDTH=494 HEIGHT=259 BORDER=0><BR CLEAR=LEFT><FONT SIZE=2><I>Legend
+	: a simple regulation system</I></FONT></P>
+</SPAN><BR CLEAR=LEFT>In this example, a regulator agent regulates
+the temperature of a room depending on several sensors. When it comes
+up, a sensor informs the sensor repository agent, so that the
+regulator can request the repository for a particular sensor. Of
+course, the sensor repository agent can be an empty JSA-base agent. 
+</P>
+<H1 LANG="en-GB" CLASS="western">Pros and cons</H1>
+<P LANG="en-GB">+ Naive JSA require no specific code. Hence, they are
+easy to use.</P>
+<P LANG="en-GB">+ Naive JSA always react according the FIPA-ACL
+specification. Other agent can interact with them using most of the
+standard FIPA-ACL communicative acts.</P>
+<P LANG="en-GB">- Naive JSA have naive behaviours. For example, they
+always trust other agents. In this example, we can improve the sensor
+repository agent, by adding specific capabilities to perform some
+checks before adopting a belief..</P>
+<H1 LANG="en-GB" CLASS="western">See also</H1>
+<P LANG="en-GB">TO BE COMPLETED WITH REFERENCE TO OTHER CARDS.</P>
+<H1 LANG="en-GB" CLASS="western"><A HREF="index.html">Back to table
+of content</A></H1>
+<P LANG="en-GB" ALIGN=CENTER><BR><BR>
+</P>
+</BODY>
+</HTML>

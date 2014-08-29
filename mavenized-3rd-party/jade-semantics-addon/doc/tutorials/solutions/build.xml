@@ -1,0 +1,110 @@
+<project name="JSA_tutorial" default="jar">
+  
+  <!-- Where to find the root of the tutorial -->
+  <property name="tuto-home" value="file:"/>
+  
+  <!-- Where to find JADE-LEAP and JSA -->
+  <property name="jade-home" value="../../../../../.."/>
+  <property name="jade-j2se" value="${jade-home}/leap/j2se/lib/JadeLeap.jar" />
+  <property name="jsa-j2se" value="${jade-home}/add-ons/semantics/j2se/lib/jsa.jar" />
+
+  <!-- Local directories and files -->
+  <property name="src" value="src" />
+  <property name="classes" value="classes" />
+  <property name="lib" value="lib" />
+
+  <property name="jar-file" value="${lib}/album.jar" />
+
+
+  <!-- Targets -->
+
+  <target name="help">
+	<echo message="ant [exercise_number] jar (compile and build jar file for the given exercise)"/>
+	<echo message="ant [exercise_number] album (run the album agent on a main JADE container for the given exercise)"/>
+	<echo message="ant [exercise_number] viewer (run the viewer agent on a container for the given exercise)"/>
+	<echo message="exercise_number is either 1, 2, 3 or 4"/>
+	<echo message="edit the ant tasks named 1, 2, 3 and 4 to change the arguments of agents"/>
+  </target>
+
+  <target name="init">
+    <tstamp />
+    <mkdir dir="${classes}" />
+    <mkdir dir="${lib}" />
+  </target>  
+
+  <target name="default" unless="version">
+    <property name="version" value="**"/>
+  </target>
+
+  <target name="compile" depends="init,default">	
+    <javac srcdir="${src}" 
+    	   includes="album/tools/**,album/${version}/**"
+           destdir="${classes}" 
+           classpath="${jade-j2se}:${jsa-j2se}"/>
+  </target>
+
+  <target name="jar" depends="compile">
+    <jar jarfile="${jar-file}" basedir="${classes}" includes="album/tools/**,album/${version}/**"/>	
+  </target>
+
+  <!-- Running an album -->
+  <target name="album" depends="jar">
+    <java
+    	fork="true"
+    	classname="jade.Boot"
+    	classpath="${jade-j2se}:${jsa-j2se}:${jar-file}">
+    	<arg line="-gui -nomtp -name test"/>
+    	<arg value="album:album.${version}.Album(${album_args})"/>
+    </java>    
+  </target>
+  
+  <!-- Running a viewer -->
+  <target name="viewer" depends="jar">
+    <java
+    	fork="true"
+    	classname="jade.Boot"
+    	classpath="${jade-j2se}:${jsa-j2se}:${jar-file}">
+    	<arg line="-container -nomtp"/>
+    	<arg value="viewer:album.${version}.Viewer(${viewer_args})"/>
+    </java>    
+  </target>
+
+  <!-- Exercise 1 -->
+  <target name = "1">
+    <property name = "version"  value = "version1"/>
+    <!-- The album expects an image URL as a 1st argument -->
+    <property name = "album_args"  value = "${tuto-home}img1.jpg"/>
+    <!-- The viewer expects the album name on the JADE platform as a 1st argument -->
+    <property name = "viewer_args"  value = "album"/>
+  </target>
+
+  <!-- Exercise 2 -->
+  <target name = "2">
+    <property name = "version"  value = "version2"/>
+    <!-- The album expects a list of image URLs as arguments -->
+    <property name = "album_args"  value = "${tuto-home}img1.jpg,${tuto-home}img2.jpg,${tuto-home}img3.jpg,${tuto-home}img4.jpg"/>
+    <!-- The viewer expects the album name on the JADE platform as a 1st argument -->
+    <property name = "viewer_args"  value = "album"/>
+  </target>
+
+  <!-- Exercise 3 -->
+  <target name = "3">
+    <property name = "version"  value = "version3"/>
+    <!-- The album expects no argument -->
+    <property name = "album_args"  value = ""/>
+    <!-- The viewer expects the album name on the JADE platform as a 1st argument
+                        and an image URL as a 2nd argument -->
+    <property name = "viewer_args"  value = "album,${tuto-home}img1.jpg"/>
+  </target>
+
+  <!-- Exercise 4 -->
+  <target name = "4">
+    <property name = "version"  value = "version4"/>
+    <!-- The album expects no argument -->
+    <property name = "album_args"  value = ""/>
+    <!-- The viewer expects the album name on the JADE platform as a 1st argument
+                        and a list of image URLs as a 2nd argument -->
+    <property name = "viewer_args"  value = "album,${tuto-home}img1.jpg,${tuto-home}img2.jpg,${tuto-home}img3.jpg,${tuto-home}img4.jpg"/>
+  </target>
+
+</project> 

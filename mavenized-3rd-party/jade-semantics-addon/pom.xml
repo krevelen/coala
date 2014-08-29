@@ -1,0 +1,204 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>io.coala</groupId>
+		<artifactId>coala</artifactId>
+		<version>1.0.0</version>
+	</parent>
+
+	<groupId>com.tilab.jade</groupId>
+	<artifactId>jade-semantics-addon</artifactId>
+	<version>1.8</version>
+
+	<name>${project.artifactId}</name>
+	<description>
+		The JADE Semantics Add-on
+		$Id: pom.xml 354 2014-08-09 06:14:14Z krevelen $
+		$URL: https://dev.almende.com/svn/abms/jade-semantics-addon/pom.xml $
+	</description>
+	<url>http://jade.tilab.com/</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.build.sourceLevel>1.5</project.build.sourceLevel>
+		<project.build.targetLevel>1.5</project.build.targetLevel>
+
+		<jfreechart.version>1.0.13</jfreechart.version>
+		<javacc-maven-plugin.version>2.6</javacc-maven-plugin.version>
+
+		<jsa.file>semanticsAddOn-1.8.zip</jsa.file>
+		<jsa.dir>${project.build.directory}/${jsa.file}</jsa.dir>
+		<jsa.src.dir>${jsa.dir}/add-ons/semantics/src</jsa.src.dir>
+	</properties>
+
+	<repositories>
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>maven-eclipse connector for javacc plugin</id>
+			<url>https://github.com/objectledge/maven-extensions/blob/master/connectors/modules/javacc/plugin/plugin.xml</url>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<dependencies>
+		<dependency>
+			<!-- Required by JSA -->
+			<groupId>jfree</groupId>
+			<artifactId>jfreechart</artifactId>
+			<version>${jfreechart.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.coala</groupId>
+			<artifactId>coala-jade4-adapter</artifactId>
+			<version>1.0.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+
+				<plugin>
+					<groupId>org.objectledge.maven.connectors.javacc</groupId>
+					<artifactId>feature</artifactId>
+					<version>1.0.0</version>
+				</plugin>
+
+				<plugin>
+					<!-- Configure the Maven2 Eclipse IDE Integration (m2e) for non-standard 
+						plug-in executions during the compile-test-run life-cycles by the IDE -->
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								
+								<!-- Configure "maven-antrun-plugin:run" goal execution 
+									in Eclipse IDE -->
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-antrun-plugin</artifactId>
+										<versionRange>[1.0.0,)</versionRange>
+										<goals>
+											<goal>run</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+
+								<!-- Configure "javacc-maven-plugin:javacc" goal execution in Eclipse 
+									IDE -->
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.codehaus.mojo</groupId>
+										<artifactId>javacc-maven-plugin</artifactId>
+										<versionRange>[2.6,)</versionRange>
+										<goals>
+											<goal>javacc</goal>
+											<goal>jjtree-javacc</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+										<!-- <configurator> <id>org.objectledge.maven.connectors.jjtree-javacc</id> 
+											</configurator> -->
+									</action>
+								</pluginExecution>
+
+								<!-- Configure "build-helper-maven-plugin:add-source" goal execution 
+									in Eclipse IDE -->
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.codehaus.mojo</groupId>
+										<artifactId>build-helper-maven-plugin</artifactId>
+										<versionRange>[1.0.0,)</versionRange>
+										<goals>
+											<goal>add-source</goal>
+											<goal>add-test-source</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute />
+									</action>
+								</pluginExecution>
+
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>prepare</id>
+						<phase>validate</phase>
+						<configuration>
+							<tasks>
+								<echo message="prepare phase" />
+								<unzip src="${jsa.file}" dest="${jsa.dir}" />
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${jsa.src.dir}</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>javacc-maven-plugin</artifactId>
+				<version>${javacc-maven-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>javacc</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>javacc</goal>
+						</goals>
+						<configuration>
+							<lookAhead>2</lookAhead>
+							<sourceDirectory>${jsa.src.dir}</sourceDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

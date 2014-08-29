@@ -1,0 +1,10 @@
+MAS jasontest {
+
+	infrastructure: Centralised
+
+	agents:
+		ferilli ferilli_agent;
+
+	aslSourcePath:
+		"src/test/asl";
+}
