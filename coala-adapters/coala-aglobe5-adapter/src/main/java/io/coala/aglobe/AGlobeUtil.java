@@ -475,7 +475,7 @@ public class AGlobeUtil implements Util
 		final String[] containerArgs = { "-name", containerName };
 		final AgentList agentList = new AgentList();
 		final ServiceList serviceList = new ServiceList();
-		final Address librarySourceContainer = new Address();
+		final Address librarySourceContainer = Address.getAddress("libSrc");
 		final boolean waitForPreviousFinish = true;
 		try
 		{

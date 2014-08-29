@@ -30,8 +30,8 @@ import aglobe.container.ElementaryEntity;
  */
 public enum AGlobeAgentState
 {
-	/** */
-	IDLE(ElementaryEntity.USE_IDLE_MASK),
+	// /** */
+	// IDLE(ElementaryEntity.USE_IDLE_MASK),
 
 	/** */
 	CLONING(ElementaryEntity.CLONING),
@@ -65,8 +65,8 @@ public enum AGlobeAgentState
 
 	public static AGlobeAgentState valueOf(final int entityState)
 	{
-		if ((entityState & ElementaryEntity.USE_IDLE_MASK) != 0)
-			return IDLE;
+//		if ((entityState & ElementaryEntity.USE_IDLE_MASK) != 0)
+//			return IDLE;
 
 		for (AGlobeAgentState state : values())
 			if (state.stateValue == entityState)

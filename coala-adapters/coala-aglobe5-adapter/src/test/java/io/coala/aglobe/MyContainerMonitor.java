@@ -79,8 +79,8 @@ public class MyContainerMonitor implements ContainerMonitor
 
 	public static String entityStateToString(final int state)
 	{
-		if ((state & ElementaryEntity.USE_IDLE_MASK) != 0)
-			return "idle";
+		// if ((state & ElementaryEntity.USE_IDLE_MASK) != 0)
+		// return "idle";
 
 		switch (state)
 		{
