@@ -6,6 +6,7 @@
 		<groupId>io.coala</groupId>
 		<artifactId>coala</artifactId>
 		<version>1.0.0</version>
+		<relativePath>../../coala</relativePath>
 	</parent>
 
 	<artifactId>coala-jason-adapter</artifactId>
@@ -13,7 +14,7 @@
 	<name>${project.artifactId}</name>
 	<description>
 		Utility and demo code for the Jason agent platform
-		$Id: pom.xml 254 2014-05-05 07:37:23Z krevelen $
+		$Id$
 		$URL: https://dev.almende.com/svn/abms/jason-util/pom.xml $
 	</description>
 	<url>http://jason.sf.net/</url>

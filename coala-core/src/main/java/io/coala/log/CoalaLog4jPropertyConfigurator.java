@@ -1,4 +1,4 @@
-/* $Id: MyPropertyConfigurator.java 300 2014-06-13 12:10:35Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/coala-common/src/main/java/com/almende/coala/log/MyPropertyConfigurator.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

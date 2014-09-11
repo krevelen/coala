@@ -1,4 +1,4 @@
-/* $Id: Datacenter.java 258 2014-05-07 09:59:26Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/dsol-util/src/test/java/com/almende/dsol/example/datacenters/Datacenter.java $
  * 
  * Part of the EU project All4Green, see http://www.all4green-project.eu/

@@ -1,4 +1,4 @@
-/* $Id: AkkaTest.java 235 2014-04-18 14:38:34Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/akka-util/src/test/java/com/almende/akka/test/AkkaTest.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

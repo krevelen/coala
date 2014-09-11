@@ -7,6 +7,7 @@
 		<groupId>io.coala</groupId>
 		<artifactId>coala</artifactId>
 		<version>1.0.0</version>
+		<relativePath>../../coala</relativePath>
 	</parent>
 
 	<artifactId>coala-nodyn-adapter</artifactId>
@@ -14,7 +15,7 @@
 	<name>${project.artifactId}</name>
 	<description>
 		Utility and demo code for the NoDyn libraries
-		$Id: pom.xml 354 2014-08-09 06:14:14Z krevelen $
+		$Id$
 		$URL: https://dev.almende.com/svn/abms/coala-nodyn-adapter/pom.xml $
 	</description>
 
@@ -235,8 +236,9 @@
 				</executions>
 			</plugin>
 
+			<!-- executes "npm install evejs@0.3.3" -->
+			<!-- 
 			<plugin>
-				<!-- executes "npm install evejs@0.3.3" -->
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
 				<executions>
@@ -257,6 +259,7 @@
 					</arguments>
 				</configuration>
 			</plugin>
+			 -->
 		</plugins>
 	</build>
 </project>

@@ -1,4 +1,4 @@
-/* $Id: JSAReasonerService.java 327 2014-07-10 13:06:54Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/jsa-util/src/main/java/com/almende/coala/jsa/JSAReasonerService.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

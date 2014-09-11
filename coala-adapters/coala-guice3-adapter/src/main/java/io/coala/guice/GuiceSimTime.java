@@ -1,4 +1,4 @@
-/* $Id: GuiceSimTime.java 283 2014-05-28 11:23:08Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/guice-util/src/main/java/io/coala/guice/GuiceSimTime.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

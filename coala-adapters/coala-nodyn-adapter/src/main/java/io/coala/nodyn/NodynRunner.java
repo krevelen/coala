@@ -1,4 +1,4 @@
-/* $Id: NodynRunner.java 353 2014-08-08 14:20:51Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/coala-nodyn-adapter/src/main/java/io/coala/nodyn/NodynRunner.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/
@@ -24,8 +24,6 @@ import io.coala.log.LogUtil;
 import io.coala.resource.ResourceStreamer;
 import io.nodyn.Nodyn;
 import io.nodyn.NodynConfig;
-
-import java.io.File;
 
 import org.apache.log4j.Logger;
 import org.vertx.java.spi.cluster.impl.hazelcast.HazelcastClusterManagerFactory;
@@ -87,7 +85,9 @@ public class NodynRunner
 		final Nodyn runtime = getRuntime();
 		//runtime.getDefaultExecutionContext().get
 		// FIXME keep asynchronous!
-		final Object result = runtime.evaluate(source);
+//		final Object result = runtime.evaluate(source);
+		final Object result = runtime.newRunner().withSource(
+				source).execute();
 
 		LOG.trace("Evaluated to: "
 				+ (result == null ? null : result.getClass().getName()));

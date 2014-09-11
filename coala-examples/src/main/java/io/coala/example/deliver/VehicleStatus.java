@@ -1,4 +1,4 @@
-/* $Id: VehicleStatus.java 295 2014-06-03 11:55:16Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/coala-examples/src/main/java/io/coala/example/deliver/VehicleStatus.java $
  * 
  * Part of the Eureka project DELIVER, see http://www.almende.com/deliver/

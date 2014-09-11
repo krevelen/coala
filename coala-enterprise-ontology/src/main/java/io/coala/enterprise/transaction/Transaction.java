@@ -1,4 +1,4 @@
-/* $Id: Transaction.java 279 2014-05-23 14:55:45Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/enterprise-ontology/src/main/java/io/coala/enterprise/transaction/Transaction.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

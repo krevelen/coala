@@ -1,4 +1,4 @@
-/* $Id: WeightedProductComparator.java 323 2014-07-07 14:12:23Z krevelen $
+/* $Id$
  * $URL:
  * https://svn.gfi-info.com/codeAll4Green/trunk/All4Green/AgentPlatform/src
  * /main/java/eu/a4g/agent/impl/DCAgentImpl.java $

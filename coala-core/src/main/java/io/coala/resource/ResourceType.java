@@ -1,4 +1,4 @@
-/* $Id: ResourceType.java 355 2014-08-10 14:06:33Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/coala-common/src/main/java/com/almende/coala/service/resource/ResourceType.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

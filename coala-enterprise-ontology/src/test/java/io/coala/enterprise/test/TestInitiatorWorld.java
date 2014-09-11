@@ -1,4 +1,4 @@
-/* $Id: TestInitiatorWorld.java 279 2014-05-23 14:55:45Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/enterprise-ontology/src/test/java/io/coala/enterprise/test/TestInitiatorWorld.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

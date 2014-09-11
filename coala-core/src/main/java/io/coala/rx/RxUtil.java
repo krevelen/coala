@@ -1,4 +1,4 @@
-/* $Id: RxUtil.java 359 2014-08-12 10:24:01Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/coala-common/src/main/java/com/almende/coala/util/RxUtil.java $
  *  
  * Part of the EU project All4Green, see http://www.all4green-project.eu/

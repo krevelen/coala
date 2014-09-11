@@ -1,4 +1,4 @@
-/* $Id: WeightedSelectionPolicy.java 323 2014-07-07 14:12:23Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/coala-common/src/main/java/com/almende/coala/reason/WeightedSelectionPolicy.java $
  *  
  * Part of the EU project All4Green, see http://www.all4green-project.eu/

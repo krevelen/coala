@@ -1,5 +1,5 @@
 package io.coala.experimental.grant;
-///* $Id: PacedAgent.java 295 2014-06-03 11:55:16Z krevelen $
+///* $Id$
 // * $URL: https://dev.almende.com/svn/abms/coala-examples/src/test/java/io/coala/example/pacing/PacedAgent.java $
 // * 
 // * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

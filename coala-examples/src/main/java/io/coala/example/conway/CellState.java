@@ -1,4 +1,4 @@
-/* $Id: CellState.java 302 2014-06-17 13:03:44Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/coala-examples/src/main/java/io/coala/example/conway/CellState.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

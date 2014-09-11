@@ -1,4 +1,4 @@
-/* $Id: TreatmentBuilder.java 258 2014-05-07 09:59:26Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/dsol-util/src/main/java/io/coala/dsol/util/TreatmentBuilder.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

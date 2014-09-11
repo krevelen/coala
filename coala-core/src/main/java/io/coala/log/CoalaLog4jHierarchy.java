@@ -1,4 +1,4 @@
-/* $Id: MyHierarchy.java 310 2014-06-20 07:39:36Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/coala-common/src/main/java/com/almende/coala/log/MyHierarchy.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

@@ -1,4 +1,4 @@
-/* $Id: AbstractInstant.java 361 2014-08-12 15:43:51Z suki $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/coala-common/src/main/java/com/almende/coala/time/AbstractInstant.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

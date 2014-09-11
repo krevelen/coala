@@ -1,4 +1,4 @@
-/* $Id: TransactionTest.java 324 2014-07-08 10:11:12Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/enterprise-ontology/src/test/java/io/coala/enterprise/test/TransactionTest.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

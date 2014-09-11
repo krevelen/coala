@@ -1,4 +1,4 @@
-/* $Id: CoordinationFact.java 305 2014-06-18 13:02:21Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/enterprise-ontology/src/main/java/io/coala/enterprise/fact/CoordinationFact.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

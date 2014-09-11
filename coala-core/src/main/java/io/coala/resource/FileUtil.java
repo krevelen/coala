@@ -1,4 +1,4 @@
-/* $Id: FileUtil.java 349 2014-08-08 05:08:29Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/coala-common/src/main/java/com/almende/coala/util/FileUtil.java $
  *  
  * Part of the EU project All4Green, see http://www.all4green-project.eu/

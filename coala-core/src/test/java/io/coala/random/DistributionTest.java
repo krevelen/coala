@@ -1,4 +1,4 @@
-/* $Id: DistributionTest.java 324 2014-07-08 10:11:12Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/coala-common/src/test/java/io/coala/DistributionTest.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

@@ -1,4 +1,4 @@
-/* $Id: HTTPClientService.java 358 2014-08-11 14:03:01Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/coala-common/src/main/java/com/almende/coala/service/resource/HTTPClientService.java $
  * 
  * Part of the EU project INERTIA, see http://www.inertia-project.eu/inertia/

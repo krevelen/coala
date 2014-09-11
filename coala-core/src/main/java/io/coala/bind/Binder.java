@@ -1,4 +1,4 @@
-/* $Id: Binder.java 353 2014-08-08 14:20:51Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/coala-common/src/main/java/com/almende/coala/bind/Binder.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

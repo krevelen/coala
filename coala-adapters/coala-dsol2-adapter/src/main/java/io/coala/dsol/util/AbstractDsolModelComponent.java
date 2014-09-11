@@ -1,4 +1,4 @@
-/* $Id: AbstractDsolModelComponent.java 258 2014-05-07 09:59:26Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/dsol-util/src/main/java/io/coala/dsol/util/AbstractDsolModelComponent.java $
  * 
  * Part of the EU project INERTIA, see http://www.inertia-project.eu/

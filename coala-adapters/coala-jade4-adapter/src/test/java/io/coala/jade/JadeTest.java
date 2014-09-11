@@ -1,4 +1,4 @@
-/* $Id: JadeTest.java 298 2014-06-11 11:16:03Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/jade-util/src/test/java/io/coala/jade/JadeTest.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/
