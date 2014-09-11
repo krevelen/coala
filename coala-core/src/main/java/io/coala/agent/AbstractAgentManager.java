@@ -513,9 +513,15 @@ public abstract class AbstractAgentManager implements AgentManager
 	public Observable<AgentStatusUpdate> boot(final String agentName,
 			final Class<? extends Agent> agentType)
 	{
-		final AgentID agentID = this.binderFactory.getConfig()
-				.getAgentIDFactory().createAgentID(agentName);
-		return boot(agentID, agentType);
+		try
+		{
+			final AgentID agentID = this.binderFactory.getConfig()
+					.getAgentIDFactory().createAgentID(agentName);
+			return boot(agentID, agentType);
+		} catch (final Exception e)
+		{
+			return Observable.error(e);
+		}
 	}
 
 	@Override
@@ -556,13 +562,21 @@ public abstract class AbstractAgentManager implements AgentManager
 		// @Override
 		// public void run()
 		// {
-		final Binder binder = getBinderFactory().create(agentID, agentType);
-		final AgentFactory agentFactory = binder.inject(AgentFactory.class);
-		final Agent agent = agentFactory.create();
-		put(agent);
+		final AgentFactory agentFactory;
+		final Agent agent;
+		try
+		{
+			final Binder binder = getBinderFactory().create(agentID, agentType);
+			agentFactory = binder.inject(AgentFactory.class);
+			agent = agentFactory.create();
+		} catch (final Throwable t)
+		{
+			return Observable.error(t);
+		}
 
 		try
 		{
+			put(agent);
 			agent.getStatusHistory().subscribe(new Observer<BasicAgentStatus>()
 			{
 				@Override

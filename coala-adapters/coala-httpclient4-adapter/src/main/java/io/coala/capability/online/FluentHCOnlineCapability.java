@@ -103,6 +103,8 @@ public class FluentHCOnlineCapability extends BasicOnlineCapability
 	private static final Logger LOG = LogUtil
 			.getLogger(FluentHCOnlineCapability.class);
 
+	private static boolean setup = false;
+
 	@Inject
 	public FluentHCOnlineCapability(final Binder binder)
 	{
@@ -113,17 +115,23 @@ public class FluentHCOnlineCapability extends BasicOnlineCapability
 	public void initialize() throws NoSuchAlgorithmException,
 			KeyManagementException
 	{
-		if (!getBinder().inject(ConfiguringCapability.class)
-				.getProperty(TRUST_MANAGER_DISABLED_PROPERTY_KEY)
-				.getBoolean(TRUST_MANAGER_DISABLED_PROPERTY_DEFAULT))
-			return;
+		synchronized (FluentHCOnlineCapability.class)
+		{
+			if (setup)
+				return;
 
-		final SSLContext ctx = SSLContext.getInstance("TLS");
-		ctx.init(new KeyManager[0],
-				new TrustManager[] { new DummyTrustManager() },
-				new SecureRandom());
-		SSLContext.setDefault(ctx);
+			if (!getBinder().inject(ConfiguringCapability.class)
+					.getProperty(TRUST_MANAGER_DISABLED_PROPERTY_KEY)
+					.getBoolean(TRUST_MANAGER_DISABLED_PROPERTY_DEFAULT))
+				return;
 
+			final SSLContext ctx = SSLContext.getInstance("TLS");
+			ctx.init(new KeyManager[0],
+					new TrustManager[] { new DummyTrustManager() },
+					new SecureRandom());
+			SSLContext.setDefault(ctx);
+			setup = true;
+		}
 	}
 
 	/**
@@ -285,6 +293,7 @@ public class FluentHCOnlineCapability extends BasicOnlineCapability
 			final HttpMethod method, final ResourceType resultType,
 			final ResourceStreamer content, final Map.Entry... formData)
 	{
+		LOG.trace("Requesting @ " + uri);
 		return ResourceStreamer.from(Observable
 				.create(new OnSubscribe<ResourceStream>()
 				{
@@ -338,6 +347,7 @@ public class FluentHCOnlineCapability extends BasicOnlineCapability
 							} else
 							{
 								// TODO is this allowing parallel streaming?
+								LOG.trace("POSTing with raw content stream...");
 								Schedulers.io().createWorker()
 										.schedule(new Action0()
 										{
@@ -419,7 +429,7 @@ public class FluentHCOnlineCapability extends BasicOnlineCapability
 	 * @param sub
 	 * @param entity
 	 */
-	protected static void execute(final HttpUriRequest request,
+	protected void execute(final HttpUriRequest request,
 			final ResponseHandler<?> handler, final Observer<?> sub,
 			final HttpEntity entity)
 	{
@@ -532,31 +542,31 @@ public class FluentHCOnlineCapability extends BasicOnlineCapability
 			final ResourceType type = entity.getContentType() == null ? expectedType
 					: ResourceType.ofMIMEType(entity.getContentType()
 							.getValue());
-//			Schedulers.io().createWorker().schedule(new Action0()
-//			{
-//				@Override
-//				public void call()
-//				{
-					try
-					{
-						subscriber.onNext(ResourceStream.of(
-								entity.getContent(), type, request.toString()));
+			// Schedulers.io().createWorker().schedule(new Action0()
+			// {
+			// @Override
+			// public void call()
+			// {
+			try
+			{
+				subscriber.onNext(ResourceStream.of(entity.getContent(), type,
+						request.toString()));
 
-						int secs = 0;
-						while (latch.getCount() > 0)
-						{
-							if (secs > 0)
-								LOG.trace("Blocking after response from "
-										+ request + "...");
-							latch.await(3, TimeUnit.SECONDS);
-							secs++;
-						}
-					} catch (final Exception e)
-					{
-						subscriber.onError(e);
-					}
-//				}
-//			});
+				int secs = 0;
+				while (latch.getCount() > 0)
+				{
+					if (secs > 0)
+						LOG.trace("Blocking after response from " + request
+								+ "...");
+					latch.await(3, TimeUnit.SECONDS);
+					secs++;
+				}
+			} catch (final Exception e)
+			{
+				subscriber.onError(e);
+			}
+			// }
+			// });
 			return null;
 		}
 	}

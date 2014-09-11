@@ -6,7 +6,7 @@
 var Eve = require('evejs');
 
 var serverIP = "127.0.0.1";
-var registerAddress = "http://rickspc:3000/agents/unit";
+var registerAddress = "http://localhost:3000/agents/unit";
 var http = {
   protocol: "http",
   options: {
@@ -19,13 +19,13 @@ var http = {
 var eveOptions = {
   transports: [http],
   agents: [
-    {agentClass: "src/test/evejs/proxyAgent", name: "proxy",
+    {agentClass: "src/test/resources/evejs/proxyAgent", name: "proxy",
       options: {
         myAddress: "http://" + serverIP  + ":" + http.options.port + "/" + http.options.path + "proxy",
         registerAddress: registerAddress}
     },
-    {agentClass: "src/test/evejs/managerAgent", name: "manager"},
-    {agentClass: "src/test/evejs/test", name: "test"}
+    {agentClass: "src/test/resources/evejs/managerAgent", name: "manager"},
+//    {agentClass: "src/test/resources/evejs/test", name: "test"}
   ]
 };
 

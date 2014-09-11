@@ -23,6 +23,8 @@ package io.coala.nodyn;
 import io.coala.log.LogUtil;
 import io.coala.resource.ResourceStreamer;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -45,12 +47,14 @@ public class NodynTest
 	private static final Logger LOG = LogUtil.getLogger(NodynTest.class);
 
 	@Test
-	public void testEveJS() throws Exception
+	public void testEveJS() throws Throwable
 	{
 		LOG.trace("Starting Nodyn test");
 
 		final ResourceStreamer script = ResourceStreamer
-				.fromPath("src/test/evejs/start.js");
+				.fromPath("evejs/start.js");
+		
+		final List<Throwable> errors = new ArrayList<>(1);
 
 		final CountDownLatch latch = new CountDownLatch(2);
 		NodynRunner.eval(script).subscribe(new Observer<Object>()
@@ -65,7 +69,7 @@ public class NodynTest
 			@Override
 			public void onError(final Throwable e)
 			{
-				LOG.error("Problem with eval()", e);
+				errors.add(e);
 				latch.countDown();
 			}
 
@@ -79,9 +83,10 @@ public class NodynTest
 			}
 		});
 		
-		
 		latch.await(10, TimeUnit.SECONDS);
-
+		if(!errors.isEmpty())
+			throw errors.get(0);
+		
 		LOG.trace("Completed Nodyn test");
 	}
 }

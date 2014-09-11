@@ -50,6 +50,7 @@ import rx.Observer;
 import rx.functions.Func1;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -530,6 +531,31 @@ public class ResourceStreamer
 			final Class<?> jdbcDriver, final URI dbURL, final String... query)
 	{
 		return error(new IllegalStateException("NOT IMPLEMENTED"));
+	}
+
+	/**
+	 * @param objexts the {@link Object} to JSONify
+	 * @return the {@link ObjectMapper}'s {@link Writer} buffered into a
+	 *         {@link String} to read the {@link ResourceStreamer}'s new
+	 *         {@link InputStream} from
+	 */
+	public static ResourceStreamer fromJSON(final JsonNode... trees)
+	{
+		if (trees == null || trees.length == 0)
+			return empty();
+
+		return from(RxUtil.map(Observable.from(Arrays.asList(trees)),
+				new RxUtil.ThrowingFunc1<JsonNode, ResourceStream>()
+				{
+					@Override
+					public ResourceStream call(final JsonNode tree)
+							throws Throwable
+					{
+						LOG.trace("Streaming << " + tree);
+						return ResourceStream.of(tree.toString(),
+								ResourceType.JSON);
+					}
+				}));
 	}
 
 	/**

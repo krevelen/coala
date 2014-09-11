@@ -25,6 +25,8 @@ import io.coala.resource.ResourceStreamer;
 import io.nodyn.Nodyn;
 import io.nodyn.NodynConfig;
 
+import java.io.File;
+
 import org.apache.log4j.Logger;
 import org.vertx.java.spi.cluster.impl.hazelcast.HazelcastClusterManagerFactory;
 
@@ -56,6 +58,7 @@ public class NodynRunner
 	{
 		if (nodyn == null)
 		{
+			System.setProperty("dynjs.require.path", "node_modules");
 			final NodynConfig config = new NodynConfig();
 			// TODO import Nodyn config parameters, e.g. from properties
 			final boolean clustered = true;
@@ -82,9 +85,9 @@ public class NodynRunner
 		LOG.trace("Evaluating script:\n" + source);
 
 		final Nodyn runtime = getRuntime();
+		//runtime.getDefaultExecutionContext().get
 		// FIXME keep asynchronous!
-		final Object result = runtime.start(runtime.newRunner().withSource(
-				source));
+		final Object result = runtime.evaluate(source);
 
 		LOG.trace("Evaluated to: "
 				+ (result == null ? null : result.getClass().getName()));

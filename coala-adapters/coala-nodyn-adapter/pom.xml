@@ -20,6 +20,7 @@
 
 	<properties>
 		<nodyn.version>0.1.1-SNAPSHOT</nodyn.version>
+		<dynjs.version>0.3.0</dynjs.version>
 		<vertx.version>2.1.1</vertx.version>
 		<jetty.version>9.2.0.v20140526</jetty.version>
 		<evejs.version>0.3.3</evejs.version>
@@ -38,7 +39,7 @@
 			</releases>
 			<snapshots>
 				<enabled>true</enabled>
-				<updatePolicy>never</updatePolicy>
+				<updatePolicy>daily</updatePolicy>
 			</snapshots>
 		</repository>
 
@@ -66,8 +67,20 @@
 			<groupId>io.nodyn</groupId>
 			<artifactId>nodyn</artifactId>
 			<version>${nodyn.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.dynjs</groupId>
+					<artifactId>dynjs</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>org.dynjs</groupId>
+			<artifactId>dynjs</artifactId>
+			<version>${dynjs.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>io.vertx</groupId>
 			<artifactId>vertx-hazelcast</artifactId>

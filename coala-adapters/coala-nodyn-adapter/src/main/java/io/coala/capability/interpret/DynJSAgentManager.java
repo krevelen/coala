@@ -75,7 +75,7 @@ public class DynJSAgentManager extends BasicAgentManager
 
 	/** expose for {@link DynJSInterpretingCapability} */
 	@Override
-	protected BinderFactory getBinderFactory()
+	public BinderFactory getBinderFactory()
 	{
 		return super.getBinderFactory();
 	}
