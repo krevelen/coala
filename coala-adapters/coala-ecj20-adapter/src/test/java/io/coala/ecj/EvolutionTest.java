@@ -1,4 +1,4 @@
-/* $Id: BPMCalibrationByEvolutionTest.java 235 2014-04-18 14:38:34Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/ecj-util/src/test/java/com/almende/train/BPMCalibrationByEvolutionTest.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

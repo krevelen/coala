@@ -15,7 +15,7 @@
 	<url>http://coala.io/</url>
 	<description>
 		COALA distributable build configuration
-		$Id: pom.xml 331 2014-07-14 12:19:00Z krevelen $
+		$Id$
 		$URL: https://dev.almende.com/svn/abms/coala-dist/pom.xml $
 	</description>
 

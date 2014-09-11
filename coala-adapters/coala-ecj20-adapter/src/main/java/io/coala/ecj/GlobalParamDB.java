@@ -1,4 +1,4 @@
-/* $Id: GlobalParamDB.java 60 2014-02-12 15:00:03Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/ecj-util/src/main/java/com/almende/train/ec/util/GlobalParamDB.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

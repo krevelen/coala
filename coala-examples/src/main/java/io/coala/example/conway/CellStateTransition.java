@@ -1,4 +1,4 @@
-/* $Id: CellStateTransition.java 300 2014-06-13 12:10:35Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/coala-examples/src/main/java/io/coala/example/conway/CellStateTransition.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

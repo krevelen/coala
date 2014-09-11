@@ -7,6 +7,7 @@
 		<groupId>io.coala</groupId>
 		<artifactId>coala</artifactId>
 		<version>1.0.0</version>
+		<relativePath>../../coala</relativePath>
 	</parent>
 
 	<groupId>jason</groupId>
@@ -36,7 +37,7 @@
 	</developers>
 	<description>
 		Mavenized version of original Jason distribution
-		$Id: pom.xml 13 2014-01-16 16:06:10Z krevelen $
+		$Id$
 		$URL: https://dev.almende.com/svn/abms/jason/pom.xml $
 	</description>
 

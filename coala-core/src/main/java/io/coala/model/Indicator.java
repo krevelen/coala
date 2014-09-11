@@ -1,4 +1,4 @@
-/* $Id: Indicator.java 300 2014-06-13 12:10:35Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/coala-common/src/main/java/com/almende/coala/model/Indicator.java $
  * 
  * Part of the EU project INERTIA, see http://www.inertia-project.eu/

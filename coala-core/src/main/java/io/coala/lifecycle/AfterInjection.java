@@ -1,4 +1,4 @@
-/* $Id: AfterInjection.java 296 2014-06-03 12:26:09Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/coala-common/src/main/java/com/almende/coala/lifecycle/AfterInjection.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

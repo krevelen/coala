@@ -7,6 +7,7 @@
 		<groupId>io.coala</groupId>
 		<artifactId>coala</artifactId>
 		<version>1.0.0</version>
+		<relativePath>../../coala</relativePath>
 	</parent>
 
 	<groupId>aglobe</groupId>
@@ -16,7 +17,7 @@
 	<name>Almende's AGlobe modified version</name>
 	<url>http://exile.felk.cvut.cz/aglobe/</url>
 	<description>
-		$Id: pom.xml 619 2014-01-16 13:20:16Z krevelen $
+		$Id$
 		$URL: https://redmine.almende.com/svn/a4eesim/trunk/adapt4ee-sim/pom.xml$
 	</description>
 
@@ -32,7 +33,7 @@
 
 		<aglobe.file>aglobe_src_5_5.zip</aglobe.file>
 		<aglobe.dir>${project.build.directory}/${aglobe.file}</aglobe.dir>
-		<aglobe.src.dir>${aglobe.dir}/add-ons/semantics/src</aglobe.src.dir>
+		<aglobe.src.dir>${aglobe.dir}/aglobe/src</aglobe.src.dir>
 	</properties>
 
 	<dependencies>

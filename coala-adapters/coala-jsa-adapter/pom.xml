@@ -5,6 +5,7 @@
 		<groupId>io.coala</groupId>
 		<artifactId>coala</artifactId>
 		<version>1.0.0</version>
+		<relativePath>../../coala</relativePath>
 	</parent>
 
 	<artifactId>coala-jsa-adapter</artifactId>
@@ -12,7 +13,7 @@
 	<name>${project.artifactId}</name>
 	<description>
 		Utility and demo code for the JADE Semantics Add-on
-		$Id: pom.xml 317 2014-06-27 13:59:56Z krevelen $
+		$Id$
 		$URL: https://dev.almende.com/svn/abms/jsa-util/pom.xml $
 	</description>
 	<url>https://eve.almende.com/</url>

@@ -1,4 +1,4 @@
-/* $Id: FederationModelSimulationTest.java 297 2014-06-04 13:54:19Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/dsol-util/src/test/java/com/almende/dsol/example/datacenters/FederationModelSimulationTest.java $
  * 
  * @license

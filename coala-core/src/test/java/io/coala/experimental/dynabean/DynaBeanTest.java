@@ -1,4 +1,4 @@
-/* $Id: DynaBeanTest.java 320 2014-07-02 13:05:56Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/coala-common/src/test/java/io/coala/DynaBeanTest.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

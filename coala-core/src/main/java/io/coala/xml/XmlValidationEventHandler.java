@@ -1,4 +1,4 @@
-/* $Id: XmlValidationEventHandler.java 335 2014-07-31 11:45:18Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/coala-common/src/main/java/com/almende/coala/xml/XmlValidationEventHandler.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

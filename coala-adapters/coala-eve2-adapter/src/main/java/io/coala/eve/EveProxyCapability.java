@@ -1,4 +1,4 @@
-/* $Id: EveProxyService.java 255 2014-05-05 08:44:17Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/eve-util/src/main/java/com/almende/coala/eve/EveProxyService.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

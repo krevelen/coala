@@ -7,6 +7,7 @@
 		<groupId>io.coala</groupId>
 		<artifactId>coala</artifactId>
 		<version>1.0.0</version>
+		<relativePath>../../coala</relativePath>
 	</parent>
 
 	<artifactId>coala-dsol2-adapter</artifactId>
@@ -14,7 +15,7 @@
 	<name>${project.artifactId}</name>
 	<description>
 		Utility and demo code for the Distributed Simulation Objects Library (DSOL)
-		$Id: pom.xml 354 2014-08-09 06:14:14Z krevelen $
+		$Id$
 		$URL: https://dev.almende.com/svn/abms/dsol-util/pom.xml $
 	</description>
 

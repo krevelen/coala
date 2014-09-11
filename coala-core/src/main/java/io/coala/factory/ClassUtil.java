@@ -1,4 +1,4 @@
-/* $Id: ClassUtil.java 336 2014-08-04 12:19:04Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/coala-common/src/main/java/com/almende/coala/util/ClassUtil.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- $HeadURL: https://dev.almende.com/svn/abms/coala-nodyn-adapter/src/main/webapp/WEB-INF/web.xml $ -->
-<!-- $Id: web.xml 350 2014-08-08 05:10:37Z krevelen $ -->
+<!-- $Id$ -->
 <!-- set metadata-complete="true" for Jetty to skip annotation scanning in lib & classes-->
 <web-app xmlns="http://java.sun.com/xml/ns/javaee"
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"

@@ -1,4 +1,4 @@
-/* $Id: XmlContext.java 358 2014-08-11 14:03:01Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/coala-common/src/main/java/com/almende/coala/xml/XmlContext.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

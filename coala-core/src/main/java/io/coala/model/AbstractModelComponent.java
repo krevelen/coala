@@ -1,4 +1,4 @@
-/* $Id: AbstractModelComponent.java 312 2014-06-20 10:27:58Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/coala-common/src/main/java/com/almende/coala/model/AbstractModelComponent.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

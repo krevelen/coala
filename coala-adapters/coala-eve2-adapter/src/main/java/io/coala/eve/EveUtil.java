@@ -1,4 +1,4 @@
-/* $Id: EveUtil.java 248 2014-05-05 07:27:49Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/eve-util/src/main/java/com/almende/coala/eve/EveUtil.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

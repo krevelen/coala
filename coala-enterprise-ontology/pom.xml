@@ -15,7 +15,7 @@
 	<name>${project.artifactId}</name>
 	<description>
 		Utility and demo code for applying the DEMO ontology
-		$Id: pom.xml 354 2014-08-09 06:14:14Z krevelen $
+		$Id$
 		$URL: https://dev.almende.com/svn/abms/enterprise-ontology/pom.xml $
 	</description>
 	<url>https://demo.nl/</url>

@@ -7,6 +7,7 @@
 		<groupId>io.coala</groupId>
 		<artifactId>coala</artifactId>
 		<version>1.0.0</version>
+		<relativePath>../../coala</relativePath>
 	</parent>
 
 	<groupId>com.tilab.jade</groupId>
@@ -16,7 +17,7 @@
 	<name>${project.artifactId}</name>
 	<description>
 		The JADE Semantics Add-on
-		$Id: pom.xml 354 2014-08-09 06:14:14Z krevelen $
+		$Id$
 		$URL: https://dev.almende.com/svn/abms/jade-semantics-addon/pom.xml $
 	</description>
 	<url>http://jade.tilab.com/</url>
@@ -152,7 +153,12 @@
 						<configuration>
 							<tasks>
 								<echo message="prepare phase" />
-								<unzip src="${jsa.file}" dest="${jsa.dir}" />
+								<unzip src="${jsa.file}" dest="${jsa.dir}_tmp"/>
+								
+								<copy outputencoding="UTF-8" todir="${jsa.dir}">
+									<fileset dir="${jsa.dir}_tmp"/>
+								</copy>
+								<delete dir="${jsa.dir}_tmp" />
 							</tasks>
 						</configuration>
 						<goals>
@@ -180,7 +186,7 @@
 					</execution>
 				</executions>
 			</plugin>
-
+			<!-- 
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>javacc-maven-plugin</artifactId>
@@ -199,6 +205,7 @@
 					</execution>
 				</executions>
 			</plugin>
+			 -->
 		</plugins>
 	</build>
 </project>

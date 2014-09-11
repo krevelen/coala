@@ -1,4 +1,4 @@
-/* $Id: CellWorldLattice.java 312 2014-06-20 10:27:58Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/coala-examples/src/main/java/io/coala/example/conway/CellWorldLattice.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

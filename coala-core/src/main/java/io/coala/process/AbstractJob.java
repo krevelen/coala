@@ -1,4 +1,4 @@
-/* $Id: AbstractJob.java 309 2014-06-19 13:42:32Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/coala-common/src/main/java/com/almende/coala/service/scheduler/AbstractJob.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

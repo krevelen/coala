@@ -1,4 +1,4 @@
-/* $Id: SLParsableSerializable.java 237 2014-04-18 14:47:51Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/jsa-util/src/main/java/com/almende/coala/jsa/sl/SLParsableSerializable.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

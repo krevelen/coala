@@ -1,4 +1,4 @@
-/* $Id: ProbabilityMass.java 333 2014-07-22 15:29:12Z suki $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/coala-common/src/main/java/com/almende/coala/random/ProbabilityMass.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

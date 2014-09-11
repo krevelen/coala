@@ -1,4 +1,4 @@
-/* $Id: DeliverTest.java 295 2014-06-03 11:55:16Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/coala-examples/src/test/java/io/coala/example/deliver/DeliverTest.java $
  * 
  * Part of the Eureka project DELIVER, see http://www.almende.com/deliver/

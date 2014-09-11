@@ -1,4 +1,4 @@
-/* $Id: ConfigTest.java 317 2014-06-27 13:59:56Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/coala-common/src/test/java/io/coala/ConfigTest.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

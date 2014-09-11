@@ -1,4 +1,4 @@
-/* $Id: PipeParamDB.java 20 2014-01-22 08:07:46Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/ecj-util/src/main/java/com/almende/train/ec/util/PipeParamDB.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

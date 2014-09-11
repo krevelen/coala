@@ -1,4 +1,4 @@
-/* $Id: NodynTest.java 362 2014-08-14 03:46:34Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/coala-nodyn-adapter/src/test/java/io/coala/nodyn/NodynTest.java $
  * 
  * Part of the EU project INERTIA, see http://www.inertia-project.eu/inertia/

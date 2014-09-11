@@ -1,4 +1,4 @@
-/* $Id: RandomDistributionFactoryImpl.java 332 2014-07-21 09:20:27Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/coala-common/src/main/java/com/almende/coala/random/impl/RandomDistributionFactoryImpl.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

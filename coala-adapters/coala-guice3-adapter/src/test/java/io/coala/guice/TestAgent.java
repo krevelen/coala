@@ -1,4 +1,4 @@
-/* $Id: TestAgent.java 240 2014-04-18 15:39:26Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/guice-util/src/test/java/io/coala/guice/TestAgent.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

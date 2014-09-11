@@ -1,4 +1,4 @@
-/* $Id: RandomNumberDistribution.java 317 2014-06-27 13:59:56Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/coala-common/src/main/java/com/almende/coala/random/RandomNumberDistribution.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

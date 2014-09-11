@@ -1,4 +1,4 @@
-/* $Id: Logger.java 247 2014-04-30 13:15:27Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/dsol-util/src/main/java/nl/tudelft/simulation/logger/Logger.java $
  * 
  * @(#) Logger.java Aug 27, 2003 Copyright (c) 2002-2005 Delft University of

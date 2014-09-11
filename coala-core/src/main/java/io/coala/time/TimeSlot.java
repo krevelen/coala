@@ -1,4 +1,4 @@
-/* $Id: TimeSlot.java 349 2014-08-08 05:08:29Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/coala-common/src/main/java/com/almende/coala/time/TimeSlot.java $
  * 
  * Part of the EU project INERTIA, see http://www.inertia-project.eu/

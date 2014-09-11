@@ -1,4 +1,4 @@
-/* $Id: CoalaExceptionFactory.java 354 2014-08-09 06:14:14Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/coala-common/src/main/java/com/almende/coala/exception/CoalaExceptionFactory.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

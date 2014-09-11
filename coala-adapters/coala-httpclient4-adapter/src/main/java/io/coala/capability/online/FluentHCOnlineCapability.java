@@ -1,4 +1,4 @@
-/* $Id: ApacheHTTPClientService.java 358 2014-08-11 14:03:01Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/coala-httpcomponents-adapter/src/main/java/io/coala/http/ApacheHTTPClientService.java $
  * 
  * Part of the EU project INERTIA, see http://www.inertia-project.eu/inertia/

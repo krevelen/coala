@@ -1,4 +1,4 @@
-/* $Id: MyMessageID.java 290 2014-06-03 07:28:53Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/aglobe-util/src/test/java/com/almende/coala/aglobe/MyMessageID.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

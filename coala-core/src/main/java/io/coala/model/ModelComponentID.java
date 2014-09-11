@@ -1,4 +1,4 @@
-/* $Id: ModelComponentID.java 311 2014-06-20 08:08:26Z suki $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/coala-common/src/main/java/com/almende/coala/model/ModelComponentID.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

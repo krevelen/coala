@@ -13,7 +13,7 @@
 	<name>${project.artifactId}</name>
 	<description>
 		Utility and demo code for the Distributed Simulation Objects Library (DSOL)
-		$Id: pom.xml 341 2014-08-05 10:27:04Z krevelen $
+		$Id$
 		$URL: https://dev.almende.com/svn/abms/coala-dsol3-adapter/pom.xml $
 	</description>
 

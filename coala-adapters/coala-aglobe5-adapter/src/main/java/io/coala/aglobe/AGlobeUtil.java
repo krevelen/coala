@@ -1,4 +1,4 @@
-/* $Id: AGlobeUtil.java 299 2014-06-11 11:21:10Z krevelen $
+/* $Id$
  * $URL: https://dev.almende.com/svn/abms/aglobe-util/src/main/java/com/almende/coala/aglobe/AGlobeUtil.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/
