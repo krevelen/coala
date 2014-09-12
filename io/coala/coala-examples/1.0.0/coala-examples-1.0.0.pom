@@ -15,7 +15,7 @@
 	<name>${project.artifactId}</name>
 	<description>
 		Example code for the sim-common artifact
-		$Id: pom.xml 331 2014-07-14 12:19:00Z krevelen $
+		$Id$
 		$URL: https://dev.almende.com/svn/abms/coala-examples/pom.xml $
 	</description>
 	<url>http://sim.almende.com/</url>
@@ -27,6 +27,20 @@
 	</properties>
 
 	<repositories>
+		<!-- COALA public Maven repository -->
+		<repository>
+			<name>COALA Public Maven Repository</name>
+			<id>coala-public</id>
+			<url>https://github.com/krevelen/coala/raw/mvn-repo/</url>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>daily</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+				<updatePolicy>never</updatePolicy>
+			</snapshots>
+		</repository>
 	</repositories>
 
 	<dependencies>

@@ -7,6 +7,7 @@
 		<groupId>io.coala</groupId>
 		<artifactId>coala</artifactId>
 		<version>1.0.0</version>
+		<relativePath>../../coala</relativePath>
 	</parent>
 
 	<artifactId>coala-eve2-adapter</artifactId>
@@ -14,7 +15,7 @@
 	<name>${project.artifactId}</name>
 	<description>
 		Utility and demo code for the Eve agent platform
-		$Id: pom.xml 287 2014-05-30 15:13:48Z krevelen $
+		$Id$
 		$URL: https://dev.almende.com/svn/abms/eve-util/pom.xml $
 	</description>
 	<url>https://eve.almende.com/</url>

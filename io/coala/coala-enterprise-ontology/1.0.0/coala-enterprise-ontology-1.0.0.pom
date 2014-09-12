@@ -15,7 +15,7 @@
 	<name>${project.artifactId}</name>
 	<description>
 		Utility and demo code for applying the DEMO ontology
-		$Id: pom.xml 354 2014-08-09 06:14:14Z krevelen $
+		$Id$
 		$URL: https://dev.almende.com/svn/abms/enterprise-ontology/pom.xml $
 	</description>
 	<url>https://demo.nl/</url>
@@ -37,6 +37,20 @@
 	</properties>
 
 	<repositories>
+		<!-- COALA public Maven repository -->
+		<repository>
+			<name>COALA Public Maven Repository</name>
+			<id>coala-public</id>
+			<url>https://github.com/krevelen/coala/raw/mvn-repo/</url>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>daily</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+				<updatePolicy>never</updatePolicy>
+			</snapshots>
+		</repository>
 	</repositories>
 
 	<dependencies>
@@ -90,6 +104,13 @@
 
 		<dependency>
 			<groupId>${project.groupId}</groupId>
+			<artifactId>coala-guice3-adapter</artifactId>
+			<version>1.0.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>coala-dsol2-adapter</artifactId>
 			<version>1.0.0</version>
 			<scope>test</scope>
@@ -123,8 +144,8 @@
 						<lifecycleMappingMetadata>
 							<pluginExecutions>
 
-								<!-- Configure "org.codehaus.mojo.build-helper-maven-plugin:add-source" goal execution 
-									in Eclipse IDE -->
+								<!-- Configure "org.codehaus.mojo.build-helper-maven-plugin:add-source" 
+									goal execution in Eclipse IDE -->
 								<pluginExecution>
 									<pluginExecutionFilter>
 										<groupId>org.codehaus.mojo</groupId>
@@ -171,8 +192,8 @@
 									</action>
 								</pluginExecution>
 
-								<!-- Configure "org.apache.cxf.cxf-xjc-plugin:xsdtojava" goal 
-									execution in Eclipse IDE -->
+								<!-- Configure "org.apache.cxf.cxf-xjc-plugin:xsdtojava" goal execution 
+									in Eclipse IDE -->
 								<pluginExecution>
 									<pluginExecutionFilter>
 										<groupId>org.apache.cxf</groupId>
@@ -186,7 +207,7 @@
 										<ignore />
 									</action>
 								</pluginExecution>
-								
+
 							</pluginExecutions>
 						</lifecycleMappingMetadata>
 					</configuration>
@@ -204,7 +225,7 @@
 						<clearOutputDir>true</clearOutputDir>
 					</configuration>
 				</plugin>
-	
+
 				<plugin>
 					<groupId>us.bryon</groupId>
 					<artifactId>relaxng-maven-plugin</artifactId>
@@ -219,6 +240,16 @@
 					</configuration>
 				</plugin>
 
+				<plugin>
+					<groupId>org.apache.avro</groupId>
+					<artifactId>avro-maven-plugin</artifactId>
+					<version>${avro.version}</version>
+					<configuration>
+						<sourceDirectory>${avro.sourcedir}</sourceDirectory>
+						<outputDirectory>${avro.targetdir}</outputDirectory>
+					</configuration>
+				</plugin>
+
 				<!-- Used to generate source code based on XSD (schema) file -->
 				<!-- http://cxf.apache.org/cxf-xjc-plugin.html -->
 				<plugin>
@@ -230,11 +261,21 @@
 							<extension>net.java.dev.jaxb2-commons:jaxb-fluent-api:2.1.8</extension>
 						</extensions>
 						<sourceRoot>${jaxb.targetdir}</sourceRoot>
+						<xsdOptions>
+							<xsdOption>
+								<xsd>${jaxb.sourcedir}/enterprise-ontology.xsd</xsd>
+								<packagename>io.coala.enterprise</packagename>
+								<extensionArgs>
+									<extensionArg>-Xfluent-api</extensionArg>
+								</extensionArgs>
+							</xsdOption>
+						</xsdOptions>
 					</configuration>
 				</plugin>
 			</plugins>
+
 		</pluginManagement>
-		
+
 		<plugins>
 			<plugin>
 				<!-- include generated XMLBean sources in class path -->
@@ -256,26 +297,14 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.avro</groupId>
-				<artifactId>avro-maven-plugin</artifactId>
-				<version>${avro.version}</version>
-				<executions>
-					<execution>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>schema</goal>
-						</goals>
-						<configuration>
-							<sourceDirectory>${avro.sourcedir}</sourceDirectory>
-							<outputDirectory>${avro.targetdir}</outputDirectory>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
- 
+
+			<!-- Generate dynamic beans ?? -->
+			<!-- <plugin> <groupId>org.apache.avro</groupId> <artifactId>avro-maven-plugin</artifactId> 
+				<executions> <execution> <phase>generate-sources</phase> <goals> <goal>schema</goal> 
+				</goals> </execution> </executions> </plugin> -->
+
 			<!-- Used to generate source code based on XSD (schema) file -->
-			<!-- http://cxf.apache.org/cxf-xjc-plugin.html -->
+			<!-- 
 			<plugin>
 				<groupId>org.apache.cxf</groupId>
 				<artifactId>cxf-xjc-plugin</artifactId>
@@ -286,20 +315,10 @@
 						<goals>
 							<goal>xsdtojava</goal>
 						</goals>
-						<configuration>
-							<xsdOptions>
-								<xsdOption>
-									<xsd>${jaxb.sourcedir}/enterprise-ontology.xsd</xsd>
-									<packagename>io.coala.enterprise</packagename>
-									<extensionArgs>
-										<extensionArg>-Xfluent-api</extensionArg>
-									</extensionArgs>
-								</xsdOption>
-							</xsdOptions>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>
+			-->
 		</plugins>
 	</build>
 </project>

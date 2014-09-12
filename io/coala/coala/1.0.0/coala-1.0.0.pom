@@ -21,7 +21,7 @@
 
 		<module>../coala-adapters/coala-guice3-adapter</module>
 
-		<module>../../mavenized-3rd-party/aglobe</module>
+		<module>../mavenized-3rd-party/aglobe</module>
 		<module>../coala-adapters/coala-aglobe5-adapter</module>
 
 		<module>../coala-adapters/coala-dsol2-adapter</module>
@@ -34,10 +34,10 @@
 
 		<module>../coala-adapters/coala-jade4-adapter</module>
 
-		<module>../../mavenized-3rd-party/jade-semantics-addon</module>
+		<module>../mavenized-3rd-party/jade-semantics-addon</module>
 		<module>../coala-adapters/coala-jsa-adapter</module>
 
-		<module>../../mavenized-3rd-party/jason</module>
+		<module>../mavenized-3rd-party/jason</module>
 		<module>../coala-adapters/coala-jason-adapter</module>
 
 		<module>../coala-adapters/coala-nodyn-adapter</module>
@@ -59,7 +59,7 @@
 		<github.repository.branch>mvn-repo</github.repository.branch>
 		<github.repository.owner>krevelen@gmail.com</github.repository.owner>
 		<github.repository.localid>internal.repo</github.repository.localid>
-		<github.repository.tmpdir>D:/GitHub/coala/coala/target/mvn-repo</github.repository.tmpdir>
+		<github.repository.tmpdir>${user.dir}/target/mvn-repo</github.repository.tmpdir>
 		<github.repository.url>https://raw.github.com/krevelen/coala/mvn-repo/</github.repository.url>
 
 		<maven.test.skip>${skipTests}</maven.test.skip>
@@ -91,6 +91,7 @@
 		<maven-surefire-plugin.version>2.15</maven-surefire-plugin.version>
 		<maven-source-plugin.version>2.1.2</maven-source-plugin.version>
 		<maven-resources-plugin.version>2.5</maven-resources-plugin.version>
+		<maven-antrun-plugin.version>1.7</maven-antrun-plugin.version>
 		<xmlbeans-maven-plugin.version>2.3.3</xmlbeans-maven-plugin.version>
 		<maven-war-plugin.version>2.4</maven-war-plugin.version>
 		<maven-dependency-plugin.version>2.8</maven-dependency-plugin.version>
@@ -103,6 +104,7 @@
 	</properties>
 
 	<distributionManagement>
+		<downloadUrl>https://github.com/krevelen/coala/raw/mvn-repo/</downloadUrl>
 		<repository>
 			<id>${github.repository.localid}</id>
 			<name>Temporary Staging Repository</name>
@@ -246,6 +248,10 @@
 					</configuration>
 				</plugin>
 				<plugin>
+					<artifactId>maven-antrun-plugin</artifactId>
+					<version>${maven-antrun-plugin.version}</version>
+				</plugin>
+				<plugin>
 					<artifactId>maven-jar-plugin</artifactId>
 					<version>${maven-jar-plugin.version}</version>
 				</plugin>
@@ -349,12 +355,13 @@
 				</executions>
 			</plugin>
 
+			<!-- run site-maven-plugin's 'site' target as part of the build's normal 
+				'deploy' phase -->
+			<!-- 
 			<plugin>
 				<groupId>com.github.github</groupId>
 				<artifactId>site-maven-plugin</artifactId>
 				<executions>
-					<!-- run site-maven-plugin's 'site' target as part of the build's normal 
-						'deploy' phase -->
 					<execution>
 						<goals>
 							<goal>site</goal>
@@ -363,6 +370,7 @@
 					</execution>
 				</executions>
 			</plugin>
+			 -->
 		</plugins>
 	</build>
 

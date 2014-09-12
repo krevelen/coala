@@ -16,7 +16,7 @@
 	<url>http://coala.io/</url>
 	<description>
 		Almende simulation common utilities and beans
-		$Id: pom.xml 349 2014-08-08 05:08:29Z krevelen $
+		$Id$
 		$URL: https://dev.almende.com/svn/abms/coala-common/pom.xml $
 	</description>
 
@@ -50,7 +50,7 @@
 				<updatePolicy>daily</updatePolicy>
 			</releases>
 			<snapshots>
-				<enabled>true</enabled>
+				<enabled>false</enabled>
 				<updatePolicy>never</updatePolicy>
 			</snapshots>
 		</repository>

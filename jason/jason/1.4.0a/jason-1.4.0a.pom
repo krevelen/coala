@@ -7,6 +7,7 @@
 		<groupId>io.coala</groupId>
 		<artifactId>coala</artifactId>
 		<version>1.0.0</version>
+		<relativePath>../../coala</relativePath>
 	</parent>
 
 	<groupId>jason</groupId>
@@ -36,17 +37,18 @@
 	</developers>
 	<description>
 		Mavenized version of original Jason distribution
-		$Id: pom.xml 13 2014-01-16 16:06:10Z krevelen $
+		$Id$
 		$URL: https://dev.almende.com/svn/abms/jason/pom.xml $
 	</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.build.sourceLevel>1.6</project.build.sourceLevel>
-		<project.build.targetLevel>1.6</project.build.targetLevel>
+		<project.build.sourceLevel>1.5</project.build.sourceLevel>
+		<project.build.targetLevel>1.5</project.build.targetLevel>
 		
 		<jason.file>Jason-1.4.0a.zip</jason.file>
-		<jason.dir>${project.build.directory}/Jason-1.4.0a</jason.dir>
+		<jason.dir>${project.build.directory}/${jason.file}</jason.dir>
+		<jason.src.dir>${jason.dir}/Jason-1.4.0a/src</jason.src.dir>
 	</properties>
 
 	<repositories>
@@ -143,6 +145,22 @@
 					<configuration>
 						<lifecycleMappingMetadata>
 							<pluginExecutions>
+								
+								<!-- Configure "maven-antrun-plugin:run" goal execution 
+									in Eclipse IDE -->
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-antrun-plugin</artifactId>
+										<versionRange>[1.0.0,)</versionRange>
+										<goals>
+											<goal>run</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute />
+									</action>
+								</pluginExecution>
 
 								<!-- Configure "build-helper-maven-plugin:add-source" goal execution 
 									in Eclipse IDE -->
@@ -160,22 +178,7 @@
 										<execute />
 									</action>
 								</pluginExecution>
-								
-								<!-- 
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>org.apache.maven.plugins</groupId>
-										<artifactId>maven-antrun-plugin</artifactId>
-										<versionRange>[1.0.0,)</versionRange>
-										<goals>
-											<goal>run</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<execute />
-									</action>
-								</pluginExecution>
-								-->
+
 							</pluginExecutions>
 						</lifecycleMappingMetadata>
 					</configuration>
@@ -184,6 +187,26 @@
 		</pluginManagement>
 
 		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>prepare</id>
+						<phase>validate</phase>
+						<configuration>
+							<tasks>
+								<echo message="prepare phase" />
+								<unzip src="${jason.file}" dest="${jason.dir}" />
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			
 			<plugin>
 				<artifactId>maven-dependency-plugin</artifactId>
@@ -250,8 +273,8 @@
 						</goals>
 						<configuration>
 							<sources>
-								<source>${jason.dir}/src</source>
-								<source>${jason.dir}/src/asl</source>
+								<source>${jason.src.dir}</source>
+								<source>${jason.src.dir}/asl</source>
 							</sources>
 						</configuration>
 					</execution>
@@ -263,7 +286,7 @@
 						</goals>
 						<configuration>
 							<sources>
-								<source>${jason.dir}/src</source>
+								<source>${jason.src.dir}</source>
 							</sources>
 						</configuration>
 					</execution>

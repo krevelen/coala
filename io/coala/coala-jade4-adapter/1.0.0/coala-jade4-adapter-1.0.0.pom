@@ -7,6 +7,7 @@
 		<groupId>io.coala</groupId>
 		<artifactId>coala</artifactId>
 		<version>1.0.0</version>
+		<relativePath>../../coala</relativePath>
 	</parent>
 
 	<artifactId>coala-jade4-adapter</artifactId>
@@ -17,7 +18,7 @@
 		
 		TODO consider (industrial) WADE framework for distributed JADE runtime
 		
-		$Id: pom.xml 354 2014-08-09 06:14:14Z krevelen $
+		$Id$
 		$URL: https://dev.almende.com/svn/abms/jade-util/pom.xml $
 	</description>
 	<url>http://jade.tilab.com/</url>
@@ -29,6 +30,10 @@
 		
 		<jade.version>4.3.2</jade.version>
 		<javacc-maven-plugin.version>2.6</javacc-maven-plugin.version>
+		
+		<jade.file>JADE-src-4.3.2.zip</jade.file>
+		<jade.dir>${project.build.directory}/${jade.file}</jade.dir>
+		<jade.src.dir>${jade.dir}/jade/src</jade.src.dir>
 	</properties>
 
 	<repositories>
@@ -88,6 +93,40 @@
 					<configuration>
 						<lifecycleMappingMetadata>
 							<pluginExecutions>
+								
+								<!-- Configure "maven-antrun-plugin:run" goal execution 
+									in Eclipse IDE -->
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-antrun-plugin</artifactId>
+										<versionRange>[1.0.0,)</versionRange>
+										<goals>
+											<goal>run</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+
+								<!-- Configure "build-helper-maven-plugin:add-source" goal execution 
+									in Eclipse IDE -->
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.codehaus.mojo</groupId>
+										<artifactId>build-helper-maven-plugin</artifactId>
+										<versionRange>[1.0.0,)</versionRange>
+										<goals>
+											<goal>add-source</goal>
+											<goal>add-test-source</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute />
+									</action>
+								</pluginExecution>
+							
 								<!-- Configure "javacc-maven-plugin:javacc" goal execution in Eclipse 
 									IDE -->
 								<pluginExecution>
@@ -97,23 +136,6 @@
 										<versionRange>[2.6,)</versionRange>
 										<goals>
 											<goal>javacc</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<!-- <configurator> <id>org.objectledge.maven.connectors.javacc</id> 
-											</configurator> -->
-										<execute />
-									</action>
-								</pluginExecution>
-
-								<!-- Configure "javacc-maven-plugin:jjtree-javacc" goal execution 
-									in Eclipse IDE -->
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>org.codehaus.mojo</groupId>
-										<artifactId>javacc-maven-plugin</artifactId>
-										<versionRange>[2.6,)</versionRange>
-										<goals>
 											<goal>jjtree-javacc</goal>
 										</goals>
 									</pluginExecutionFilter>
@@ -131,6 +153,45 @@
 		</pluginManagement>
 
 		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>prepare</id>
+						<phase>validate</phase>
+						<configuration>
+							<tasks>
+								<echo message="prepare phase" />
+								<unzip src="${jade.file}" dest="${jade.dir}" />
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${jade.src.dir}</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>

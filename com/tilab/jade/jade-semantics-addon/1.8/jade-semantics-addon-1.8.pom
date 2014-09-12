@@ -7,6 +7,7 @@
 		<groupId>io.coala</groupId>
 		<artifactId>coala</artifactId>
 		<version>1.0.0</version>
+		<relativePath>../../coala</relativePath>
 	</parent>
 
 	<groupId>com.tilab.jade</groupId>
@@ -16,7 +17,7 @@
 	<name>${project.artifactId}</name>
 	<description>
 		The JADE Semantics Add-on
-		$Id: pom.xml 354 2014-08-09 06:14:14Z krevelen $
+		$Id$
 		$URL: https://dev.almende.com/svn/abms/jade-semantics-addon/pom.xml $
 	</description>
 	<url>http://jade.tilab.com/</url>
@@ -25,21 +26,16 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.build.sourceLevel>1.5</project.build.sourceLevel>
 		<project.build.targetLevel>1.5</project.build.targetLevel>
-		
-		<jade.version>4.3.2</jade.version>
 
 		<jfreechart.version>1.0.13</jfreechart.version>
 		<javacc-maven-plugin.version>2.6</javacc-maven-plugin.version>
+
+		<jsa.file>semanticsAddOn-1.8.zip</jsa.file>
+		<jsa.dir>${project.build.directory}/${jsa.file}</jsa.dir>
+		<jsa.src.dir>${jsa.dir}/add-ons/semantics/src</jsa.src.dir>
 	</properties>
 
 	<repositories>
-	
-		<repository>
-			<!-- TiLab's public repository -->
-			<id>tilab-public</id>
-			<name>tilab public</name>
-			<url>http://jade.tilab.com/maven/</url>
-		</repository>
 	</repositories>
 
 	<pluginRepositories>
@@ -85,6 +81,23 @@
 					<configuration>
 						<lifecycleMappingMetadata>
 							<pluginExecutions>
+								
+								<!-- Configure "maven-antrun-plugin:run" goal execution 
+									in Eclipse IDE -->
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-antrun-plugin</artifactId>
+										<versionRange>[1.0.0,)</versionRange>
+										<goals>
+											<goal>run</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+
 								<!-- Configure "javacc-maven-plugin:javacc" goal execution in Eclipse 
 									IDE -->
 								<pluginExecution>
@@ -94,23 +107,6 @@
 										<versionRange>[2.6,)</versionRange>
 										<goals>
 											<goal>javacc</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<!-- <configurator> <id>org.objectledge.maven.connectors.javacc</id> 
-											</configurator> -->
-										<execute />
-									</action>
-								</pluginExecution>
-
-								<!-- Configure "javacc-maven-plugin:jjtree-javacc" goal execution 
-									in Eclipse IDE -->
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>org.codehaus.mojo</groupId>
-										<artifactId>javacc-maven-plugin</artifactId>
-										<versionRange>[2.6,)</versionRange>
-										<goals>
 											<goal>jjtree-javacc</goal>
 										</goals>
 									</pluginExecutionFilter>
@@ -120,6 +116,24 @@
 											</configurator> -->
 									</action>
 								</pluginExecution>
+
+								<!-- Configure "build-helper-maven-plugin:add-source" goal execution 
+									in Eclipse IDE -->
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.codehaus.mojo</groupId>
+										<artifactId>build-helper-maven-plugin</artifactId>
+										<versionRange>[1.0.0,)</versionRange>
+										<goals>
+											<goal>add-source</goal>
+											<goal>add-test-source</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute />
+									</action>
+								</pluginExecution>
+
 							</pluginExecutions>
 						</lifecycleMappingMetadata>
 					</configuration>
@@ -128,7 +142,51 @@
 		</pluginManagement>
 
 		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>prepare</id>
+						<phase>validate</phase>
+						<configuration>
+							<tasks>
+								<echo message="prepare phase" />
+								<unzip src="${jsa.file}" dest="${jsa.dir}_tmp"/>
+								
+								<copy outputencoding="UTF-8" todir="${jsa.dir}">
+									<fileset dir="${jsa.dir}_tmp"/>
+								</copy>
+								<delete dir="${jsa.dir}_tmp" />
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${jsa.src.dir}</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- 
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>javacc-maven-plugin</artifactId>
@@ -142,11 +200,12 @@
 						</goals>
 						<configuration>
 							<lookAhead>2</lookAhead>
-							<sourceDirectory>${basedir}/src/main/java</sourceDirectory>
+							<sourceDirectory>${jsa.src.dir}</sourceDirectory>
 						</configuration>
 					</execution>
 				</executions>
 			</plugin>
+			 -->
 		</plugins>
 	</build>
 </project>
