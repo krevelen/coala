@@ -73,10 +73,6 @@
 
 		<!-- set dependency versions -->
 		<junit.version>4.11</junit.version>
-		<log4j.version>1.2.17</log4j.version>
-		<slf4j.version>1.7.5</slf4j.version>
-		<joda-time.version>2.1</joda-time.version>
-		<uuid.version>3.2</uuid.version>
 		<javaee-api.version>6.0</javaee-api.version>
 		<javax.servlet-api.version>3.0.1</javax.servlet-api.version>
 		<javax.inject.version>1</javax.inject.version>
@@ -120,31 +116,30 @@
 				<artifactId>coala-core</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-
+			
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
 				<version>${junit.version}</version>
 			</dependency>
+			
+			<!-- 
 			<dependency>
 				<groupId>log4j</groupId>
 				<artifactId>log4j</artifactId>
 				<version>${log4j.version}</version>
 			</dependency>
 			<dependency>
-				<!-- bind SLF4J onto log4j -->
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-log4j12</artifactId>
 				<version>${slf4j.version}</version>
 			</dependency>
 			<dependency>
-				<!-- redirect commons-logging (used e.g. in Spring/WSAG4J) to SLF4J -->
 				<groupId>org.slf4j</groupId>
 				<artifactId>jcl-over-slf4j</artifactId>
 				<version>${slf4j.version}</version>
 			</dependency>
 			<dependency>
-				<!-- redirect java.util.logging to SLF4J -->
 				<groupId>org.slf4j</groupId>
 				<artifactId>jul-to-slf4j</artifactId>
 				<version>${slf4j.version}</version>
@@ -159,6 +154,7 @@
 				<artifactId>uuid</artifactId>
 				<version>${uuid.version}</version>
 			</dependency>
+			-->
 			<dependency>
 				<groupId>javax</groupId>
 				<artifactId>javaee-api</artifactId>

@@ -26,6 +26,9 @@
 	</organization>
 
 	<properties>
+		<slf4j.version>1.7.7</slf4j.version>
+		<joda-time.version>2.1</joda-time.version>
+		<uuid.version>3.4</uuid.version>
 		<jackson.version>2.4.0</jackson.version>
 		<lambdaj.version>2.3.3</lambdaj.version>
 		<rxjava.version>0.18.4</rxjava.version>
@@ -90,16 +93,19 @@
 			<!-- bind SLF4J onto log4j -->
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
+			<version>${slf4j.version}</version>
 		</dependency>
 		<dependency>
 			<!-- redirect commons-logging (used e.g. in Spring/WSAG4J) to SLF4J -->
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
+			<version>${slf4j.version}</version>
 		</dependency>
 		<dependency>
 			<!-- redirect java.util.logging to SLF4J -->
 			<groupId>org.slf4j</groupId>
 			<artifactId>jul-to-slf4j</artifactId>
+			<version>${slf4j.version}</version>
 		</dependency>
 
 		<dependency>
@@ -168,6 +174,7 @@
 			<!-- UUID (re)implementation that uses MAC-address -->
 			<groupId>com.eaio.uuid</groupId>
 			<artifactId>uuid</artifactId>
+			<version>${uuid.version}</version>
 		</dependency>
 
 		<dependency>
@@ -181,6 +188,7 @@
 			<!-- DateTime, Interval, Duration etc. standard implementations -->
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
+			<version>${joda-time.version}</version>
 		</dependency>
 
 		<dependency>
