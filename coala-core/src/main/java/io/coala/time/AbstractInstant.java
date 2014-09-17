@@ -399,14 +399,14 @@ public abstract class AbstractInstant<THIS extends AbstractInstant<THIS>>
 	@Override
 	public THIS minus(final Instant<?> value)
 	{
-		return plus(value.toUnit(getUnit()).doubleValue());
+		return minus(value.toUnit(getUnit()).doubleValue());
 	}
 
 	/** @see Instant#multipliedBy(Number) */
 	@Override
 	public THIS multipliedBy(final Number factor)
 	{
-		return plus((factor.doubleValue() - 1) * getValue().doubleValue());
+		return minus((factor.doubleValue() - 1) * getValue().doubleValue());
 	}
 
 	/** @see Instant#dividedBy(Number) */

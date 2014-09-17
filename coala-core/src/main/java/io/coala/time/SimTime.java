@@ -173,6 +173,8 @@ public class SimTime extends AbstractInstant<SimTime>
 					e);
 			return this;
 		}
+		if(toValue==null)
+		LOG.warn("Problem converting " + toString() + " to " + unit.name());
 		return new SimTime(
 				// getBaseUnit(),
 				getClockID(), toValue == null ? getValue() : toValue, unit,
