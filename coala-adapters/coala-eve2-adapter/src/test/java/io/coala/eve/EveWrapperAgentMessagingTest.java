@@ -6,6 +6,7 @@ import io.coala.agent.AgentStatusUpdate;
 import io.coala.bind.Binder;
 import io.coala.bind.BinderFactory;
 import io.coala.capability.admin.CreatingCapability;
+import io.coala.capability.replicate.ReplicationConfig;
 import io.coala.log.LogUtil;
 import io.coala.model.ModelComponentIDFactory;
 
@@ -42,9 +43,12 @@ public class EveWrapperAgentMessagingTest
 	{
 		LOG.trace("Start eve messaging test");
 
-		final Binder binder = BinderFactory.Builder.fromFile()
-				.withModelName("testModel" + System.currentTimeMillis())
-				.build().create("_unittest_");
+		final Binder binder = BinderFactory.Builder
+				.fromFile()
+				.withProperty(ReplicationConfig.class,
+						ReplicationConfig.MODEL_NAME_KEY,
+						"testModel" + System.currentTimeMillis()).build()
+				.create("_unittest_");
 
 		senderAgentID = binder.inject(ModelComponentIDFactory.class)
 				.createAgentID("senderAgent");
@@ -52,7 +56,8 @@ public class EveWrapperAgentMessagingTest
 		receiverAgentID = binder.inject(ModelComponentIDFactory.class)
 				.createAgentID("receiverAgent");
 
-		final CreatingCapability booterSvc = binder.inject(CreatingCapability.class);
+		final CreatingCapability booterSvc = binder
+				.inject(CreatingCapability.class);
 		final CountDownLatch latch = new CountDownLatch(2);
 
 		booterSvc.createAgent(receiverAgentID, TestAgent.class).subscribe(

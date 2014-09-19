@@ -30,7 +30,7 @@ import java.util.Map;
 import rx.Observable;
 
 /**
- * {@link ReasoningCapability}
+ * {@link ReasoningCapability} e.g. based on OWLIM?
  * 
  * @version $Revision: 296 $
  * @author <a href="mailto:Rick@almende.org">Rick</a>

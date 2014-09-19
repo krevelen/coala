@@ -100,7 +100,8 @@ public class GuiceBinderFactory implements BinderFactory
 	public synchronized GuiceBinder create(final String agentName)
 
 	{
-		return create(getConfig().getAgentIDFactory().createAgentID(agentName));
+		return create(getConfig().getReplicationConfig().newID()
+				.createAgentID(agentName));
 	}
 
 	/** @see BinderFactory#create(AgentID) */
@@ -108,8 +109,9 @@ public class GuiceBinderFactory implements BinderFactory
 	public synchronized GuiceBinder create(final String agentName,
 			final Class<? extends Agent> agentType)
 	{
-		return create(getConfig().getAgentIDFactory().createAgentID(agentName),
-				agentType);
+		return create(
+				getConfig().getReplicationConfig().newID()
+						.createAgentID(agentName), agentType);
 	}
 
 	/** @see BinderFactory#create(AgentID) */

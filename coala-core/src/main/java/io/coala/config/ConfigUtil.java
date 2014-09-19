@@ -37,10 +37,10 @@ public class ConfigUtil implements Util
 {
 
 	/** */
-	private static final String FILE_NAME_PROPERTY = "coala.configuration";
+	public static final String FILE_NAME_PROPERTY = "coala.configuration";
 
 	/** */
-	private static final String FILE_NAME_DEFAULT = "coala.properties";
+	public static final String FILE_NAME_DEFAULT = "coala.properties";
 
 	/** the properties (relative) file path */
 	public static final String PROPERTIES_FILE = System.getProperty(

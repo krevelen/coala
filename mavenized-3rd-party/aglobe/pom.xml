@@ -29,6 +29,7 @@
 		<project.build.sourceLevel>1.6</project.build.sourceLevel>
 		<project.build.targetLevel>1.6</project.build.targetLevel>
 
+		<slf4j.version>1.7.7</slf4j.version>
 		<squirrel-sql.version>6.7</squirrel-sql.version>
 
 		<aglobe.file>aglobe_src_5_5.zip</aglobe.file>
@@ -46,11 +47,13 @@
 			<!-- bind SLF4J onto log4j -->
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
+			<version>${slf4j.version}</version>
 		</dependency>
 		<dependency>
 			<!-- redirect java.util.logging to SLF4J -->
 			<groupId>org.slf4j</groupId>
 			<artifactId>jul-to-slf4j</artifactId>
+			<version>${slf4j.version}</version>
 		</dependency>
 		<!-- <dependency> <groupId>junit</groupId> <artifactId>junit</artifactId> 
 			<scope>test</scope> </dependency> -->

@@ -22,6 +22,7 @@ package io.coala.capability.online;
 
 import io.coala.bind.Binder;
 import io.coala.bind.BinderFactory;
+import io.coala.capability.replicate.ReplicationConfig;
 import io.coala.log.LogUtil;
 
 import java.net.URI;
@@ -40,7 +41,7 @@ import org.junit.Test;
  */
 public class FluentHCOnlineCapabilityTest
 {
-	
+
 	/** */
 	private static final Logger LOG = LogUtil
 			.getLogger(FluentHCOnlineCapabilityTest.class);
@@ -52,19 +53,22 @@ public class FluentHCOnlineCapabilityTest
 	public void testOnlineClient() throws Exception
 	{
 		LOG.trace("Started Apache HTTP Client capability test");
-		
-		final Binder binder = BinderFactory.Builder.fromFile(CONFIG_FILE)
-				.withModelName("testClient" + System.currentTimeMillis())
-				.build().create("inertiaBooter");
+
+		final Binder binder = BinderFactory.Builder
+				.fromFile(CONFIG_FILE)
+				.withProperty(ReplicationConfig.class,
+						ReplicationConfig.MODEL_NAME_KEY,
+						"testModel" + System.currentTimeMillis()).build()
+				.create("testBooter");
 
 		final OnlineCapability web = binder.inject(OnlineCapability.class);
-		
+
 		final String uri = "http://www.google.com";
 		LOG.trace(web.request(URI.create(uri)).first().toString());
-		
-		new CountDownLatch(0).await(10,TimeUnit.SECONDS);
-		
+
+		new CountDownLatch(0).await(10, TimeUnit.SECONDS);
+
 		LOG.trace("Completed Apache HTTP Client capability test");
 	}
-	
+
 }

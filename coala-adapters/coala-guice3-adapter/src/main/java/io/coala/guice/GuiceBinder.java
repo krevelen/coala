@@ -29,24 +29,21 @@ import io.coala.bind.Binder;
 import io.coala.bind.BinderFactoryConfig;
 import io.coala.capability.Capability;
 import io.coala.capability.CapabilityFactory;
+import io.coala.capability.replicate.ReplicationConfig;
 import io.coala.guice.log.InjectLoggerTypeListener;
 import io.coala.log.LogUtil;
 import io.coala.model.ModelComponentIDFactory;
-import io.coala.model.ModelID;
 import io.coala.name.AbstractIdentifiable;
 import io.coala.random.RandomDistribution;
 import io.coala.random.RandomNumberStream;
 import io.coala.random.impl.RandomDistributionFactoryImpl;
 import io.coala.random.impl.RandomNumberStreamFactoryWell19937c;
-import io.coala.time.ClockID;
 import io.coala.time.SimTime;
 import io.coala.time.SimTimeFactory;
-import io.coala.time.TimeUnit;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
@@ -55,7 +52,6 @@ import java.util.Set;
 import javax.inject.Provider;
 
 import org.apache.log4j.Logger;
-import org.joda.time.Period;
 
 import rx.Observable;
 
@@ -90,7 +86,7 @@ public class GuiceBinder extends AbstractIdentifiable<AgentID> implements
 	private final Injector injector;
 
 	/** */
-	//	private final ConfigModule configModule;
+	// private final ConfigModule configModule;
 
 	/** */
 	private final GuiceLazyBinderModule lazyInstaller;
@@ -109,8 +105,8 @@ public class GuiceBinder extends AbstractIdentifiable<AgentID> implements
 			final Observable<AgentStatusUpdate> ownerStatus,
 			final Module... modules)
 	{
-		this(config, config.getAgentIDFactory().createAgentID(clientName),
-				clientType, ownerStatus, modules);
+		this(config, config.getReplicationConfig().newID()
+				.createAgentID(clientName), clientType, ownerStatus, modules);
 	}
 
 	/**
@@ -137,8 +133,8 @@ public class GuiceBinder extends AbstractIdentifiable<AgentID> implements
 
 		final List<Module> moduleList = new ArrayList<Module>();
 
-//		this.configModule = new ConfigModule(ConfigUtil.getMainConfig());
-//		moduleList.add(this.configModule);
+		// this.configModule = new ConfigModule(ConfigUtil.getMainConfig());
+		// moduleList.add(this.configModule);
 
 		this.lazyInstaller = new GuiceLazyBinderModule(this)
 		{
@@ -155,7 +151,10 @@ public class GuiceBinder extends AbstractIdentifiable<AgentID> implements
 				bind(BinderFactoryConfig.class).toInstance(config);
 
 				bind(ModelComponentIDFactory.class).toInstance(
-						config.getAgentIDFactory());
+						config.getReplicationConfig().newID());
+
+				bind(ReplicationConfig.class).toInstance(
+						config.getReplicationConfig());
 
 				// FIXME replace by binder config
 				bind(RandomDistribution.Factory.class).to(
@@ -173,16 +172,6 @@ public class GuiceBinder extends AbstractIdentifiable<AgentID> implements
 				// TODO provide binding configuration, see guice-xml-config and
 				// http://beust.com/weblog/2013/07/12/flexible-configuration-with-guice/
 				// and OWNER API at http://owner.aeonbits.org/
-
-				bind(ModelID.class).toInstance(config.getModelID());
-
-				bind(Date.class).toInstance(config.getClockOffset());
-
-				bind(TimeUnit.class).toInstance(config.getBaseTimeUnit());
-
-				bind(Period.class).toInstance(config.getClockDuration());
-
-				bind(ClockID.class).toInstance(config.getClockID());
 
 				bindConstant().annotatedWith(Names.named(AGENT_TYPE)).to(
 						agentType == null ? Agent.class : agentType);

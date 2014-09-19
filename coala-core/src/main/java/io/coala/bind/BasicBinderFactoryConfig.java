@@ -25,18 +25,12 @@ import io.coala.agent.AgentID;
 import io.coala.agent.AgentIDUtil;
 import io.coala.capability.Capability;
 import io.coala.capability.CapabilityFactory;
+import io.coala.capability.replicate.ReplicationConfig;
 import io.coala.factory.Factory;
-import io.coala.model.ModelComponentIDFactory;
-import io.coala.model.ModelID;
-import io.coala.time.ClockID;
-import io.coala.time.TimeUnit;
 
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
-import org.joda.time.Period;
 
 /**
  * {@link BasicBinderFactoryConfig}
@@ -52,22 +46,7 @@ public class BasicBinderFactoryConfig implements BinderFactoryConfig
 	private final Class<? extends BinderFactory> binderFactoryType;
 
 	/** */
-	private final ModelID modelID;
-
-	/** */
-	private final ClockID clockID;
-
-	/** */
-	private final TimeUnit baseTimeUnit;
-
-	/** */
-	private final Date clockOffset;
-
-	/** */
-	private final Period clockDuration;
-
-	/** */
-	private final ModelComponentIDFactory agentIDFactory;
+	private final ReplicationConfig replicationConfig;
 
 	/** */
 	private final Class<? extends Agent> defaultAgentType;
@@ -104,11 +83,7 @@ public class BasicBinderFactoryConfig implements BinderFactoryConfig
 	 */
 	protected BasicBinderFactoryConfig(
 			final Class<? extends BinderFactory> binderFactoryType,
-			final ModelComponentIDFactory idFactory,
-			final String clockName,
-			final TimeUnit baseTimeUnit,
-			final Date clockOffset,
-			final Period clockDuration,
+			final ReplicationConfig replicationConfig,
 			final Class<? extends Agent> defaultAgentType,
 			final Map<Class<? extends CapabilityFactory>, Class<? extends Capability>> singletonServiceTypes,
 			final Map<Class<? extends Capability>, Class<? extends Capability>> instantServiceTypes,
@@ -116,16 +91,12 @@ public class BasicBinderFactoryConfig implements BinderFactoryConfig
 			final Map<String, Class<? extends Agent>> customAgentTypes,
 			final String... bootAgentNames)
 	{
-		this(
-				binderFactoryType,
-				idFactory.getModelID(),
-				// generate clockID for this model
-				idFactory.createClockID(clockName), baseTimeUnit, clockOffset,
-				clockDuration, idFactory, defaultAgentType,
+		this(binderFactoryType, replicationConfig, defaultAgentType,
 				singletonServiceTypes, instantServiceTypes, customFactoryTypes,
 				// convert strings to AgentIDs...
-				AgentIDUtil.toAgentIDs(idFactory, customAgentTypes),
-				AgentIDUtil.toAgentIDs(idFactory, bootAgentNames));
+				AgentIDUtil.toAgentIDs(replicationConfig.newID(),
+						customAgentTypes), AgentIDUtil.toAgentIDs(
+						replicationConfig.newID(), bootAgentNames));
 	}
 
 	/**
@@ -144,12 +115,7 @@ public class BasicBinderFactoryConfig implements BinderFactoryConfig
 	 */
 	protected BasicBinderFactoryConfig(
 			final Class<? extends BinderFactory> binderFactoryType,
-			final ModelID modelID,
-			final ClockID clockID,
-			final TimeUnit baseTimeUnit,
-			final Date clockOffset,
-			final Period clockDuration,
-			final ModelComponentIDFactory agentIDFactory,
+			final ReplicationConfig replicationConfig,
 			final Class<? extends Agent> defaultAgentType,
 			final Map<Class<? extends CapabilityFactory>, Class<? extends Capability>> singletonServiceTypes,
 			final Map<Class<? extends Capability>, Class<? extends Capability>> instantServiceTypes,
@@ -158,12 +124,7 @@ public class BasicBinderFactoryConfig implements BinderFactoryConfig
 			final List<AgentID> bootAgentNames)
 	{
 		this.binderFactoryType = binderFactoryType;
-		this.modelID = modelID;
-		this.clockID = clockID;
-		this.baseTimeUnit = baseTimeUnit;
-		this.clockOffset = clockOffset;
-		this.clockDuration = clockDuration;
-		this.agentIDFactory = agentIDFactory;
+		this.replicationConfig = replicationConfig;
 		this.defaultAgentType = defaultAgentType;
 
 		if (singletonServiceTypes == null || singletonServiceTypes.isEmpty())
@@ -201,48 +162,6 @@ public class BasicBinderFactoryConfig implements BinderFactoryConfig
 	public Class<? extends BinderFactory> getBinderFactoryType()
 	{
 		return this.binderFactoryType;
-	}
-
-	/** @see BinderFactoryConfig#getAgentIDFactory() */
-	@Override
-	public ModelComponentIDFactory getAgentIDFactory()
-	{
-		return this.agentIDFactory;
-	}
-
-	/** @see BinderFactoryConfig#getModelID() */
-	@Override
-	public ModelID getModelID()
-	{
-		return this.modelID;
-	}
-
-	/** @see BinderFactoryConfig#getClockID() */
-	@Override
-	public ClockID getClockID()
-	{
-		return this.clockID;
-	}
-
-	/** @see BinderFactoryConfig#getBaseTimeUnit() */
-	@Override
-	public TimeUnit getBaseTimeUnit()
-	{
-		return this.baseTimeUnit;
-	}
-
-	/** @see BinderFactoryConfig#getClockOffset() */
-	@Override
-	public Date getClockOffset()
-	{
-		return this.clockOffset;
-	}
-
-	/** @see BinderFactoryConfig#getClockDuration() */
-	@Override
-	public Period getClockDuration()
-	{
-		return this.clockDuration;
 	}
 
 	/** @see BinderFactoryConfig#getDefaultAgentType() */
@@ -285,6 +204,13 @@ public class BasicBinderFactoryConfig implements BinderFactoryConfig
 	public Map<Class<? extends Factory>, Class<? extends Factory>> getCustomFactoryTypes()
 	{
 		return this.customFactoryTypes;
+	}
+
+	/** @see io.coala.bind.BinderFactoryConfig#getReplicationConfig() */
+	@Override
+	public ReplicationConfig getReplicationConfig()
+	{
+		return this.replicationConfig;
 	}
 
 }

@@ -25,18 +25,15 @@ import io.coala.agent.AgentID;
 import io.coala.agent.AgentStatusUpdate;
 import io.coala.capability.Capability;
 import io.coala.capability.CapabilityFactory;
+import io.coala.capability.replicate.ReplicationConfig;
 import io.coala.config.CoalaProperty;
 import io.coala.config.CoalaPropertyMap;
 import io.coala.exception.CoalaException;
 import io.coala.exception.CoalaExceptionFactory;
 import io.coala.factory.ClassUtil;
 import io.coala.factory.Factory;
-import io.coala.model.ModelComponentIDFactory;
-import io.coala.time.TimeUnit;
 
-import java.util.Date;
-
-import org.joda.time.Period;
+import org.aeonbits.owner.Mutable;
 
 import rx.Observable;
 import rx.subjects.PublishSubject;
@@ -54,9 +51,9 @@ public interface BinderFactory extends Factory// , AgentStatusObserver
 
 	/**
 	 * @param config the {@link BinderFactoryConfig} implementation with
-	 *        required initialization values
+	 *            required initialization values
 	 * @param ownerStatusUpdates an {@link Observable} for the created
-	 *        {@link Binder}s' owner {@link AgentStatusUpdate}s
+	 *            {@link Binder}s' owner {@link AgentStatusUpdate}s
 	 * @return this {@link BinderFactory} instance
 	 */
 	BinderFactory initialize(BinderFactoryConfig config,
@@ -153,9 +150,9 @@ public interface BinderFactory extends Factory// , AgentStatusObserver
 		 */
 		public static Builder fromConfig(final BinderFactoryConfig config)
 		{
-			return new Builder().withType(
-					config.getBinderFactoryType()).withConfigBuilder(
-					BinderFactoryConfig.Builder.fromConfig(config));
+			return new Builder().withType(config.getBinderFactoryType())
+					.withConfigBuilder(
+							BinderFactoryConfig.Builder.fromConfig(config));
 		}
 
 		/**
@@ -181,62 +178,13 @@ public interface BinderFactory extends Factory// , AgentStatusObserver
 		}
 
 		/**
-		 * @param modelName
-		 * @return
-		 */
-		public Builder withModelName(final String modelName)
-		{
-			this.configBuilder.withModelName(modelName);
-			return this;
-		}
-
-		/**
-		 * @param clockName
-		 * @return
-		 */
-		public Builder withClockName(final String clockName)
-		{
-			this.configBuilder.withClockName(clockName);
-			return this;
-		}
-
-		/**
-		 * @param clockName
-		 * @return
-		 */
-		public Builder withClockDuration(final Period period)
-		{
-			this.configBuilder.withClockDuration(period);
-			return this;
-		}
-
-		/**
-		 * @param clockOffset
-		 * @return
-		 */
-		public Builder withClockOffset(final Date clockOffset)
-		{
-			this.configBuilder.withClockOffset(clockOffset);
-			return this;
-		}
-
-		/**
-		 * @param baseTimeUnit
-		 * @return
-		 */
-		public Builder withBaseTimeUnit(final TimeUnit baseTimeUnit)
-		{
-			this.configBuilder.withBaseTimeUnit(baseTimeUnit);
-			return this;
-		}
-
-		/**
 		 * @param idFactory
 		 * @return
 		 */
-		public Builder withIDFactory(final ModelComponentIDFactory idFactory)
+		public Builder withReplicationConfig(
+				final ReplicationConfig replicationConfig)
 		{
-			this.configBuilder.withIDFactory(idFactory);
+			this.configBuilder.withReplicationConfig(replicationConfig);
 			return this;
 		}
 
@@ -339,6 +287,19 @@ public interface BinderFactory extends Factory// , AgentStatusObserver
 				throw CoalaExceptionFactory.VALUE_NOT_ALLOWED.createRuntime(e,
 						"binderFactoryType", this.binderFactoryType);
 			}
+		}
+
+		/**
+		 * @param configType
+		 * @param key
+		 * @param value
+		 * @return
+		 */
+		public Builder withProperty(final Class<? extends Mutable> configType,
+				final String key, final String value)
+		{
+			this.configBuilder.withModelName(configType, key, value);
+			return this;
 		}
 
 	}

@@ -31,6 +31,7 @@ import io.coala.log.LogUtil;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+import org.aeonbits.owner.ConfigFactory;
 import org.apache.log4j.Logger;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -57,8 +58,9 @@ public class PacerTest
 	{
 		LOG.trace("Start pacing test");
 
+		ConfigFactory.setProperty("modelName",
+				"testModel" + System.currentTimeMillis());
 		final Binder binder = BinderFactory.Builder.fromFile(CONFIG_FILE)
-				.withModelName("testModel" + System.currentTimeMillis())
 				.build().create("_unittest_");
 
 		final CreatingCapability booterSvc = binder

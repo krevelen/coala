@@ -516,7 +516,7 @@ public abstract class AbstractAgentManager implements AgentManager
 		try
 		{
 			final AgentID agentID = this.binderFactory.getConfig()
-					.getAgentIDFactory().createAgentID(agentName);
+					.getReplicationConfig().newID().createAgentID(agentName);
 			return boot(agentID, agentType);
 		} catch (final Exception e)
 		{

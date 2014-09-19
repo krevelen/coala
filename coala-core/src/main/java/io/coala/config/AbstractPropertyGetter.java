@@ -90,7 +90,7 @@ public abstract class AbstractPropertyGetter implements PropertyGetter
 	{
 		final String result = getProperties().getProperty(this.key);
 
-		if (result != null)
+		if (result != null && !result.equals("" + null))
 			return result;
 
 		if (this.defaultValue != null)
@@ -365,30 +365,19 @@ public abstract class AbstractPropertyGetter implements PropertyGetter
 	/**
 	 * @return
 	 *
-	public Duration getDuration()
-	{
-		final String value = get();
-		return Duration.parse(value);
-	}
-
-	/**
+	 *         public Duration getDuration() { final String value = get();
+	 *         return Duration.parse(value); }
+	 * 
+	 *         /**
 	 * @return
 	 *
-	public Duration getDuration(final Duration defaultValue)
-	{
-		final String value = get("");
-		if (!value.isEmpty())
-			try
-			{
-				return Duration.parse(value);
-			} catch (final Throwable e)
-			{
-				LOG.warn("Problem parsing Duration, using default in stead",
-						CoalaExceptionFactory.UNMARSHAL_FAILED.create(e, value,
-								defaultValue));
-			}
-		return defaultValue;
-	}*/
+	 *         public Duration getDuration(final Duration defaultValue) { final
+	 *         String value = get(""); if (!value.isEmpty()) try { return
+	 *         Duration.parse(value); } catch (final Throwable e) {
+	 *         LOG.warn("Problem parsing Duration, using default in stead",
+	 *         CoalaExceptionFactory.UNMARSHAL_FAILED.create(e, value,
+	 *         defaultValue)); } return defaultValue; }
+	 */
 
 	/**
 	 * @param valueType
@@ -428,7 +417,8 @@ public abstract class AbstractPropertyGetter implements PropertyGetter
 		if (!value.isEmpty())
 			try
 			{
-				return (T) ClassUtil.deserialize(value, defaultValue.getClass());
+				return (T) ClassUtil
+						.deserialize(value, defaultValue.getClass());
 			} catch (final CoalaException e)
 			{
 				LOG.warn(

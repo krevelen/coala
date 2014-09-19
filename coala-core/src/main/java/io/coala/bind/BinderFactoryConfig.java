@@ -24,26 +24,23 @@ import io.coala.agent.Agent;
 import io.coala.agent.AgentID;
 import io.coala.capability.Capability;
 import io.coala.capability.CapabilityFactory;
+import io.coala.capability.replicate.ReplicationConfig;
 import io.coala.config.CoalaProperty;
 import io.coala.config.CoalaPropertyMap;
+import io.coala.config.ConfigUtil;
 import io.coala.exception.CoalaException;
 import io.coala.exception.CoalaRuntimeException;
-import io.coala.factory.ClassUtil;
 import io.coala.factory.Factory;
-import io.coala.model.BasicModelComponentIDFactory;
-import io.coala.model.ModelComponentIDFactory;
-import io.coala.model.ModelID;
-import io.coala.time.ClockID;
-import io.coala.time.TimeUnit;
+import io.coala.json.JsonUtil;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import org.aeonbits.owner.Config;
-import org.joda.time.Period;
+import org.aeonbits.owner.ConfigFactory;
+import org.aeonbits.owner.Mutable;
 
 /**
  * {@link BinderFactoryConfig}
@@ -59,28 +56,33 @@ public interface BinderFactoryConfig extends Config
 	/** @return the type of {@link BinderFactory} */
 	Class<? extends BinderFactory> getBinderFactoryType();
 
+	/**
+	 * @return
+	 */
+	ReplicationConfig getReplicationConfig();
+
 	/** @return the {@link ModelID} identifier */
-	ModelID getModelID();
+	// ModelID getModelID();
 
 	/** @return the {@link ModelComponentIDFactory} */
-	ModelComponentIDFactory getAgentIDFactory();
+	// ModelComponentIDFactory getAgentIDFactory();
 
 	/** @return the identifier for this particular JVM host's system clock */
-	ClockID getClockID();
+	// ClockID getClockID();
 
 	/** @return the simulation model's internal base time unit */
-	TimeUnit getBaseTimeUnit();
+	// TimeUnit getBaseTimeUnit();
 
 	/**
 	 * @return the UTC offset {@link Date} for simulation time, or {@code null}
 	 *         if simulation time is measured in {@link TimeUnit#TICKS}
 	 */
-	Date getClockOffset();
+	// Date getClockOffset();
 
 	/**
 	 * @return
 	 */
-	Period getClockDuration();
+	// Period getClockDuration();
 
 	/**
 	 * @return a {@link Map} of the agent's service types for lazy loading Key
@@ -97,8 +99,9 @@ public interface BinderFactoryConfig extends Config
 
 	/**
 	 * @return a {@link List} the simulation model's singleton service
-	 *         instances. Key is the {@link Capability} interface, and value is the
-	 *         concrete {@link Capability} type to be instantiated on each call
+	 *         instances. Key is the {@link Capability} interface, and value is
+	 *         the concrete {@link Capability} type to be instantiated on each
+	 *         call
 	 * */
 	Map<Class<? extends Capability>, Class<? extends Capability>> getInstantServiceTypes();
 
@@ -128,19 +131,7 @@ public interface BinderFactoryConfig extends Config
 		private Class<? extends BinderFactory> binderFactoryType;
 
 		/** */
-		private String clockName = null;
-
-		/** */
-		private TimeUnit baseTimeUnit = TimeUnit.TICKS;
-
-		/** */
-		private Date clockOffset = null;
-
-		/** */
-		private Period clockDuration = null;
-
-		/** */
-		private ModelComponentIDFactory idFactory = null;
+		private ReplicationConfig replicationConfig = null;
 
 		/** */
 		private Class<? extends Agent> defaultAgentType = null;
@@ -170,16 +161,6 @@ public interface BinderFactoryConfig extends Config
 
 		/**
 		 * @return
-		 */
-		public static Builder forModelName(final String modelName)
-		{
-			return new Builder().withIDFactory(
-					new BasicModelComponentIDFactory())
-					.withModelName(modelName);
-		}
-
-		/**
-		 * @return
 		 * @throws CoalaException
 		 */
 		public static Builder fromFile() throws CoalaException
@@ -202,28 +183,13 @@ public interface BinderFactoryConfig extends Config
 			builder.withBinderFactoryType(CoalaProperty.binderFactoryType
 					.value().getType(BinderFactory.class));
 
-			try
-			{
-				builder.withIDFactory(ClassUtil
-						.instantiate(CoalaProperty.identifierFactoryType
-								.value().getType(ModelComponentIDFactory.class)));
-			} catch (final Throwable t)
-			{
-				// ok
-			}
+			ConfigFactory
+					.setProperty(ConfigUtil.FILE_NAME_PROPERTY, configPath);
+			final ReplicationConfig cfg = ConfigFactory
+					.create(ReplicationConfig.class);
+			System.err.println("Loaded ReplicationConfig: " + cfg);
 
-			builder.withModelName(CoalaProperty.modelName.value().get());
-
-			builder.withClockName(CoalaProperty.clockName.value().get());
-
-			builder.withClockDuration(Period.parse(CoalaProperty.clockDuration
-					.value().get()));
-
-			builder.withClockOffset(CoalaProperty.clockOffset.value().getJSON(
-					Date.class));
-
-			builder.withBaseTimeUnit(CoalaProperty.baseTimeUnit.value()
-					.getEnum(TimeUnit.class));
+			builder.withReplicationConfig(cfg);
 
 			try
 			{
@@ -249,7 +215,8 @@ public interface BinderFactoryConfig extends Config
 					.getJSON(new String[] {}));
 
 			for (Entry<Class<? extends CapabilityFactory>, Class<? extends Capability>> entry : CoalaProperty.singletonServiceTypes
-					.value().getBindings(CapabilityFactory.class, Capability.class)
+					.value()
+					.getBindings(CapabilityFactory.class, Capability.class)
 					.entrySet())
 				builder.withSingletonServiceType(entry.getKey(),
 						entry.getValue());
@@ -275,19 +242,14 @@ public interface BinderFactoryConfig extends Config
 		 */
 		public static Builder fromConfig(final BinderFactoryConfig config)
 		{
+			final ReplicationConfig cfg = config.getReplicationConfig();
+
+			System.err.println("Loaded ReplicationConfig: "
+					+ JsonUtil.toPrettyJSON(cfg));
+
 			final Builder builder = new Builder();
 
-			builder.withIDFactory(config.getAgentIDFactory());
-
-			builder.withModelName(config.getModelID().getValue());
-
-			builder.withClockName(config.getClockID().getValue());
-
-			builder.withClockDuration(config.getClockDuration());
-
-			builder.withClockOffset(config.getClockOffset());
-
-			builder.withBaseTimeUnit(config.getBaseTimeUnit());
+			builder.withReplicationConfig(cfg);
 
 			if (config.getDefaultAgentType() != null)
 				builder.withDefaultAgentType(config.getDefaultAgentType());
@@ -317,19 +279,6 @@ public interface BinderFactoryConfig extends Config
 		}
 
 		/**
-		 * @param modelName
-		 * @return
-		 */
-		public Builder withModelName(final String modelName)
-		{
-			if (this.idFactory == null)
-				this.idFactory = new BasicModelComponentIDFactory();
-
-			this.idFactory.initialize(new ModelID(modelName));
-			return this;
-		}
-
-		/**
 		 * @param binderFactoryType
 		 * @return
 		 */
@@ -344,49 +293,10 @@ public interface BinderFactoryConfig extends Config
 		 * @param clockName
 		 * @return
 		 */
-		public Builder withClockName(final String clockName)
+		public Builder withReplicationConfig(
+				final ReplicationConfig replicationConfig)
 		{
-			this.clockName = clockName;
-			return this;
-		}
-
-		/**
-		 * @param clockOffset
-		 * @return
-		 */
-		public Builder withClockOffset(final Date clockOffset)
-		{
-			this.clockOffset = clockOffset;
-			return this;
-		}
-
-		/**
-		 * @param period
-		 * @return
-		 */
-		public Builder withClockDuration(final Period period)
-		{
-			this.clockDuration = period;
-			return this;
-		}
-
-		/**
-		 * @param baseTimeUnit
-		 * @return
-		 */
-		public Builder withBaseTimeUnit(final TimeUnit baseTimeUnit)
-		{
-			this.baseTimeUnit = baseTimeUnit;
-			return this;
-		}
-
-		/**
-		 * @param idFactory
-		 * @return
-		 */
-		public Builder withIDFactory(final ModelComponentIDFactory idFactory)
-		{
-			this.idFactory = idFactory;
+			this.replicationConfig = replicationConfig;
 			return this;
 		}
 
@@ -470,11 +380,25 @@ public interface BinderFactoryConfig extends Config
 		public BinderFactoryConfig build()
 		{
 			return new BasicBinderFactoryConfig(this.binderFactoryType,
-					this.idFactory, this.clockName, this.baseTimeUnit,
-					this.clockOffset, this.clockDuration,
-					this.defaultAgentType, this.singletonServiceTypes,
-					this.instantServiceTypes, this.customFactoryTypes,
-					this.customAgentTypes, this.bootAgentNames);
+					this.replicationConfig, this.defaultAgentType,
+					this.singletonServiceTypes, this.instantServiceTypes,
+					this.customFactoryTypes, this.customAgentTypes,
+					this.bootAgentNames);
+		}
+
+		/**
+		 * @param configType
+		 * @param key
+		 * @param value
+		 */
+		public void withModelName(final Class<? extends Mutable> configType,
+				final String key, final String value)
+		{
+			if (configType.equals(ReplicationConfig.class))
+				this.replicationConfig.setProperty(key, value);
+			else
+				throw new IllegalStateException("FIXME not supported: "
+						+ configType.getName());
 		}
 
 	}

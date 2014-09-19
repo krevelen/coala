@@ -29,6 +29,7 @@ import io.coala.bind.BinderFactory;
 import io.coala.capability.admin.CreatingCapability;
 import io.coala.capability.plan.ClockStatusUpdate;
 import io.coala.capability.replicate.ReplicatingCapability;
+import io.coala.capability.replicate.ReplicationConfig;
 import io.coala.log.LogUtil;
 
 import java.util.HashSet;
@@ -60,11 +61,15 @@ public class DsolTest
 	{
 		LOG.trace("Started DSOL sim svc test...");
 
-		final Binder binder = BinderFactory.Builder.fromFile()
-				.withModelName("testModel" + System.currentTimeMillis())
-				.build().create("_unittest_");
+		final Binder binder = BinderFactory.Builder
+				.fromFile()
+				.withProperty(ReplicationConfig.class,
+						ReplicationConfig.MODEL_NAME_KEY,
+						"testModel" + System.currentTimeMillis()).build()
+				.create("_unittest_");
 
-		final CreatingCapability booterSvc = binder.inject(CreatingCapability.class);
+		final CreatingCapability booterSvc = binder
+				.inject(CreatingCapability.class);
 
 		((DsolSimulatorService) binder.inject(ReplicatingCapability.class))
 				.getStatusUpdates().subscribe(new Observer<ClockStatusUpdate>()

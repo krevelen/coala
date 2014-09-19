@@ -35,7 +35,6 @@ import io.coala.exception.CoalaException;
 import io.coala.exception.CoalaExceptionFactory;
 import io.coala.log.LogUtil;
 import io.coala.model.ModelComponent;
-import io.coala.model.ModelID;
 import io.coala.name.Identifier;
 import io.coala.process.Job;
 import io.coala.random.RandomNumberStream;
@@ -43,7 +42,6 @@ import io.coala.random.RandomNumberStreamID;
 import io.coala.time.ClockID;
 import io.coala.time.Instant;
 import io.coala.time.SimTime;
-import io.coala.time.SimTimeFactory;
 import io.coala.time.TimeUnit;
 import io.coala.time.Timed;
 import io.coala.time.Trigger;
@@ -71,9 +69,6 @@ import nl.tudelft.simulation.event.EventListenerInterface;
 import nl.tudelft.simulation.event.EventType;
 
 import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
-import org.joda.time.Interval;
-import org.joda.time.Period;
 
 import rx.Observable;
 import rx.functions.Action1;
@@ -237,7 +232,7 @@ public class DsolSimulatorService extends BasicCapability implements
 	{
 		super.initialize();
 
-		// FIXME get from an (OWNER API, http://owner.aeonbits.org/) config
+		/*
 		final long seed = 123;
 		final DateTime start = new DateTime(getBinder().inject(DateTime.class));
 		final ClockID clockID = getBinder().inject(ClockID.class);
@@ -245,53 +240,13 @@ public class DsolSimulatorService extends BasicCapability implements
 		final Interval interval = new Interval(start, start.plus(getBinder()
 				.inject(Period.class)));
 		final SimTimeFactory newTime = getBinder().inject(SimTimeFactory.class);
-
+		*/
+		this.config = getBinder().inject(ReplicationConfig.class);
 		this.statusUpdates = BehaviorSubject
-				.create((ClockStatusUpdate) new ClockStatusUpdateImpl(clockID,
-						DsolSimulatorStatus.CREATED));
-		this.timeUpdates = BehaviorSubject.create(newTime.create(Double.NaN,
-				baseTimeUnit));
-		this.config = new ReplicationConfig()
-		{
-			/** */
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public ModelID getReplicationID()
-			{
-				return getClockID().getModelID();
-			}
-
-			@Override
-			public SimTimeFactory newTime()
-			{
-				return newTime;
-			}
-
-			@Override
-			public ClockID getClockID()
-			{
-				return clockID;
-			}
-
-			@Override
-			public Interval getInterval()
-			{
-				return interval;
-			}
-
-			@Override
-			public TimeUnit getBaseTimeUnit()
-			{
-				return baseTimeUnit;
-			}
-
-			@Override
-			public long getSeed()
-			{
-				return seed;
-			}
-		};
+				.create((ClockStatusUpdate) new ClockStatusUpdateImpl(
+						this.config.getClockID(), DsolSimulatorStatus.CREATED));
+		this.timeUpdates = BehaviorSubject.create(this.config.newTime().create(
+				Double.NaN, this.config.getBaseTimeUnit()));
 
 		synchronized (SIMULATORS)
 		{
@@ -317,7 +272,7 @@ public class DsolSimulatorService extends BasicCapability implements
 							final DsolSimulatorStatus status = DsolSimulatorStatus
 									.of(event.getType());
 							statusUpdates.onNext(new ClockStatusUpdateImpl(
-									clockID, status));
+									config.getClockID(), status));
 						}
 					}, type);
 				} catch (final RemoteException e)
@@ -445,16 +400,16 @@ public class DsolSimulatorService extends BasicCapability implements
 	@Override
 	public synchronized SimTime getTime()
 	{
-//		while (this.time == null)
-//		{
-//			new IllegalStateException("AWAITING TIME...").printStackTrace();
-//			try
-//			{
-//				wait(1000);
-//			} catch (final InterruptedException ignore)
-//			{
-//			}
-//		}
+		// while (this.time == null)
+		// {
+		// new IllegalStateException("AWAITING TIME...").printStackTrace();
+		// try
+		// {
+		// wait(1000);
+		// } catch (final InterruptedException ignore)
+		// {
+		// }
+		// }
 		// System.err.println("GETTING TIME: " + this.time);
 		return this.time;
 	}

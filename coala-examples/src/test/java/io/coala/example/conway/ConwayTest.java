@@ -25,6 +25,7 @@ import io.coala.agent.AgentStatusUpdate;
 import io.coala.bind.Binder;
 import io.coala.bind.BinderFactory;
 import io.coala.capability.admin.CreatingCapability;
+import io.coala.capability.replicate.ReplicationConfig;
 import io.coala.exception.CoalaException;
 import io.coala.log.LogUtil;
 import io.coala.time.SimTime;
@@ -80,9 +81,12 @@ public class ConwayTest
 	// @Test
 	public void testBasicMethods() throws Exception
 	{
-		final Binder binder = BinderFactory.Builder.fromFile(CONFIG_FILE)
-				.withModelName("testModel" + System.currentTimeMillis())
-				.build().create("methodTester");
+		final Binder binder = BinderFactory.Builder
+				.fromFile(CONFIG_FILE)
+				.withProperty(ReplicationConfig.class,
+						ReplicationConfig.MODEL_NAME_KEY,
+						"testModel" + System.currentTimeMillis()).build()
+				.create("methodTester");
 
 		final SimTimeFactory timer = binder.inject(SimTimeFactory.class);
 		final SimTime t1 = timer.create(1.5, TimeUnit.TICKS);
@@ -122,9 +126,12 @@ public class ConwayTest
 	@Test
 	public void testCellWorld() throws Exception
 	{
-		final Binder binder = BinderFactory.Builder.fromFile(CONFIG_FILE)
-				.withModelName("testModel" + System.currentTimeMillis())
-				.build().create("conwayBooter");
+		final Binder binder = BinderFactory.Builder
+				.fromFile(CONFIG_FILE)
+				.withProperty(ReplicationConfig.class,
+						ReplicationConfig.MODEL_NAME_KEY,
+						"testModel" + System.currentTimeMillis()).build()
+				.create("conwayBooter");
 
 		final CellWorldLattice world = (CellWorldLattice) binder
 				.inject(CellWorld.class);

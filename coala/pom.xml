@@ -21,6 +21,7 @@
 
 		<module>../coala-adapters/coala-guice3-adapter</module>
 
+<!-- 
 		<module>../mavenized-3rd-party/aglobe</module>
 		<module>../coala-adapters/coala-aglobe5-adapter</module>
 
@@ -45,7 +46,7 @@
 		<module>../coala-enterprise-ontology</module>
 
 		<module>../coala-examples</module>
-
+ -->
 	</modules>
 
 	<properties>
@@ -53,7 +54,18 @@
 		<encoding>UTF-8</encoding>
 		<skipTests>false</skipTests>
 
-		<!-- Github server corresponds to entry in ~/.m2/settings.xml -->
+		<maven.test.skip>${skipTests}</maven.test.skip>
+		<project.build.sourceLevel>${source}</project.build.sourceLevel>
+		<project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
+		
+		<!-- set reporting versions (e.g. unit test code coverage) -->
+		<cobertura-maven-plugin.version>2.6</cobertura-maven-plugin.version>
+		<jacoco-maven-plugin.version>0.7.2.201409121644</jacoco-maven-plugin.version>
+		<jacoco.covered-ratio>0.0</jacoco.covered-ratio>
+
+		<!-- set distribution versions -->
+		<wagon-ssh.version>1.0-beta-7</wagon-ssh.version>
 		<github.global.server>github</github.global.server>
 		<github.repository.name>coala</github.repository.name>
 		<github.repository.branch>mvn-repo</github.repository.branch>
@@ -61,22 +73,10 @@
 		<github.repository.localid>internal.repo</github.repository.localid>
 		<github.repository.tmpdir>${user.dir}/target/mvn-repo</github.repository.tmpdir>
 		<github.repository.url>https://raw.github.com/krevelen/coala/mvn-repo/</github.repository.url>
-
-		<maven.test.skip>${skipTests}</maven.test.skip>
-		<project.build.sourceLevel>${source}</project.build.sourceLevel>
-		<project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
-
-		<!-- set distribution versions -->
-		<wagon-ssh.version>1.0-beta-7</wagon-ssh.version>
 		<site-maven-plugin.version>0.9</site-maven-plugin.version>
 
 		<!-- set dependency versions -->
 		<junit.version>4.11</junit.version>
-		<log4j.version>1.2.17</log4j.version>
-		<slf4j.version>1.7.5</slf4j.version>
-		<joda-time.version>2.1</joda-time.version>
-		<uuid.version>3.2</uuid.version>
 		<javaee-api.version>6.0</javaee-api.version>
 		<javax.servlet-api.version>3.0.1</javax.servlet-api.version>
 		<javax.inject.version>1</javax.inject.version>
@@ -126,39 +126,16 @@
 				<artifactId>junit</artifactId>
 				<version>${junit.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>log4j</groupId>
-				<artifactId>log4j</artifactId>
-				<version>${log4j.version}</version>
-			</dependency>
-			<dependency>
-				<!-- bind SLF4J onto log4j -->
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-log4j12</artifactId>
-				<version>${slf4j.version}</version>
-			</dependency>
-			<dependency>
-				<!-- redirect commons-logging (used e.g. in Spring/WSAG4J) to SLF4J -->
-				<groupId>org.slf4j</groupId>
-				<artifactId>jcl-over-slf4j</artifactId>
-				<version>${slf4j.version}</version>
-			</dependency>
-			<dependency>
-				<!-- redirect java.util.logging to SLF4J -->
-				<groupId>org.slf4j</groupId>
-				<artifactId>jul-to-slf4j</artifactId>
-				<version>${slf4j.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>joda-time</groupId>
-				<artifactId>joda-time</artifactId>
-				<version>${joda-time.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.eaio.uuid</groupId>
-				<artifactId>uuid</artifactId>
-				<version>${uuid.version}</version>
-			</dependency>
+
+			<!-- <dependency> <groupId>log4j</groupId> <artifactId>log4j</artifactId> 
+				<version>${log4j.version}</version> </dependency> <dependency> <groupId>org.slf4j</groupId> 
+				<artifactId>slf4j-log4j12</artifactId> <version>${slf4j.version}</version> 
+				</dependency> <dependency> <groupId>org.slf4j</groupId> <artifactId>jcl-over-slf4j</artifactId> 
+				<version>${slf4j.version}</version> </dependency> <dependency> <groupId>org.slf4j</groupId> 
+				<artifactId>jul-to-slf4j</artifactId> <version>${slf4j.version}</version> 
+				</dependency> <dependency> <groupId>joda-time</groupId> <artifactId>joda-time</artifactId> 
+				<version>${joda-time.version}</version> </dependency> <dependency> <groupId>com.eaio.uuid</groupId> 
+				<artifactId>uuid</artifactId> <version>${uuid.version}</version> </dependency> -->
 			<dependency>
 				<groupId>javax</groupId>
 				<artifactId>javaee-api</artifactId>
@@ -297,8 +274,57 @@
 					<artifactId>xmlbeans-maven-plugin</artifactId>
 					<version>${xmlbeans-maven-plugin.version}</version>
 				</plugin>
-			</plugins>
-		</pluginManagement>
+
+				<plugin>
+					<!-- Configure the Maven2 Eclipse IDE Integration (m2e) for non-standard 
+						plug-in executions during the compile-test-run life-cycles by the IDE -->
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>${lifecycle-mapping.version}</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+
+								<!-- Configure "org.codehaus.mojo:cobertura-maven-plugin:clean" 
+									goal execution in Eclipse IDE -->
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.codehaus.mojo</groupId>
+										<artifactId>cobertura-maven-plugin</artifactId>
+										<versionRange>[0.0.0,)</versionRange>
+										<goals>
+											<goal>clean</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+
+								<!-- Configure "org.jacoco:jacoco-maven-plugin:{prepare-agent,report,check}" 
+									goal execution in Eclipse IDE -->
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.jacoco</groupId>
+										<artifactId>jacoco-maven-plugin</artifactId>
+										<versionRange>[0.0.0,)</versionRange>
+										<goals>
+											<goal>prepare-agent</goal>
+											<goal>report</goal>
+											<goal>check</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+				</plugins>
+				</pluginManagement>
 
 		<plugins>
 			<!-- Have Eclipse IDE's Maven integration (specified in <pluginManagement/>) 
@@ -355,22 +381,89 @@
 				</executions>
 			</plugin>
 
+			<!-- run site-maven-plugin's 'site' target as part of the build's normal 
+				'deploy' phase -->
+			<!-- <plugin> <groupId>com.github.github</groupId> <artifactId>site-maven-plugin</artifactId> 
+				<executions> <execution> <goals> <goal>site</goal> </goals> <phase>deploy</phase> 
+				</execution> </executions> </plugin> -->
+
+			<!-- see http://mojo.codehaus.org/cobertura-maven-plugin/usage.html -->
 			<plugin>
-				<groupId>com.github.github</groupId>
-				<artifactId>site-maven-plugin</artifactId>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>${cobertura-maven-plugin.version}</version>
+				<configuration>
+					<instrumentation>
+						<ignores>
+							<ignore>io.coala.boringcode.*</ignore>
+						</ignores>
+						<excludes>
+							<exclude>io/coala/dullcode/**/*.class</exclude>
+						</excludes>
+					</instrumentation>
+				</configuration>
 				<executions>
-					<!-- run site-maven-plugin's 'site' target as part of the build's normal 
-						'deploy' phase -->
 					<execution>
 						<goals>
-							<goal>site</goal>
+							<goal>clean</goal>
 						</goals>
-						<phase>deploy</phase>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco-maven-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>default-prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>default-report</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>default-check</id>
+						<goals>
+							<goal>check</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<rule>
+									<element>BUNDLE</element>
+									<limits>
+										<limit>
+											<counter>COMPLEXITY</counter>
+											<value>COVEREDRATIO</value>
+											<minimum>${jacoco.covered-ratio}</minimum>
+										</limit>
+									</limits>
+								</rule>
+							</rules>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
 		</plugins>
 	</build>
+
+	<reporting>
+		<plugins>
+			<!-- see http://mojo.codehaus.org/cobertura-maven-plugin/usage.html -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>${cobertura-maven-plugin.version}</version>
+			</plugin>
+		</plugins>
+	</reporting>
 
 	<organization>
 		<name>Almende</name>

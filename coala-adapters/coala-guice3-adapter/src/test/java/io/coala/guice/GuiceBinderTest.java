@@ -23,6 +23,7 @@ package io.coala.guice;
 import io.coala.agent.Agent;
 import io.coala.agent.AgentFactory;
 import io.coala.bind.BinderFactory;
+import io.coala.capability.replicate.ReplicationConfig;
 import io.coala.log.LogUtil;
 import io.coala.time.SimTime;
 import io.coala.time.SimTimeFactory;
@@ -84,9 +85,11 @@ public class GuiceBinderTest
 	@Test
 	public void injectTest() throws Exception
 	{
-		final BinderFactory factory = BinderFactory.Builder.fromFile()
-				.withModelName("testModel" + System.currentTimeMillis())
-				.build();
+		final BinderFactory factory = BinderFactory.Builder
+				.fromFile()
+				.withProperty(ReplicationConfig.class,
+						ReplicationConfig.MODEL_NAME_KEY,
+						"testModel" + System.currentTimeMillis()).build();
 
 		final GuiceBinder binder = (GuiceBinder) factory.create("testAgent",
 				TestAgent.class);
@@ -106,8 +109,8 @@ public class GuiceBinderTest
 		binder.getInjector().getBinding(SimTimeFactory.class)
 				.acceptTargetVisitor(new Visitor());
 
-		final SimTime testTime = (SimTime) binder.inject(
-				SimTimeFactory.class).create(1, TimeUnit.TICKS);
+		final SimTime testTime = (SimTime) binder.inject(SimTimeFactory.class)
+				.create(1, TimeUnit.TICKS);
 		LOG.trace("Assisted Injector created a time: " + testTime
 		// + ", in base time units: " + testTime.toBaseUnit()
 		);

@@ -5,6 +5,7 @@ import io.coala.capability.replicate.ReplicationConfig;
 import io.coala.log.LogUtil;
 import io.coala.model.ModelID;
 import io.coala.time.SimTime;
+import io.coala.time.SimTimeFactory;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -37,12 +38,12 @@ public class ChronosService
 	 * @return the {@link ChronosService} instance
 	 */
 	public synchronized static ChronosService getInstance(
-			final ReplicationConfig config)
+			final SimTimeFactory timeFact, final ReplicationConfig config)
 	{
 		ChronosService instance = theInstances.get(config.getReplicationID());
 		if (instance == null)
 		{
-			instance = new ChronosService(config);
+			instance = new ChronosService(timeFact, config);
 			theInstances.put(config.getReplicationID(), instance);
 		}
 		return instance;
@@ -72,13 +73,13 @@ public class ChronosService
 	/** */
 	private boolean granting = true;
 
-	private ChronosService(final ReplicationConfig config)
+	private ChronosService(final SimTimeFactory timeFact,
+			final ReplicationConfig config)
 	{
 		this.LOG = LogUtil.getLogger(getClass().getSimpleName() + " "
 				+ config.getReplicationID());
 		this.config = config;
-		this.lastGrant = config.newTime().create(Double.NaN,
-				config.getBaseTimeUnit());
+		this.lastGrant = timeFact.create(Double.NaN, config.getBaseTimeUnit());
 	}
 
 	public ReplicationConfig getConfig()
@@ -168,22 +169,22 @@ public class ChronosService
 		if (!this.federation.containsKey(agent))
 			return;
 
-		this.federation.remove(agent);//.appocalypseHandler();
+		this.federation.remove(agent);// .appocalypseHandler();
 
 		LOG.info("Removed " + agent + " from federation: " + this.federation);
-		
-//		if (this.federation.size() == 0)
-//		{
-//			// FIXME stop simulation !!
-//		}
-//		synchronized (this.federation)
-//		{
-//			for (AgentID federate : this.federation.keySet())
-//			{
-//				// Update whole federation with current time.
-//				this.federation.get(federate).granted(this.lastGrant);
-//			}
-//		}
+
+		// if (this.federation.size() == 0)
+		// {
+		// // FIXME stop simulation !!
+		// }
+		// synchronized (this.federation)
+		// {
+		// for (AgentID federate : this.federation.keySet())
+		// {
+		// // Update whole federation with current time.
+		// this.federation.get(federate).granted(this.lastGrant);
+		// }
+		// }
 	}
 
 	private void addGrant(final AgentID agent, final SimTime time)
@@ -225,7 +226,7 @@ public class ChronosService
 	public Double getProgressFraction()
 	{
 		return this.lastGrant.toMilliseconds().doubleValue()
-				/ getConfig().getInterval().toDuration().getMillis();
+				/ getConfig().getDuration().getMillis();
 	}
 
 }

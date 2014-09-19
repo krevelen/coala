@@ -5,6 +5,7 @@ import io.coala.capability.replicate.ReplicationConfig;
 import io.coala.experimental.grant.ChronosService.GrantCallback;
 import io.coala.log.LogUtil;
 import io.coala.time.SimTime;
+import io.coala.time.SimTimeFactory;
 
 import java.util.Collections;
 import java.util.SortedSet;
@@ -47,14 +48,13 @@ public class ChronosClient
 
 	// private boolean dead = false;
 
-	public ChronosClient(final ReplicationConfig config,
-			final PacedAgent clientAgent)
+	public ChronosClient(final SimTimeFactory timeFact,
+			final ReplicationConfig config, final PacedAgent clientAgent)
 	{
-		this.chronos = ChronosService.getInstance(config);
+		this.chronos = ChronosService.getInstance(timeFact, config);
 		this.clientAgent = clientAgent;
-		this.lastGrant = config.newTime().create(Double.NaN,
-				config.getBaseTimeUnit());
-		this.maxValue = config.newTime().create(Double.MAX_VALUE,
+		this.lastGrant = timeFact.create(Double.NaN, config.getBaseTimeUnit());
+		this.maxValue = timeFact.create(Double.MAX_VALUE,
 				config.getBaseTimeUnit());
 		this.requestTime = this.maxValue;
 	}

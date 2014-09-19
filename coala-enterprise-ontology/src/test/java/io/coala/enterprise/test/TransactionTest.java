@@ -27,6 +27,7 @@ import io.coala.bind.BinderFactory;
 import io.coala.capability.admin.CreatingCapability;
 import io.coala.capability.plan.ClockStatusUpdate;
 import io.coala.capability.replicate.ReplicatingCapability;
+import io.coala.capability.replicate.ReplicationConfig;
 import io.coala.dsol.DsolSimulatorStatus;
 import io.coala.enterprise.test.impl.TestExecutorOrganizationImpl;
 import io.coala.enterprise.test.impl.TestInitiatorOrganizationImpl;
@@ -58,9 +59,12 @@ public class TransactionTest
 	{
 		LOG.trace("Transaction test started!");
 
-		final Binder binder = BinderFactory.Builder.fromFile()
-				.withModelName("testModel" + System.currentTimeMillis())
-				.build().create("_unittestboot_");
+		final Binder binder = BinderFactory.Builder
+				.fromFile()
+				.withProperty(ReplicationConfig.class,
+						ReplicationConfig.MODEL_NAME_KEY,
+						"testModel" + System.currentTimeMillis()).build()
+				.create("_unittestboot_");
 
 		final CountDownLatch initLatch = new CountDownLatch(2);
 

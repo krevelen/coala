@@ -2,8 +2,10 @@ package io.coala.aglobe;
 
 import io.coala.agent.AgentID;
 import io.coala.agent.AgentStatusUpdate;
+import io.coala.bind.Binder;
 import io.coala.bind.BinderFactory;
 import io.coala.capability.admin.CreatingCapability;
+import io.coala.capability.replicate.ReplicationConfig;
 import io.coala.log.LogUtil;
 
 import java.util.concurrent.CountDownLatch;
@@ -35,11 +37,15 @@ public class AGlobeWrapperAgentTest
 	@Test
 	public void sendMessage() throws Exception
 	{
-		final BinderFactory factory = BinderFactory.Builder.fromFile()
-				.withModelName("bla" + System.currentTimeMillis()).build();
+		final Binder binder = BinderFactory.Builder
+				.fromFile()
+				.withProperty(ReplicationConfig.class,
+						ReplicationConfig.MODEL_NAME_KEY,
+						"testModel" + System.currentTimeMillis()).build()
+				.create("bootAgent");
 
-		final CreatingCapability booter = factory.create("bootAgent").inject(
-				CreatingCapability.class);
+		final CreatingCapability booter = binder
+				.inject(CreatingCapability.class);
 
 		final CountDownLatch latch = new CountDownLatch(2);
 

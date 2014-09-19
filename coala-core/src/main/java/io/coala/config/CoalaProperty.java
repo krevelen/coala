@@ -151,7 +151,7 @@ public enum CoalaProperty
 		String defaultValue = null;
 		if (this.defaultValue instanceof String)
 			defaultValue = (String) this.defaultValue;
-		else
+		else if (this.defaultValue != null)
 			try
 			{
 				defaultValue = JsonUtil.getJOM().writeValueAsString(
