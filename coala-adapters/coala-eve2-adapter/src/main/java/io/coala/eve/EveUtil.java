@@ -27,10 +27,9 @@ import io.coala.log.LogUtil;
 import io.coala.message.Message;
 import io.coala.resource.FileUtil;
 import io.coala.util.Util;
+import io.coala.web.WebUtil;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,10 +53,10 @@ public class EveUtil implements Util
 	private static final Logger LOG = LogUtil.getLogger(EveUtil.class);
 
 	/** */
-	private static final String HOST_CONFIG_PROPERTY = "eve.config";
+	public static final String HOST_CONFIG_PROPERTY = "eve.config";
 
 	/** */
-	private static final String HOST_CONFIG_DEFAULT = "eve.yaml";
+	public static final String HOST_CONFIG_DEFAULT = "eve.yaml";
 
 	/** */
 	private static boolean HOST_INITIALIZED = false;
@@ -111,16 +110,8 @@ public class EveUtil implements Util
 	 */
 	protected static String toEveAgentId(final AgentID agentID)
 	{
-		String result;
-		try
-		{
-			result = URLEncoder.encode(agentID.toString(),"UTF-8");
-		} catch (UnsupportedEncodingException e)
-		{
-			LOG.error("Failed to create EVE URL");
-			return null;
-		}
-		// WebUtil.urlEncode(agentID.toString());
+		// be robust against spaces, weird characters, etc.
+		final String result = WebUtil.urlEncode(agentID.toString());
 		AGENT_ID_CACHE.put(result, agentID);
 		return result;
 	}
