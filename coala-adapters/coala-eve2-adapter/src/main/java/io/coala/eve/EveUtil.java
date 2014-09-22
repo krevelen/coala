@@ -28,7 +28,9 @@ import io.coala.message.Message;
 import io.coala.resource.FileUtil;
 import io.coala.util.Util;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -109,7 +111,15 @@ public class EveUtil implements Util
 	 */
 	protected static String toEveAgentId(final AgentID agentID)
 	{
-		final String result = agentID.toString();
+		String result;
+		try
+		{
+			result = URLEncoder.encode(agentID.toString(),"UTF-8");
+		} catch (UnsupportedEncodingException e)
+		{
+			LOG.error("Failed to create EVE URL");
+			return null;
+		}
 		// WebUtil.urlEncode(agentID.toString());
 		AGENT_ID_CACHE.put(result, agentID);
 		return result;
