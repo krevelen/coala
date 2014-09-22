@@ -88,6 +88,27 @@
 	</repositories>
 
 	<dependencies>
+
+		<dependency>
+			<!-- Java Extension API for servlets -->
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<!-- Java Extension API for persistence via database, xml, etc. -->
+			<groupId>javax.persistence</groupId>
+			<artifactId>persistence-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<!-- Java Extension API for dependency injection (and/or aspect oriented 
+				programming) -->
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		
 		<!-- logging via SL4J -->
 		<dependency>
 			<!-- bind SLF4J onto log4j -->
@@ -113,14 +134,6 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-math3</artifactId>
 			<version>${commons-math3.version}</version>
-		</dependency>
-
-		<dependency>
-			<!-- used for the DynaBean implementation -->
-			<groupId>commons-beanutils</groupId>
-			<artifactId>commons-beanutils</artifactId>
-			<version>${commons-beanutils.version}</version>
-			<scope>test</scope>
 		</dependency>
 
 		<dependency>
@@ -151,26 +164,6 @@
 		</dependency>
 
 		<dependency>
-			<!-- Java Extension API for servlets -->
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<!-- Java Extension API for persistence via database, xml, etc. -->
-			<groupId>javax.persistence</groupId>
-			<artifactId>persistence-api</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<!-- Java Extension API for dependency injection (and/or aspect oriented 
-				programming) -->
-			<groupId>javax.inject</groupId>
-			<artifactId>javax.inject</artifactId>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
 			<!-- UUID (re)implementation that uses MAC-address -->
 			<groupId>com.eaio.uuid</groupId>
 			<artifactId>uuid</artifactId>
@@ -196,6 +189,14 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>${jackson.version}</version>
+		</dependency>
+
+		<dependency>
+			<!-- used for the DynaBean implementation -->
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+			<version>${commons-beanutils.version}</version>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
