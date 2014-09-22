@@ -129,7 +129,8 @@ public class GuiceBinder extends AbstractIdentifiable<AgentID> implements
 				: config.getCustomAgentTypes().containsKey(getID()) ? config
 						.getCustomAgentTypes().get(getID()) : config
 						.getDefaultAgentType();
-		LOG.trace("Agent type for: " + getID() + " = " + agentType);
+		LOG.trace("Agent type for: " + getID() + " = " + agentType
+				+ ", configured: " + config.getCustomAgentTypes());
 
 		final List<Module> moduleList = new ArrayList<Module>();
 

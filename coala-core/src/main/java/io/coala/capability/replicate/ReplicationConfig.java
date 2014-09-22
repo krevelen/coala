@@ -20,6 +20,7 @@
  */
 package io.coala.capability.replicate;
 
+import io.coala.config.ConfigUtil;
 import io.coala.model.BasicModelComponentIDFactory;
 import io.coala.model.ModelComponentIDFactory;
 import io.coala.model.ModelID;
@@ -42,6 +43,8 @@ import org.joda.time.Duration;
 import org.joda.time.Interval;
 import org.joda.time.Period;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * {@link ReplicationConfig} uses the <A href="http://owner.aeonbits.org/">OWNER
  * API</a>
@@ -50,8 +53,11 @@ import org.joda.time.Period;
  * @author <a href="mailto:Rick@almende.org">Rick</a>
  */
 @LoadPolicy(LoadType.MERGE)
-@Sources({ "file:${coala.configuration}", "classpath:${coala.configuration}",
-		"file:~/coala.properties", "classpath:coala.properties" })
+@Sources({ "file:${" + ConfigUtil.FILE_NAME_PROPERTY + "}",
+		"classpath:${" + ConfigUtil.FILE_NAME_PROPERTY + "}",
+		"file:${user.dir}/" + ConfigUtil.FILE_NAME_DEFAULT,
+		"file:~/" + ConfigUtil.FILE_NAME_DEFAULT,
+		"classpath:" + ConfigUtil.FILE_NAME_DEFAULT })
 @Separator(",")
 public interface ReplicationConfig extends Mutable // Config
 {
@@ -75,11 +81,11 @@ public interface ReplicationConfig extends Mutable // Config
 
 	@Key(MODEL_NAME_KEY)
 	@DefaultValue("defaultRepl")
-	String modelName();
+	String getModelName();
 
 	@Key(CLOCK_NAME_KEY)
 	@DefaultValue("_clock_")
-	String clockName();
+	String getClockName();
 
 	@Key(OFFSET_KEY)
 	@ConverterClass(DateTimeConverter.class)
@@ -89,7 +95,11 @@ public interface ReplicationConfig extends Mutable // Config
 	@DefaultValue("P30D")
 	// follows standard Period string format, see
 	// http://www.w3schools.com/schema/schema_dtypes_date.asp
+	String getPeriod();
+
+	@DefaultValue("${duration}")
 	@ConverterClass(PeriodConverter.class)
+	@JsonIgnore
 	Period getDuration();
 
 	@Key(BASE_TIMEUNIT_KEY)
@@ -110,14 +120,17 @@ public interface ReplicationConfig extends Mutable // Config
 
 	@DefaultValue("${modelName}")
 	@ConverterClass(ModelIDConverter.class)
+	@JsonIgnore
 	ModelID getReplicationID();
 
 	@DefaultValue("${modelName}|${clockName}")
 	@ConverterClass(ClockIDConverter.class)
+	@JsonIgnore
 	ClockID getClockID();
 
 	@DefaultValue("${offset}|${duration}")
 	@ConverterClass(IntervalConverter.class)
+	@JsonIgnore
 	Interval getInterval();
 
 	@DefaultValue("${modelName}")

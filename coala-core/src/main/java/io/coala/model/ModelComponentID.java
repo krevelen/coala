@@ -40,7 +40,14 @@ public class ModelComponentID<T extends Serializable & Comparable<T>> extends
 	public static final String ORPHAN_MODEL_ID = "<orphan>";
 
 	/** */
-	public static final char PATH_SEP = '|';
+	public static final String PATH_SEP_PROPERTY = "io.coala.model-id.path-sep";
+
+	/** */
+	public static final char PATH_SEP_DEFAULT = '-';
+
+	/** */
+	public static final char PATH_SEP = Character.valueOf(System.getProperty(
+			PATH_SEP_PROPERTY, Character.toString(PATH_SEP_DEFAULT)).charAt(0));
 
 	/** */
 	private static final long serialVersionUID = 1L;
@@ -117,7 +124,7 @@ public class ModelComponentID<T extends Serializable & Comparable<T>> extends
 	{
 		return this.parentID;
 	}
-	
+
 	@Override
 	public String toString()
 	{

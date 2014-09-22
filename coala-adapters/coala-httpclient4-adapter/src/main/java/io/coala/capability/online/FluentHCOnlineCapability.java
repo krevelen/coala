@@ -44,7 +44,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 import javax.net.ssl.KeyManager;
@@ -542,16 +541,12 @@ public class FluentHCOnlineCapability extends BasicOnlineCapability
 			final ResourceType type = entity.getContentType() == null ? expectedType
 					: ResourceType.ofMIMEType(entity.getContentType()
 							.getValue());
-			// Schedulers.io().createWorker().schedule(new Action0()
-			// {
-			// @Override
-			// public void call()
-			// {
+			// FIXME copy to a new stream!
 			try
 			{
 				subscriber.onNext(ResourceStream.of(entity.getContent(), type,
 						request.toString()));
-
+/*
 				int secs = 0;
 				while (latch.getCount() > 0)
 				{
@@ -561,12 +556,11 @@ public class FluentHCOnlineCapability extends BasicOnlineCapability
 					latch.await(3, TimeUnit.SECONDS);
 					secs++;
 				}
+*/				
 			} catch (final Exception e)
 			{
 				subscriber.onError(e);
 			}
-			// }
-			// });
 			return null;
 		}
 	}

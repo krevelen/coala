@@ -69,7 +69,7 @@ public class CoalaLog4jLogger extends Logger
 			"yyyy-MM-dd HH:mm:ss");
 
 	/** */
-	private static final String METHOD_AFFIX_FORMAT = " [%s#%s(..):%d]";
+	private static final String METHOD_AFFIX_FORMAT = " [at %s.%s(%s:%d)]";
 
 	/** */
 	private final String idPrefix;
@@ -119,7 +119,8 @@ public class CoalaLog4jLogger extends Logger
 			new NullPointerException("New logger for null object")
 					.printStackTrace();
 
-		this.idPrefix = source instanceof String ? (String) source
+		this.idPrefix = source instanceof String ? EMPTY_PREFIX_FORMAT
+		// String.format(ID_PREFIX_FORMAT, source)
 				: determineLoggerPrefixForObject(source);
 
 		// System.err.println("New logger idPrefix: " + this.idPrefix + " for "
@@ -196,6 +197,31 @@ public class CoalaLog4jLogger extends Logger
 		}
 	}
 
+	/** */
+	private static final String[] loggingPackages = {
+
+	/* */
+	org.apache.commons.logging.Log.class.getPackage().getName(),
+
+	/* */
+	org.slf4j.Logger.class.getPackage().getName(),
+
+	/* */
+	java.util.logging.Logger.class.getPackage().getName(),
+
+	/* */
+	org.apache.log4j.Logger.class.getPackage().getName()
+
+	};
+
+	private boolean isLoggingPackage(final String className)
+	{
+		for (String loggingPackage : loggingPackages)
+			if (className.startsWith(loggingPackage))
+				return true;
+		return false;
+	}
+
 	/**
 	 * @return
 	 */
@@ -203,23 +229,10 @@ public class CoalaLog4jLogger extends Logger
 	{
 		int i = 4;
 		StackTraceElement elem = Thread.currentThread().getStackTrace()[i];
-		while (
-		// elem.getClassName().startsWith(
-		// org.apache.log4j.Logger.class.getPackage().getName())
-		// ||
-		elem.getClassName().startsWith(
-				org.apache.commons.logging.Log.class.getPackage().getName())
-				|| elem.getClassName().startsWith(
-						org.slf4j.Logger.class.getPackage().getName())
-				|| elem.getClassName().startsWith(
-						java.util.logging.Logger.class.getPackage().getName()))
+		while (isLoggingPackage(elem.getClassName()))
 			elem = Thread.currentThread().getStackTrace()[++i];
-		// if (elem.getClassName().contains("slf4j"))
-		// for (StackTraceElement e : Thread.currentThread().getStackTrace())
-		// System.err.println(e.getClassName() + e.getMethodName()
-		// + e.getLineNumber());
 		return String.format(METHOD_AFFIX_FORMAT, elem.getClassName(),
-				elem.getMethodName(), elem.getLineNumber());
+				elem.getMethodName(), elem.getFileName(), elem.getLineNumber());
 	}
 
 	@Override

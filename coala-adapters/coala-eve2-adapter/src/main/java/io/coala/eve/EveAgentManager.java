@@ -187,6 +187,17 @@ public class EveAgentManager extends AbstractAgentManager
 	private final Map<AgentID, List<String>> agentURLs = Collections
 			.synchronizedMap(new HashMap<AgentID, List<String>>());
 
+	protected void setExposed(final AgentID agentID, final Object exposed)
+			throws Exception
+	{
+		final String agentId = EveUtil.toEveAgentId(agentID);
+		if (!EveUtil.getEveHost().hasAgent(agentId))
+			throw new IllegalStateException("No wrapper agent for: " + agentID);
+
+		((EveExposingAgent) EveUtil.getEveHost().getAgent(agentId))
+				.setExposed(exposed);
+	}
+
 	/**
 	 * @param agentID
 	 * @param eveURLs

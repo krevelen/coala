@@ -96,13 +96,16 @@ public enum ResourceType
 		public static final ContentType TEXT_XML = create(
 		        "text/xml", Consts.ISO_8859_1);
 		*/
+		final int pos = mimeType.indexOf(';');
+		final String canonical = pos < 0 ? mimeType : mimeType
+				.substring(0, pos);
 		for (ResourceType value : values())
 			if (value.mimeTypes != null && value.mimeTypes.length != 0)
 				for (String type : value.mimeTypes)
-					if (type.equals(mimeType))
+					if (type.equals(canonical))
 						return value;
 
-		LOG.trace("No matching type for MIME type: " + mimeType
+		LOG.warn("No matching type for MIME type: " + mimeType
 				+ ", using default");
 		return TEXT;
 	}

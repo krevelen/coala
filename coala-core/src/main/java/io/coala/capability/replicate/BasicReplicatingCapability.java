@@ -128,16 +128,16 @@ public class BasicReplicatingCapability extends BasicCapability implements
 	 * @param binder
 	 */
 	@Inject
-	protected BasicReplicatingCapability(final Binder binder, final ClockID clockID,
-			final TimeUnit timeUnit)
+	protected BasicReplicatingCapability(final Binder binder)
 	{
 		super(binder);
-		this.clockID = clockID;
-		this.timeUnit = timeUnit;
+		final ReplicationConfig cfg = binder.inject(ReplicationConfig.class);
+		this.clockID = cfg.getClockID();
+		this.timeUnit = cfg.getBaseTimeUnit();
 		this.timeUpdates = BehaviorSubject.create(binder.inject(
-				SimTimeFactory.class).create(Double.NaN, timeUnit));
-		final ClockStatusUpdate initStatus = new ClockStatusUpdateImpl(clockID,
-				ClockStatusEnum.CREATED);
+				SimTimeFactory.class).create(Double.NaN, this.timeUnit));
+		final ClockStatusUpdate initStatus = new ClockStatusUpdateImpl(
+				this.clockID, ClockStatusEnum.CREATED);
 		this.statusUpdates = BehaviorSubject.create(initStatus);
 	}
 

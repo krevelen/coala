@@ -81,7 +81,7 @@ public class BasicOnlineCapability extends BasicCapability implements
 	@Override
 	public ResourceStreamer request(final URI uri, final ResourceType resultType)
 	{
-		return ResourceStreamer.from(resultType, uri);
+		return request(uri, HttpMethod.GET, resultType);
 	}
 
 	@Override

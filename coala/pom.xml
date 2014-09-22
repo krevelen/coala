@@ -21,8 +21,14 @@
 
 		<module>../coala-adapters/coala-guice3-adapter</module>
 
-<!-- 
+<!-- -->
 		<module>../mavenized-3rd-party/aglobe</module>
+
+		<module>../mavenized-3rd-party/jade-semantics-addon</module>
+
+		<module>../mavenized-3rd-party/jason</module>
+<!-- -->
+ 
 		<module>../coala-adapters/coala-aglobe5-adapter</module>
 
 		<module>../coala-adapters/coala-dsol2-adapter</module>
@@ -35,10 +41,8 @@
 
 		<module>../coala-adapters/coala-jade4-adapter</module>
 
-		<module>../mavenized-3rd-party/jade-semantics-addon</module>
 		<module>../coala-adapters/coala-jsa-adapter</module>
 
-		<module>../mavenized-3rd-party/jason</module>
 		<module>../coala-adapters/coala-jason-adapter</module>
 
 		<module>../coala-adapters/coala-nodyn-adapter</module>
@@ -46,7 +50,6 @@
 		<module>../coala-enterprise-ontology</module>
 
 		<module>../coala-examples</module>
- -->
 	</modules>
 
 	<properties>
@@ -89,8 +92,7 @@
 		<maven-clean-plugin.version>2.5</maven-clean-plugin.version>
 		<maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
 		<maven-surefire-plugin.version>2.15</maven-surefire-plugin.version>
-		<maven-source-plugin.version>2.1.2</maven-source-plugin.version>
-		<maven-resources-plugin.version>2.5</maven-resources-plugin.version>
+		<maven-source-plugin.version>2.3</maven-source-plugin.version>
 		<maven-antrun-plugin.version>1.7</maven-antrun-plugin.version>
 		<xmlbeans-maven-plugin.version>2.3.3</xmlbeans-maven-plugin.version>
 		<maven-war-plugin.version>2.4</maven-war-plugin.version>

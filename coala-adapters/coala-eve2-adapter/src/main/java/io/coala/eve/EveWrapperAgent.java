@@ -54,7 +54,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  * 
  */
 public class EveWrapperAgent extends com.almende.eve.agent.Agent implements
-		EveSenderAgent, EveReceiverAgent, Observer<AgentStatusUpdate>
+		Observer<AgentStatusUpdate>, EveSenderAgent, EveReceiverAgent,
+		EveExposingAgent
 {
 
 	/** */
@@ -203,8 +204,9 @@ public class EveWrapperAgent extends com.almende.eve.agent.Agent implements
 	}
 
 	@Override
-	public final void onDestroy()
+	public final void onDelete()
 	{
+		super.onDelete();
 		final AgentID agentID = getAgentID();
 		final List<String> addresses = EveAgentManager.getInstance()
 				.getAddress(agentID);
@@ -238,6 +240,21 @@ public class EveWrapperAgent extends com.almende.eve.agent.Agent implements
 		((MessageHandler) EveAgentManager.getInstance()
 				.getAgent(getAgentID(), true).getBinder()
 				.inject(ReceivingCapability.class)).onMessage(payload);
+	}
+
+	@Override
+	public void setExposed(final Object exposed)
+	{
+		getState().put(NAMESPACE, exposed);
+		// LOG.trace("Stored exposed object: " + exposed);
+	}
+
+	@Override
+	public Object getExposed()
+	{
+		final Object result = getState().get(NAMESPACE, Object.class);
+		// LOG.trace("Getting exposed object: " + result);
+		return result;
 	}
 
 }

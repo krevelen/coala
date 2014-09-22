@@ -27,7 +27,6 @@ import io.coala.log.LogUtil;
 import io.coala.message.Message;
 import io.coala.resource.FileUtil;
 import io.coala.util.Util;
-import io.coala.web.WebUtil;
 
 import java.net.URI;
 import java.util.HashMap;
@@ -110,7 +109,8 @@ public class EveUtil implements Util
 	 */
 	protected static String toEveAgentId(final AgentID agentID)
 	{
-		final String result = WebUtil.urlEncode(agentID.toString());
+		final String result = agentID.toString();
+		// WebUtil.urlEncode(agentID.toString());
 		AGENT_ID_CACHE.put(result, agentID);
 		return result;
 	}

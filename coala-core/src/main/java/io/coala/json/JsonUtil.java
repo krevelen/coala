@@ -182,4 +182,13 @@ public class JsonUtil implements Util
 		}
 	}
 
+	/**
+	 * @param profile
+	 * @return
+	 */
+	public static JsonNode toJSON(final Object object)
+	{
+		return getJOM().valueToTree(object);
+	}
+
 }
