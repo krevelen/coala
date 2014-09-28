@@ -32,6 +32,7 @@ import io.coala.exception.CoalaException;
 import io.coala.exception.CoalaRuntimeException;
 import io.coala.factory.Factory;
 import io.coala.json.JsonUtil;
+import io.coala.log.LogUtil;
 
 import java.util.HashMap;
 import java.util.List;
@@ -41,6 +42,7 @@ import java.util.Map.Entry;
 import org.aeonbits.owner.Config;
 import org.aeonbits.owner.ConfigFactory;
 import org.aeonbits.owner.Mutable;
+import org.apache.log4j.Logger;
 
 /**
  * {@link BinderFactoryConfig}
@@ -128,6 +130,10 @@ public interface BinderFactoryConfig extends Config
 	{
 
 		/** */
+		private static final Logger LOG = LogUtil
+				.getLogger(BinderFactoryConfig.Builder.class);
+		
+		/** */
 		private Class<? extends BinderFactory> binderFactoryType;
 
 		/** */
@@ -187,7 +193,7 @@ public interface BinderFactoryConfig extends Config
 					.setProperty(ConfigUtil.FILE_NAME_PROPERTY, configPath);
 			final ReplicationConfig cfg = ConfigFactory
 					.create(ReplicationConfig.class);
-			System.err.println("Loaded ReplicationConfig: " + cfg);
+			LOG.trace("Loaded ReplicationConfig: " + cfg);
 
 			builder.withReplicationConfig(cfg);
 
@@ -244,8 +250,8 @@ public interface BinderFactoryConfig extends Config
 		{
 			final ReplicationConfig cfg = config.getReplicationConfig();
 
-			System.err.println("Loaded ReplicationConfig: "
-					+ JsonUtil.toPrettyJSON(cfg));
+			// LOG.trace("Loaded ReplicationConfig: "
+			// + JsonUtil.toPrettyJSON(cfg));
 
 			final Builder builder = new Builder();
 

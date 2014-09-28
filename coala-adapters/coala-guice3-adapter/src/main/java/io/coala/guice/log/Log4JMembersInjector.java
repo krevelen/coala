@@ -65,9 +65,9 @@ class Log4JMembersInjector<T> implements MembersInjector<T>
 		final Logger logger = LogUtil.getLogger(t.getClass(), t);
 		final String actualPrefix = ((CoalaLog4jLogger) logger).getPrefix();
 		if (!actualPrefix.equals(prefix))
-			new IllegalStateException("Injecting logger for " + t.getClass()
+			LOG.warn("Injecting logger for " + t.getClass()
 					+ " with wrong name prefix: " + actualPrefix
-					+ " should be: " + prefix).printStackTrace();
+					+ " should be: " + prefix);
 		try
 		{
 			this.field.set(t, logger);
