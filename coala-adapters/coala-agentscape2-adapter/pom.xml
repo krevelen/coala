@@ -15,7 +15,7 @@
 	<name>${project.artifactId}</name>
 	<description>
 		Utility and demo code for the AgentScape agent platform
-		$Id$
+		$Id: 9ece685718bca5ae606aeab869def2f137aa2167 $
 		$URL: https://dev.almende.com/svn/abms/agentscape-util/pom.xml $
 	</description>
 	<url>http://agentscape.org/</url>
@@ -23,7 +23,7 @@
 	<properties>
 		<agentscape.version>2.0-m5</agentscape.version>
 		<!-- make sure the environment variable AGENTSCAPE_HOME is set to your 
-			local AgentScape 2.0-m5 installation directory -->
+			local AgentScape installation directory, typically: ${user.home}/agentscape -->
 		<org.iids.aos.install.path>${env.AGENTSCAPE_HOME}</org.iids.aos.install.path>
 	</properties>
 
@@ -88,7 +88,10 @@
 									</pluginExecutionFilter>
 									<action>
 										<!-- Ignore dependency copying in IDE (re)builds -->
-										<ignore />
+										<execute>
+											<runOnConfiguration>true</runOnConfiguration>
+											<runOnIncremental>false</runOnIncremental>
+										</execute>
 									</action>
 								</pluginExecution>
 							</pluginExecutions>

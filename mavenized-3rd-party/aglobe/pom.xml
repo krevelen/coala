@@ -17,7 +17,7 @@
 	<name>Almende's AGlobe modified version</name>
 	<url>http://exile.felk.cvut.cz/aglobe/</url>
 	<description>
-		$Id$
+		$Id: 36a9ae2d5e11fbaf82f9390c81f7c8024d49e9f5 $
 		$URL: https://redmine.almende.com/svn/a4eesim/trunk/adapt4ee-sim/pom.xml$
 	</description>
 
@@ -108,7 +108,10 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<execute />
+										<execute>
+											<runOnConfiguration>true</runOnConfiguration>
+											<runOnIncremental>false</runOnIncremental>
+										</execute>
 									</action>
 								</pluginExecution>
 

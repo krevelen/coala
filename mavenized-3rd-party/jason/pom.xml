@@ -37,7 +37,7 @@
 	</developers>
 	<description>
 		Mavenized version of original Jason distribution
-		$Id$
+		$Id: 64668c4f30d4035664b68352b958355fe2e80f7a $
 		$URL: https://dev.almende.com/svn/abms/jason/pom.xml $
 	</description>
 
@@ -175,7 +175,10 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<execute />
+										<execute>
+											<runOnConfiguration>true</runOnConfiguration>
+											<runOnIncremental>false</runOnIncremental>
+										</execute>
 									</action>
 								</pluginExecution>
 

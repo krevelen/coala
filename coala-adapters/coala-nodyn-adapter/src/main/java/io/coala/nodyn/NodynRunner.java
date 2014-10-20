@@ -1,4 +1,4 @@
-/* $Id$
+/* $Id: ebf4ffc23678f8320483abb2accaf9effc337681 $
  * $URL: https://dev.almende.com/svn/abms/coala-nodyn-adapter/src/main/java/io/coala/nodyn/NodynRunner.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/
@@ -22,10 +22,10 @@ package io.coala.nodyn;
 
 import io.coala.log.LogUtil;
 import io.coala.resource.ResourceStreamer;
-import io.nodyn.Nodyn;
-import io.nodyn.NodynConfig;
 
 import org.apache.log4j.Logger;
+import org.dynjs.Config;
+import org.dynjs.runtime.DynJS;
 import org.vertx.java.spi.cluster.impl.hazelcast.HazelcastClusterManagerFactory;
 
 import rx.Observable;
@@ -47,17 +47,17 @@ public class NodynRunner
 	private static final Logger LOG = LogUtil.getLogger(NodynRunner.class);
 
 	/** */
-	private static Nodyn nodyn = null;
+	private static DynJS nodyn = null;
 
 	/**
 	 * @return
 	 */
-	public synchronized static Nodyn getRuntime()
+	public synchronized static DynJS getRuntime()
 	{
 		if (nodyn == null)
 		{
 			System.setProperty("dynjs.require.path", "node_modules");
-			final NodynConfig config = new NodynConfig();
+			final Config config = new Config();
 			// TODO import Nodyn config parameters, e.g. from properties
 			final boolean clustered = true;
 
@@ -66,10 +66,10 @@ public class NodynRunner
 			{
 				System.setProperty("vertx.clusterManagerFactory",
 						HazelcastClusterManagerFactory.class.getName());
-				config.setClustered(true);
-				config.setHost("localhost");
+//				config.setClustered(true);
+//				config.setHost("localhost");
 			}
-			nodyn = new Nodyn(config);
+			nodyn = new DynJS(config);
 		}
 		return nodyn;
 	}
@@ -82,7 +82,7 @@ public class NodynRunner
 		// LOG.trace("env vars: " + JsonUtil.toPrettyJSON(System.getenv()));
 		LOG.trace("Evaluating script:\n" + source);
 
-		final Nodyn runtime = getRuntime();
+		final DynJS runtime = getRuntime();
 		//runtime.getDefaultExecutionContext().get
 		// FIXME keep asynchronous!
 //		final Object result = runtime.evaluate(source);

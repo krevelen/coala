@@ -1,4 +1,4 @@
-/* $Id$
+/* $Id: b221679e8be43e190baddff1012a0e0379f4d5ec $
  * $URL: https://dev.almende.com/svn/abms/jason-util/src/test/java/com/almende/jason/TestEnvironment.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/
@@ -21,6 +21,7 @@
 package com.almende.jason;
 
 import io.coala.log.LogUtil;
+import jason.NoValueException;
 import jason.asSyntax.Atom;
 import jason.asSyntax.ListTerm;
 import jason.asSyntax.Literal;
@@ -40,40 +41,51 @@ import org.apache.log4j.Logger;
  * @author <a href="mailto:Rick@almende.org">Rick</a>
  *
  */
-public class TestEnvironment extends Environment
-{
-    
+public class TestEnvironment extends Environment {
+
 	/** */
 	private static final Logger LOG = LogUtil.getLogger(TestEnvironment.class);
-	
-    /**
-     * Executes an action on the environment. This method is probably overridden in the user environment class.
-     */
-    public boolean executeAction(final String agName, final Structure act) {
-    	if(act.getFunctor().equals("show"))
-    	{
-    		final Number generation = ((NumberTerm)((VarTerm)act.getTerm(0)).getValue()).solve();
-    		final Number width = ((NumberTerm)((VarTerm)act.getTerm(1)).getValue()).solve();
-    		final Number height = ((NumberTerm)((VarTerm)act.getTerm(2)).getValue()).solve();
-    		final String[] states = new String[width.intValue()*height.intValue()];
-    		for(Term item : ((ListTerm)((VarTerm)act.getTerm(3)).getValue()).getAsList())
-    			states[Integer.valueOf(((Atom)((Literal)item).getTerm(0)).getFunctor().substring(4))] = ((Atom)((Literal)item).getTerm(1)).getFunctor();
-    		final StringBuilder lattice = new StringBuilder(String.format("generation %d",generation.intValue()));
-    		for(int y = 0; y < height.intValue() ; y++)
-    		{
-    			lattice.append("\n\t[");
-    			for(int x = 0; x < width.intValue() ; x++)
-    			{
-    				String state = states[y*height.intValue()+x];
-        			lattice.append(' ').append(state==null?' ':state.equals("dead")?'.':'X');
-    			}
-    			lattice.append(" ]");
-    		}
-     		LOG.info(lattice.toString());
-    	}
-    	else
-    		LOG.info("Got action "+act.getFunctor()+"/"+act.getArity()+" from "+agName);
-        return true;
-    }
+
+	/**
+	 * Executes an action on the environment. This method is probably overridden
+	 * in the user environment class.
+	 */
+	public boolean executeAction(final String agName, final Structure act) {
+		if (act.getFunctor().equals("show")) {
+			try {
+				final Number generation = ((NumberTerm) ((VarTerm) act
+						.getTerm(0)).getTerm()).solve();
+				final Number width = ((NumberTerm) ((VarTerm) act.getTerm(1))
+						.getTerm()).solve();
+				final Number height = ((NumberTerm) ((VarTerm) act.getTerm(2))
+						.getTerm()).solve();
+				final String[] states = new String[width.intValue()
+						* height.intValue()];
+				for (Term item : ((ListTerm) ((VarTerm) act.getTerm(3))
+						.getTerm()).getAsList())
+					states[Integer.valueOf(((Atom) ((Literal) item).getTerm(0))
+							.getFunctor().substring(4))] = ((Atom) ((Literal) item)
+							.getTerm(1)).getFunctor();
+				final StringBuilder lattice = new StringBuilder(String.format(
+						"generation %d", generation.intValue()));
+				for (int y = 0; y < height.intValue(); y++) {
+					lattice.append("\n\t[");
+					for (int x = 0; x < width.intValue(); x++) {
+						String state = states[y * height.intValue() + x];
+						lattice.append(' ').append(
+								state == null ? ' '
+										: state.equals("dead") ? '.' : 'X');
+					}
+					lattice.append(" ]");
+				}
+				LOG.info(lattice.toString());
+			} catch (final NoValueException e) {
+				LOG.warn("Problem obtaining values from term", e);
+			}
+		} else
+			LOG.info("Got action " + act.getFunctor() + "/" + act.getArity()
+					+ " from " + agName);
+		return true;
+	}
 
 }
