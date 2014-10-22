@@ -21,11 +21,11 @@
 	<url>http://agentscape.org/</url>
 
 	<properties>
-		<agentscape.version>2.0-m5</agentscape.version>
+		<agentscape.version>2.0.0</agentscape.version>
 		<!-- make sure the environment variable AGENTSCAPE_HOME is set to your 
 			local AgentScape installation directory, typically: ${user.home}/agentscape -->
 		<!-- <org.iids.aos.install.path>${env.AGENTSCAPE_HOME}</org.iids.aos.install.path> -->
-		<org.iids.aos.install.path>${basedir}/agentscape</org.iids.aos.install.path>
+		<org.iids.aos.install.path>${user.home}/agentscape</org.iids.aos.install.path>
 	</properties>
 
 	<repositories>
