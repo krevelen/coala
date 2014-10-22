@@ -15,7 +15,7 @@
 	<name>${project.artifactId}</name>
 	<description>
 		Utility and demo code for the Apache commons HTTP client implementation
-		$Id$
+		$Id: 19b3b0d13fca56631a16208a64c6cc0c469995b7 $
 		$URL: https://dev.almende.com/svn/abms/coala-httpcomponents-adapter/pom.xml $
 	</description>
 

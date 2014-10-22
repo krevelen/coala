@@ -15,7 +15,7 @@
 	<name>${project.artifactId}</name>
 	<description>
 		Utility and demo code for the Evolutionary Computation for Java (ECJ) toolkit
-		$Id$
+		$Id: 4c883a68831272f88517ca8844661c671f4486b8 $
 		$URL: https://dev.almende.com/svn/abms/ecj-util/pom.xml $
 	</description>
 	<url>http://cs.gmu.edu/~eclab/projects/ecj/</url>

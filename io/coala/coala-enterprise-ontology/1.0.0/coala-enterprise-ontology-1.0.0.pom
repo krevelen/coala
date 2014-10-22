@@ -15,7 +15,7 @@
 	<name>${project.artifactId}</name>
 	<description>
 		Utility and demo code for applying the DEMO ontology
-		$Id$
+		$Id: 0fcf0cd14a2d5c81b260040c61ff2a5dedc20910 $
 		$URL: https://dev.almende.com/svn/abms/enterprise-ontology/pom.xml $
 	</description>
 	<url>https://demo.nl/</url>
@@ -156,7 +156,10 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<ignore />
+										<execute>
+											<runOnConfiguration>true</runOnConfiguration>
+											<runOnIncremental>false</runOnIncremental>
+										</execute>
 									</action>
 								</pluginExecution>
 
@@ -204,7 +207,10 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<ignore />
+										<execute>
+											<runOnConfiguration>true</runOnConfiguration>
+											<runOnIncremental>false</runOnIncremental>
+										</execute>
 									</action>
 								</pluginExecution>
 

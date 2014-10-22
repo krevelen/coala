@@ -15,7 +15,7 @@
 	<name>${project.artifactId}</name>
 	<description>
 		Example code for the sim-common artifact
-		$Id$
+		$Id: cc95d19288b329951a71073fb6e46600acd90450 $
 		$URL: https://dev.almende.com/svn/abms/coala-examples/pom.xml $
 	</description>
 	<url>http://sim.almende.com/</url>

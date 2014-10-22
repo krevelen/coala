@@ -3,10 +3,10 @@
   <groupId>jason</groupId>
   <artifactId>jason</artifactId>
   <versioning>
-    <release>1.4.0a</release>
+    <release>1.4.1</release>
     <versions>
-      <version>1.4.0a</version>
+      <version>1.4.1</version>
     </versions>
-    <lastUpdated>20140911141044</lastUpdated>
+    <lastUpdated>20141022105651</lastUpdated>
   </versioning>
 </metadata>

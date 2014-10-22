@@ -15,7 +15,7 @@
 	<name>${project.artifactId} ${project.version}</name>
 	<description>
 		Utility and demo code for Guice dependency injection
-		$Id$
+		$Id: 78ba7a4dea8d76bd1bfb9c6cc3f101c23d99428d $
 		$URL: https://dev.almende.com/svn/abms/guice-util/pom.xml $
 	</description>
 	<url>https://code.google.com/p/google-guice/</url>

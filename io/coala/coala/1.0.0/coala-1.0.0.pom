@@ -21,7 +21,14 @@
 
 		<module>../coala-adapters/coala-guice3-adapter</module>
 
+<!-- -->
 		<module>../mavenized-3rd-party/aglobe</module>
+
+		<module>../mavenized-3rd-party/jade-semantics-addon</module>
+
+		<module>../mavenized-3rd-party/jason</module>
+<!-- -->
+ 
 		<module>../coala-adapters/coala-aglobe5-adapter</module>
 
 		<module>../coala-adapters/coala-dsol2-adapter</module>
@@ -34,10 +41,8 @@
 
 		<module>../coala-adapters/coala-jade4-adapter</module>
 
-		<module>../mavenized-3rd-party/jade-semantics-addon</module>
 		<module>../coala-adapters/coala-jsa-adapter</module>
 
-		<module>../mavenized-3rd-party/jason</module>
 		<module>../coala-adapters/coala-jason-adapter</module>
 
 		<module>../coala-adapters/coala-nodyn-adapter</module>

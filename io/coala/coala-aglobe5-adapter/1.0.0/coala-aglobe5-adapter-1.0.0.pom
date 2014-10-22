@@ -15,7 +15,7 @@
 	<name>${project.artifactId}</name>
 	<description>
 		Utility and demo code for the AGLOBE agent platform
-		$Id$
+		$Id: 45f44b1940f074230a250d5c4677653f429ea458 $
 		$URL: https://dev.almende.com/svn/abms/aglobe-util/pom.xml $
 	</description>
 	<url>http://exile.felk.cvut.cz/aglobe/</url>

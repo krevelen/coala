@@ -15,7 +15,7 @@
 	<name>${project.artifactId}</name>
 	<description>
 		Utility and demo code for the Eve agent platform
-		$Id$
+		$Id: 5f8c76ce156cb31e5712d261c56c29da73068dba $
 		$URL: https://dev.almende.com/svn/abms/eve-util/pom.xml $
 	</description>
 	<url>https://eve.almende.com/</url>
