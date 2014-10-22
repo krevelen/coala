@@ -15,7 +15,7 @@
 	<name>${project.artifactId}</name>
 	<description>
 		Utility and demo code for the AGLOBE agent platform
-		$Id$
+		$Id: 45f44b1940f074230a250d5c4677653f429ea458 $
 		$URL: https://dev.almende.com/svn/abms/aglobe-util/pom.xml $
 	</description>
 	<url>http://exile.felk.cvut.cz/aglobe/</url>
@@ -25,6 +25,20 @@
 	</properties>
 
 	<repositories>
+		<!-- COALA public Maven repository -->
+		<repository>
+			<name>COALA Public Maven Repository</name>
+			<id>coala-public</id>
+			<url>https://github.com/krevelen/coala/raw/mvn-repo/</url>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>daily</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+				<updatePolicy>never</updatePolicy>
+			</snapshots>
+		</repository>
 	</repositories>
 
 	<dependencies>
