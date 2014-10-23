@@ -50,3 +50,4 @@ middleware
 wildcards
 sniffable
 système
+illuminance

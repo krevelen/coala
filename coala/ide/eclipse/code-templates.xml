@@ -5,8 +5,8 @@
  */</template><template autoinsert="false" context="constructorcomment_context" deleted="false" description="Comment for created constructors" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.constructorcomment" name="constructorcomment">/**
  * {@link ${enclosing_type}} constructor
  * ${tags}
- */</template><template autoinsert="false" context="filecomment_context" deleted="false" description="Comment for created Java files" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.filecomment" name="filecomment">/* $$Id: code-templates.xml 998 2014-07-21 08:47:09Z krevelen $$
- * $$URL: https://redmine.almende.com/svn/a4eesim/trunk/adapt4ee/dev/eclipse/code-templates.xml $$
+ */</template><template autoinsert="false" context="filecomment_context" deleted="false" description="Comment for created Java files" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.filecomment" name="filecomment">/* $$Id$$
+ * $$URL$$
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/
  * 
@@ -27,8 +27,8 @@
  */</template><template autoinsert="false" context="typecomment_context" deleted="false" description="Comment for created types" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.typecomment" name="typecomment">/**
  * {@link ${type_name}}
  * 
- * @date $$Date: 2014-07-21 10:47:09 +0200 (Mon, 21 Jul 2014) $$
- * @version $$Revision: 998 $$
+ * @date $$Date$$
+ * @version $$Revision$$
  * @author &lt;a href="mailto:${user}@almende.org"&gt;${user}&lt;/a&gt;
  *
  * ${tags}
