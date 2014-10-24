@@ -1,4 +1,4 @@
-/* $Id$
+/* $Id: 599adb6ed329ecf47b6698a25755027568161d8f $
  * $URL: https://dev.almende.com/svn/abms/coala-common/src/main/java/com/almende/coala/config/AbstractPropertyGetter.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/
@@ -592,7 +592,6 @@ public abstract class AbstractPropertyGetter implements PropertyGetter
 			{
 				new IllegalArgumentException("Could not set type from config: "
 						+ entry, t).printStackTrace();
-				;
 			}
 		}
 		return result;

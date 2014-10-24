@@ -1,4 +1,4 @@
-/* $Id$
+/* $Id: bce97ab3ccc0bc9e51086e1bd8be65bf0d17a392 $
  * $URL: https://dev.almende.com/svn/abms/coala-common/src/main/java/com/almende/coala/service/messenger/ReceiverService.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/
@@ -49,7 +49,11 @@ public interface ExposingCapability extends Capability<BasicCapabilityStatus>
 		// empty
 	}
 
-	/** expose some Java interface */
+	/** 
+	 * expose some Java interface
+	 * TODO add channel/transport identifier
+	 * TODO return the URI of exposed/advertised implementation 
+	 */
 	@JsonIgnore
 	<T extends Serializable> void expose(Class<T> api, T implementation);
 
