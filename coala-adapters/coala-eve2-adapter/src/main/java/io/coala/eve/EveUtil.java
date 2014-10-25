@@ -1,4 +1,4 @@
-/* $Id$
+/* $Id: e72a53373ffafd1e2d2135349896a7825a3546d0 $
  * $URL: https://dev.almende.com/svn/abms/eve-util/src/main/java/com/almende/coala/eve/EveUtil.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/
@@ -108,7 +108,7 @@ public class EveUtil implements Util
 	 * @param agentID
 	 * @return
 	 */
-	protected static String toEveAgentId(final AgentID agentID)
+	public static String toEveAgentId(final AgentID agentID)
 	{
 		// be robust against spaces, weird characters, etc.
 		final String result = WebUtil.urlEncode(agentID.toString());
@@ -120,7 +120,7 @@ public class EveUtil implements Util
 	 * @param agentID
 	 * @return
 	 */
-	protected static URI getAddress(final AgentID agentID)
+	public static URI getAddress(final AgentID agentID)
 	{
 		// FIXME create/employ global lookup service/agent
 		return URI.create("local:" + toEveAgentId(agentID));

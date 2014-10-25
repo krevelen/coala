@@ -1,4 +1,4 @@
-/* $Id$
+/* $Id: f9b22586ee718889638ffeb83241f6d4b9b02f3c $
  * $URL: https://dev.almende.com/svn/abms/coala-common/src/main/java/com/almende/coala/bind/BinderFactoryConfig.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/
@@ -31,7 +31,6 @@ import io.coala.config.ConfigUtil;
 import io.coala.exception.CoalaException;
 import io.coala.exception.CoalaRuntimeException;
 import io.coala.factory.Factory;
-import io.coala.json.JsonUtil;
 import io.coala.log.LogUtil;
 
 import java.util.HashMap;
@@ -132,7 +131,7 @@ public interface BinderFactoryConfig extends Config
 		/** */
 		private static final Logger LOG = LogUtil
 				.getLogger(BinderFactoryConfig.Builder.class);
-		
+
 		/** */
 		private Class<? extends BinderFactory> binderFactoryType;
 
@@ -189,8 +188,9 @@ public interface BinderFactoryConfig extends Config
 			builder.withBinderFactoryType(CoalaProperty.binderFactoryType
 					.value().getType(BinderFactory.class));
 
-			ConfigFactory
-					.setProperty(ConfigUtil.FILE_NAME_PROPERTY, configPath);
+			if (configPath != null)
+				ConfigFactory.setProperty(ConfigUtil.FILE_NAME_PROPERTY,
+						configPath);
 			final ReplicationConfig cfg = ConfigFactory
 					.create(ReplicationConfig.class);
 			LOG.trace("Loaded ReplicationConfig: " + cfg);

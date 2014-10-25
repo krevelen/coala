@@ -1,4 +1,4 @@
-/* $Id$
+/* $Id: f3f6ca48daeda7da2d0f637bd4e0d9e8c68f1cc1 $
  * $URL: https://dev.almende.com/svn/abms/coala-httpcomponents-adapter/src/main/java/io/coala/http/ApacheHTTPClientService.java $
  * 
  * Part of the EU project INERTIA, see http://www.inertia-project.eu/inertia/
@@ -292,7 +292,7 @@ public class FluentHCOnlineCapability extends BasicOnlineCapability
 			final HttpMethod method, final ResourceType resultType,
 			final ResourceStreamer content, final Map.Entry... formData)
 	{
-		LOG.trace("Requesting @ " + uri);
+		LOG.trace(method + " " + uri);
 		return ResourceStreamer.from(Observable
 				.create(new OnSubscribe<ResourceStream>()
 				{
@@ -556,7 +556,7 @@ public class FluentHCOnlineCapability extends BasicOnlineCapability
 					latch.await(3, TimeUnit.SECONDS);
 					secs++;
 				}
-*/				
+*/
 			} catch (final Exception e)
 			{
 				subscriber.onError(e);

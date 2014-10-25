@@ -1,4 +1,4 @@
-/* $Id$
+/* $Id: f2df2e9042082e82b957262ff266537b02a12842 $
  * $URL: https://dev.almende.com/svn/abms/guice-util/src/main/java/io/coala/guice/GuiceBinderFactory.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/
@@ -28,6 +28,7 @@ import io.coala.agent.BasicAgentStatus;
 import io.coala.bind.BinderFactory;
 import io.coala.bind.BinderFactoryConfig;
 import io.coala.exception.CoalaExceptionFactory;
+import io.coala.json.JsonUtil;
 import io.coala.log.LogUtil;
 
 import java.util.Collections;
@@ -154,7 +155,14 @@ public class GuiceBinderFactory implements BinderFactory
 			{
 				return BasicAgentStatus.CREATED;
 			}
+			
+			@Override
+			public String toString()
+			{
+				return JsonUtil.toJSONString(this);
+			}
 		};
+		
 		final Subject<AgentStatusUpdate, AgentStatusUpdate> behaviorSubject = BehaviorSubject
 				.create(defaultValue);
 
