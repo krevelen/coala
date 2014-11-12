@@ -1,4 +1,4 @@
-/* $Id$
+/* $Id: bb830e6692b6329df6ad5516530bc652aed51cea $
  * $URL: https://dev.almende.com/svn/abms/coala-examples/src/main/java/io/coala/example/conway/CellWorldLattice.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/
@@ -142,9 +142,9 @@ public class CellWorldLattice extends BasicCapability implements CellWorld
 
 		this.transitions.subscribe(GLOBAL_TRANSITIONS);
 
-		if (getID().getClientID() instanceof CellID)
+		if (getID().getOwnerID() instanceof CellID)
 		{
-			final CellID myID = (CellID) getID().getClientID();
+			final CellID myID = (CellID) getID().getOwnerID();
 			final LifeState startState = getInitialStates().get(myID.getRow())
 					.get(myID);
 

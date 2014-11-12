@@ -1,4 +1,4 @@
-/* $Id$
+/* $Id: 2b9e18395fa592123fbfee75edf41de5d7f1cf7c $
  * $URL: https://dev.almende.com/svn/abms/coala-common/src/main/java/com/almende/coala/util/RxUtil.java $
  *  
  * Part of the EU project All4Green, see http://www.all4green-project.eu/
@@ -126,8 +126,8 @@ public class RxUtil implements Util
 	 * @param source the {@link Observable} of which the first emitted object
 	 *            will be returned, blocking the current thread until it does
 	 * @return the first observed/emitted object
-	 * @throws Throwable the first error that was occurred before the first
-	 *             object was observed
+	 * @throws Throwable the first error that occurred before the first object
+	 *             was emitted
 	 */
 	public static <T> T awaitFirst(final Observable<T> source)
 	{

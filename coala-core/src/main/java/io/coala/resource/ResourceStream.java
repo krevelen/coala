@@ -1,4 +1,4 @@
-/* $Id$
+/* $Id: 2e37e887babea6c5810ecae658bb593070d235f2 $
  * $URL: https://dev.almende.com/svn/abms/coala-common/src/main/java/com/almende/coala/service/resource/ResourceStream.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/
@@ -106,6 +106,7 @@ public class ResourceStream
 		return this.path;
 	}
 
+	/** Writes the {@link InputStream} to a {@link String} */
 	@Override
 	public String toString()
 	{

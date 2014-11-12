@@ -1,4 +1,4 @@
-/* $Id$
+/* $Id: 58ad1d3b30d2aa3c0e99d93990f66bd04a574a05 $
  * $URL: https://dev.almende.com/svn/abms/coala-common/src/main/java/com/almende/coala/service/ServiceID.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/
@@ -83,7 +83,7 @@ public class CapabilityID extends ModelComponentID<String>
 	/**
 	 * @return the identifier of the {@link AgentID} using this {@link Capability}
 	 */
-	public AgentID getClientID()
+	public AgentID getOwnerID()
 	{
 		return this.clientID;
 	}
@@ -100,7 +100,7 @@ public class CapabilityID extends ModelComponentID<String>
 	@Override
 	public String toString()
 	{
-		return getClientID().toString() + "::" + getType().getSimpleName();
+		return getOwnerID().toString() + "::" + getType().getSimpleName();
 	}
 
 	/** @see AbstractIdentifier#hashCode() */
@@ -112,7 +112,7 @@ public class CapabilityID extends ModelComponentID<String>
 		final int prime = 31;
 		int result = super.hashCode(); // ID value hash code
 		result = prime * result
-				+ (getClientID() == null ? 0 : getClientID().hashCode());
+				+ (getOwnerID() == null ? 0 : getOwnerID().hashCode());
 		return result;
 	}
 
@@ -129,11 +129,11 @@ public class CapabilityID extends ModelComponentID<String>
 			return false;
 
 		final CapabilityID that = (CapabilityID) other;
-		if (getClientID() == null)
+		if (getOwnerID() == null)
 		{
-			if (that.getClientID() != null)
+			if (that.getOwnerID() != null)
 				return false;
-		} else if (!getClientID().equals(that.getClientID()))
+		} else if (!getOwnerID().equals(that.getOwnerID()))
 			return false;
 		return super.equals(other);
 	}
@@ -144,8 +144,8 @@ public class CapabilityID extends ModelComponentID<String>
 	{
 		// FIXME apply some common strategy via Visitor design pattern
 
-		final int modelIDCompare = getClientID().compareTo(
-				((CapabilityID) other).getClientID());
+		final int modelIDCompare = getOwnerID().compareTo(
+				((CapabilityID) other).getOwnerID());
 		if (modelIDCompare != 0)
 			return modelIDCompare;
 		return getValue().compareTo(other.getValue());

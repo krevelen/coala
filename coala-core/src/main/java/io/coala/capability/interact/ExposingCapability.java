@@ -20,11 +20,13 @@
  */
 package io.coala.capability.interact;
 
-import java.io.Serializable;
-
 import io.coala.capability.BasicCapabilityStatus;
 import io.coala.capability.Capability;
 import io.coala.capability.CapabilityFactory;
+
+import java.io.Serializable;
+import java.net.URI;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -49,12 +51,17 @@ public interface ExposingCapability extends Capability<BasicCapabilityStatus>
 		// empty
 	}
 
-	/** 
-	 * expose some Java interface
-	 * TODO add channel/transport identifier
-	 * TODO return the URI of exposed/advertised implementation 
+	/** @return the {@link URI}s at which the exposed API can be reached */
+	List<URI> getAddresses();
+	
+	/**
+	 * expose some Java interface TODO add channel/transport identifier TODO
+	 * return the URI of exposed/advertised implementation
 	 */
 	@JsonIgnore
 	<T extends Serializable> void expose(Class<T> api, T implementation);
+
+	@JsonIgnore
+	<T extends Capability<?> & Serializable> void expose(Class<T> api);
 
 }

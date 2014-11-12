@@ -15,7 +15,7 @@
 	<name>${project.artifactId}</name>
 	<description>
 		Utility and demo code for the AgentScape agent platform
-		$Id$
+		$Id: 9ece685718bca5ae606aeab869def2f137aa2167 $
 		$URL: https://dev.almende.com/svn/abms/agentscape-util/pom.xml $
 	</description>
 	<url>http://agentscape.org/</url>
@@ -89,10 +89,7 @@
 									</pluginExecutionFilter>
 									<action>
 										<!-- Ignore dependency copying in IDE (re)builds -->
-										<execute>
-											<runOnConfiguration>true</runOnConfiguration>
-											<runOnIncremental>false</runOnIncremental>
-										</execute>
+										<ignore/>
 									</action>
 								</pluginExecution>
 							</pluginExecutions>

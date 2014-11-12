@@ -36,13 +36,13 @@ public class Require extends AbstractNativeFunction {
     private List<ModuleProvider> moduleProviders = new ArrayList<>();
     private LinkedList<String> loadPaths = new LinkedList<>();
 
-    public Require(GlobalObject globalObject) {
-        super(globalObject, "name");
-        DynObject module = new DynObject(globalObject);
+    public Require(GlobalContext globalContext) {
+        super(globalContext, "name");
+        DynObject module = new DynObject(globalContext);
         module.put("id", "dynjs");
-        module.put("exports", new DynObject(globalObject));
-        globalObject.put("module", module);
-        globalObject.put("exports", module.get("exports"));
+        module.put("exports", new DynObject(globalContext));
+        globalContext.getObject().put( null, "module", module, false);
+        globalContext.getObject().put( null, "exports", module.get("exports"), false );
 
         // ----------------------------------------
         // Module-provider setup
@@ -57,14 +57,14 @@ public class Require extends AbstractNativeFunction {
 
         String customRequirePath = this.getCustomRequirePath();
         if (customRequirePath != null) {
-            String[] paths = customRequirePath.split(String.valueOf(File.pathSeparatorChar));
+            String[] paths = customRequirePath.split(File.pathSeparator);
             Collections.addAll(this.loadPaths, paths);
         }
 
         this.loadPaths.add(System.getProperty("user.dir") + "/");
 
         this.put("paths", loadPaths);
-        this.put("addLoadPath", new AbstractNativeFunction(globalObject) {
+        this.put("addLoadPath", new AbstractNativeFunction(globalContext) {
             @Override
             public Object call(ExecutionContext context, Object self, Object... args) {
                 if (args[0] == null || args[0] == Types.UNDEFINED || args[0] == Types.NULL) {
@@ -74,7 +74,7 @@ public class Require extends AbstractNativeFunction {
                 return loadPaths;
             }
         });
-        this.put("removeLoadPath", new AbstractNativeFunction(globalObject) {
+        this.put("removeLoadPath", new AbstractNativeFunction(globalContext) {
             @Override
             public Object call(ExecutionContext context, Object self, Object... args) {
                 if (args[0] == null || args[0] == Types.UNDEFINED || args[0] == Types.NULL) {
@@ -84,7 +84,7 @@ public class Require extends AbstractNativeFunction {
                 return loadPaths;
             }
         });
-        this.put("pushLoadPath", new AbstractNativeFunction(globalObject) {
+        this.put("pushLoadPath", new AbstractNativeFunction(globalContext) {
             @Override
             public Object call(ExecutionContext context, Object self, Object... args) {
                 if (args[0] == null || args[0] == Types.UNDEFINED || args[0] == Types.NULL) {
@@ -139,9 +139,9 @@ public class Require extends AbstractNativeFunction {
                     return cache.get(moduleId);
                 }
                 // add ID + empty module.exports object to cache
-                GlobalObject globalObject = context.getGlobalObject();
-                JSObject module = new DynObject(globalObject);
-                JSObject exports = new DynObject(globalObject);
+                GlobalContext globalContext = context.getGlobalContext();
+                JSObject module = new DynObject(globalContext);
+                JSObject exports = new DynObject(globalContext);
                 module.put(context, "exports", exports, true);
                 module.put(context, "id", moduleId, false);
                 cache.put(moduleId, exports);

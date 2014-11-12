@@ -29,12 +29,17 @@ import io.coala.resource.FileUtil;
 import io.coala.util.Util;
 import io.coala.web.WebUtil;
 
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import com.almende.eve.agent.Agent;
 import com.almende.eve.agent.AgentHost;
 import com.almende.eve.config.Config;
 
@@ -206,6 +211,35 @@ public class EveUtil implements Util
 			throw CoalaExceptionFactory.AGENT_UNAVAILABLE.createRuntime(msg
 					.getReceiverID());
 		}
+	}
+
+	/**
+	 * @param id
+	 * @return
+	 * @throws CoalaException
+	 * @throws IOException
+	 * @throws NoSuchMethodException
+	 * @throws InvocationTargetException
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
+	 * @throws ClassNotFoundException
+	 */
+	public static List<String> getAddresses(final AgentID id)
+			throws CoalaException
+	{
+		try
+		{
+			final Agent agent = getEveHost().getAgent(toEveAgentId(id));
+			if (agent != null)
+				return agent.getUrls();
+		} catch (final CoalaException e)
+		{
+			throw e;
+		} catch (final Exception e)
+		{
+			throw CoalaExceptionFactory.AGENT_UNAVAILABLE.create(id);
+		}
+		return Collections.emptyList();
 	}
 
 }

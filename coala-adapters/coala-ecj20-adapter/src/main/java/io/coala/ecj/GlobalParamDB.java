@@ -1,4 +1,4 @@
-/* $Id$
+/* $Id: 483930ba4cbde39e5b37594cb4018c76ac1abd98 $
  * $URL: https://dev.almende.com/svn/abms/ecj-util/src/main/java/com/almende/train/ec/util/GlobalParamDB.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/
@@ -268,10 +268,9 @@ public class GlobalParamDB extends AbstractParamDB<GlobalParamDB>
 			WARNING_PREFIX = "WARNING:\n";
 
 	/**
-	 * @return 
-	 * 
+	 * @return the initialized {@link EvolutionState}
 	 */
-	public EvolutionState run(final Logger LOG)
+	public EvolutionState initialize(final Logger LOG)
 	{
 		final Output l4jOut = new Output(false)
 		{
@@ -331,28 +330,47 @@ public class GlobalParamDB extends AbstractParamDB<GlobalParamDB>
 		};
 		// l4jOut.addLog(ec.util.Log.D_STDOUT, false);
 		l4jOut.addLog(ec.util.Log.D_STDERR, true);
-
-		final int job = 0;
-		final EvolutionState state = Evolve.initialize(this, job, l4jOut);
-
+		
 		final SortedMap<String, String> params = new TreeMap<String, String>();
 		for (Object key : this.keySet())
 			params.put((String) key, (String) this.get(key));
-		l4jOut.println(
-				"Running with parameters: "
-						+ params.toString().replace("{", "{\n\t")
-								.replace("}", "\n}").replace(", ", ",\n\t")
-								.replace("=", " = "), Output.ALL_LOGS, true);
+		l4jOut.systemMessage("Initialized parameters: "
+				+ params.toString().replace("{", "{\n\t").replace("}", "\n}")
+						.replace(", ", ",\n\t").replace("=", " = "));
+
+		final int job = 0;
+		return Evolve.initialize(this, job, l4jOut);
+	}
+
+	/**
+	 * @return the finished {@link EvolutionState}
+	 */
+	public EvolutionState run(final EvolutionState state)
+	{
+		final SortedMap<String, String> params = new TreeMap<String, String>();
+		for (Object key : this.keySet())
+			params.put((String) key, (String) this.get(key));
+		state.output.systemMessage("Running with parameters: "
+				+ params.toString().replace("{", "{\n\t").replace("}", "\n}")
+						.replace(", ", ",\n\t").replace("=", " = "));
 
 		// state.output.systemMessage("Job: " + job);
-		state.job = new Object[] { new Integer(job) };
+		state.job = new Object[] { new Integer(state.randomSeedOffset) };
 		state.runtimeArguments = new String[] {};
 
 		// now we let it go
 		state.run(EvolutionState.C_STARTED_FRESH);
 		Evolve.cleanup(state);
-		
+
 		return state;
+	}
+
+	/**
+	 * @return the initialized and finished {@link EvolutionState}
+	 */
+	public EvolutionState run(final Logger LOG)
+	{
+		return run(initialize(LOG));
 	}
 
 }

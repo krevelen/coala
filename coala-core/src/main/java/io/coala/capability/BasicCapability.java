@@ -1,4 +1,4 @@
-/* $Id$
+/* $Id: 826599c3081e734c02bdc5e95d186d2bc7c6dc47 $
  * $URL: https://dev.almende.com/svn/abms/coala-common/src/main/java/com/almende/coala/service/BasicService.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/
@@ -23,6 +23,8 @@ package io.coala.capability;
 import io.coala.bind.Binder;
 import io.coala.capability.configure.ConfiguringCapability;
 import io.coala.config.PropertyGetter;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * {@link BasicCapability}
@@ -67,6 +69,7 @@ public abstract class BasicCapability extends AbstractCapability<CapabilityID> i
 	 * @param key
 	 * @return
 	 */
+	@JsonIgnore
 	protected PropertyGetter getProperty(final String key)
 	{
 		return getBinder().inject(ConfiguringCapability.class).getProperty(key);

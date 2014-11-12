@@ -1,4 +1,4 @@
-/* $Id$
+/* $Id: df7dcadbae1d69cf9f6990f757f01fc4d7b3f6cb $
  * $URL$
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/
@@ -148,7 +148,7 @@ public class EveWrapperAgent extends com.almende.eve.agent.Agent implements
 
 	@Override
 	public String getVersion() {
-		return "$Id$";
+		return "$Id: df7dcadbae1d69cf9f6990f757f01fc4d7b3f6cb $";
 	}
 
 	@Override
@@ -251,7 +251,7 @@ public class EveWrapperAgent extends com.almende.eve.agent.Agent implements
 	@Override
 	public Object getExposed() {
 		final Object result = getState().get(NAMESPACE, Object.class);
-		// LOG.trace("Getting exposed object: " + result);
+		LOG.trace("Getting exposed object: " + result);
 		return result;
 	}
 

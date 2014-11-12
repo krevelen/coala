@@ -1,4 +1,4 @@
-/* $Id$
+/* $Id: 6155ab7b964127d9b2c26002905ea70e1de06ff0 $
  * $URL: https://dev.almende.com/svn/abms/eve-util/src/main/java/com/almende/coala/eve/EveBooterService.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/
@@ -22,10 +22,15 @@ package io.coala.eve;
 
 import io.coala.bind.Binder;
 import io.coala.capability.BasicCapability;
+import io.coala.capability.Capability;
 import io.coala.capability.interact.ExposingCapability;
+import io.coala.exception.CoalaException;
 import io.coala.log.InjectLogger;
 
 import java.io.Serializable;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -62,16 +67,40 @@ public class EveExposingCapability extends BasicCapability implements
 	}
 
 	@Override
-	public <T extends Serializable> void expose(final Class<T> api, final T implementation)
+	public <T extends Serializable> void expose(final Class<T> api,
+			final T implementation)
 	{
 		try
 		{
 			EveAgentManager.getInstance(getBinder()).setExposed(
-					getID().getClientID(), implementation);
+					getID().getOwnerID(), implementation);
 			LOG.trace("Exposed object: " + implementation);
 		} catch (final Exception e)
 		{
-			LOG.error("Problem exposing object: " + implementation, e);
+			throw new RuntimeException("Problem exposing object: "
+					+ implementation, e);
 		}
+	}
+
+	@Override
+	public <T extends Capability<?> & Serializable> void expose(
+			final Class<T> api)
+	{
+		expose(api, getBinder().inject(api));
+	}
+
+	@Override
+	public List<URI> getAddresses()
+	{
+		final List<URI> result = new ArrayList<>();
+		try
+		{
+			for (String address : EveUtil.getAddresses(getID().getOwnerID()))
+				result.add(URI.create(address));
+		} catch (final CoalaException e)
+		{
+			LOG.warn("Problem getting/parsing owner address(es)", e);
+		}
+		return result;
 	}
 }
