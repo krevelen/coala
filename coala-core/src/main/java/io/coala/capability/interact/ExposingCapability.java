@@ -1,4 +1,4 @@
-/* $Id$
+/* $Id: bce97ab3ccc0bc9e51086e1bd8be65bf0d17a392 $
  * $URL: https://dev.almende.com/svn/abms/coala-common/src/main/java/com/almende/coala/service/messenger/ReceiverService.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/
@@ -20,11 +20,13 @@
  */
 package io.coala.capability.interact;
 
-import java.io.Serializable;
-
 import io.coala.capability.BasicCapabilityStatus;
 import io.coala.capability.Capability;
 import io.coala.capability.CapabilityFactory;
+
+import java.io.Serializable;
+import java.net.URI;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -49,8 +51,17 @@ public interface ExposingCapability extends Capability<BasicCapabilityStatus>
 		// empty
 	}
 
-	/** expose some Java interface */
+	/** @return the {@link URI}s at which the exposed API can be reached */
+	List<URI> getAddresses();
+	
+	/**
+	 * expose some Java interface TODO add channel/transport identifier TODO
+	 * return the URI of exposed/advertised implementation
+	 */
 	@JsonIgnore
 	<T extends Serializable> void expose(Class<T> api, T implementation);
+
+	@JsonIgnore
+	<T extends Capability<?> & Serializable> void expose(Class<T> api);
 
 }

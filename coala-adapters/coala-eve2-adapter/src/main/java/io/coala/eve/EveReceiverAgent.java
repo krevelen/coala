@@ -3,8 +3,6 @@ package io.coala.eve;
 import io.coala.exception.CoalaException;
 import io.coala.message.Message;
 
-import com.almende.eve.rpc.annotation.Access;
-import com.almende.eve.rpc.annotation.AccessType;
 import com.almende.eve.rpc.annotation.Name;
 
 /**
@@ -25,7 +23,7 @@ public interface EveReceiverAgent extends EveWrapper
 	 * @param payload
 	 * @throws CoalaException
 	 */
-	@Access(AccessType.PUBLIC)
+	//@Access(AccessType.PUBLIC)
 	void doReceive(@Name(PAYLOAD_FIELD_NAME) Message<?> payload);
 
 }

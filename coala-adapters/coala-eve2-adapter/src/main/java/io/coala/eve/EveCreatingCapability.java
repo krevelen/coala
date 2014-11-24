@@ -1,4 +1,4 @@
-/* $Id$
+/* $Id: 9c2bf099c4653f4a94dc05a0c601d47a5589e822 $
  * $URL: https://dev.almende.com/svn/abms/eve-util/src/main/java/com/almende/coala/eve/EveBooterService.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/
@@ -95,7 +95,7 @@ public class EveCreatingCapability extends BasicCapability implements
 	public Observable<AgentID> getChildIDs(final boolean currentOnly)
 	{
 		return EveAgentManager.getInstance(getBinder()).getChildIDs(
-				getID().getClientID(), currentOnly);
+				getID().getOwnerID(), currentOnly);
 	}
 
 }

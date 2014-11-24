@@ -1,4 +1,4 @@
-/* $Id$
+/* $Id: b243a5d1dbbb7fdf4dd3b44df31f027f5a8b0951 $
  * $URL: https://dev.almende.com/svn/abms/enterprise-ontology/src/main/java/io/coala/enterprise/transaction/AbstractTransaction.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/
@@ -76,7 +76,7 @@ public class AbstractTransaction<F extends CoordinationFact, THIS extends Abstra
 	@Override
 	public AgentID getOwnerID()
 	{
-		return super.getID().getClientID();
+		return super.getID().getOwnerID();
 	}
 
 	/**

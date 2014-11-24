@@ -1,4 +1,4 @@
-/* $Id$
+/* $Id: 9e2e41927242e225924e6fc5190c3e65aaadb0c6 $
  * $URL: https://dev.almende.com/svn/abms/enterprise-ontology/src/main/java/io/coala/enterprise/role/AbstractActorRole.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/
@@ -176,7 +176,7 @@ public abstract class AbstractActorRole<F extends CoordinationFact> extends
 	@Override
 	public AgentID getOwnerID()
 	{
-		return getID().getClientID();
+		return getID().getOwnerID();
 	}
 
 	/** @return the type of this {@link ActorRole}'s owner {@link Organization} */

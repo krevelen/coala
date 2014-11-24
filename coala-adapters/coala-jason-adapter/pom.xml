@@ -20,10 +20,24 @@
 	<url>http://jason.sf.net/</url>
 
 	<properties>
-		<jason.version>1.3.9</jason.version>
+		<jason.version>1.4.1</jason.version>
 	</properties>
 
 	<repositories>
+		<!-- COALA public Maven repository -->
+		<repository>
+			<name>COALA Public Maven Repository</name>
+			<id>coala-public</id>
+			<url>https://github.com/krevelen/coala/raw/mvn-repo/</url>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>daily</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+				<updatePolicy>never</updatePolicy>
+			</snapshots>
+		</repository>
 	</repositories>
 
 	<dependencies>

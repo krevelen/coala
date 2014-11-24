@@ -12,7 +12,7 @@
 
 	<groupId>jason</groupId>
 	<artifactId>jason</artifactId>
-	<version>1.4.0a</version>
+	<version>1.4.1</version>
 
 	<name>${project.artifactId}</name>
 	<url>http://jason.sf.net</url>
@@ -37,7 +37,7 @@
 	</developers>
 	<description>
 		Mavenized version of original Jason distribution
-		$Id$
+		$Id: 64668c4f30d4035664b68352b958355fe2e80f7a $
 		$URL: https://dev.almende.com/svn/abms/jason/pom.xml $
 	</description>
 
@@ -45,10 +45,10 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.build.sourceLevel>1.5</project.build.sourceLevel>
 		<project.build.targetLevel>1.5</project.build.targetLevel>
-		
-		<jason.file>Jason-1.4.0a.zip</jason.file>
+
+		<jason.file>Jason-${project.version}.zip</jason.file>
 		<jason.dir>${project.build.directory}/${jason.file}</jason.dir>
-		<jason.src.dir>${jason.dir}/Jason-1.4.0a/src</jason.src.dir>
+		<jason.src.dir>${jason.dir}/Jason-${project.version}/src</jason.src.dir>
 	</properties>
 
 	<repositories>
@@ -145,9 +145,9 @@
 					<configuration>
 						<lifecycleMappingMetadata>
 							<pluginExecutions>
-								
-								<!-- Configure "maven-antrun-plugin:run" goal execution 
-									in Eclipse IDE -->
+
+								<!-- Configure "maven-antrun-plugin:run" goal execution in Eclipse 
+									IDE -->
 								<pluginExecution>
 									<pluginExecutionFilter>
 										<groupId>org.apache.maven.plugins</groupId>
@@ -158,7 +158,10 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<execute />
+										<execute>
+											<runOnConfiguration>true</runOnConfiguration>
+											<runOnIncremental>false</runOnIncremental>
+										</execute>
 									</action>
 								</pluginExecution>
 
@@ -175,7 +178,10 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<execute />
+										<execute>
+											<runOnConfiguration>true</runOnConfiguration>
+											<runOnIncremental>false</runOnIncremental>
+										</execute>
 									</action>
 								</pluginExecution>
 
@@ -207,7 +213,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			
+
 			<plugin>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<configuration>
@@ -215,51 +221,25 @@
 				</configuration>
 			</plugin>
 
-<!-- 
-			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>pre-install-dependencies</id>
-						<phase>clean</phase>
-						<goals>
-							<goal>run</goal>
-						</goals>
-						<configuration>
-							<tasks>
-								<mkdir dir="${jason.dir}" />
-								<unzip src="${jason.file}" dest="${project.build.directory}" />
-								<exec executable="cmd" dir="${env.MAVEN_HOME}\bin">
-									<arg value="/c" />
-									<arg
-										value="mvn install:install-file -Dversion=1.0 -Dpackaging=jar -DgroupId=cartago -DartifactId=c4jason -Dfile=${jason.dir}/lib/c4jason.jar" />
-								</exec>
-								<exec executable="cmd" dir="${env.MAVEN_HOME}\bin">
-									<arg value="/c" />
-									<arg
-										value="mvn install:install-file -Dversion=1.0 -Dpackaging=jar -DgroupId=org.jedit -DartifactId=BufferTabs -Dfile=${jason.dir}/lib/jedit/BufferTabs.jar" />
-								</exec>
-								<exec executable="cmd" dir="${env.MAVEN_HOME}\bin">
-									<arg value="/c" />
-									<arg
-										value="mvn install:install-file -Dversion=1.0 -Dpackaging=jar -DgroupId=org.jedit -DartifactId=ErrorList -Dfile=${jason.dir}/lib/jedit/ErrorList.jar" />
-								</exec>
-								<exec executable="cmd" dir="${env.MAVEN_HOME}\bin">
-									<arg value="/c" />
-									<arg
-										value="mvn install:install-file -Dversion=1.0 -Dpackaging=jar -DgroupId=org.jedit -DartifactId=jedit -Dfile=${jason.dir}/lib/jedit/jedit.jar" />
-								</exec>
-								<exec executable="cmd" dir="${env.MAVEN_HOME}\bin">
-									<arg value="/c" />
-									<arg
-										value="mvn install:install-file -Dversion=1.0 -Dpackaging=jar -DgroupId=org.jedit -DartifactId=SideKick -Dfile=${jason.dir}/lib/jedit/SideKick.jar" />
-								</exec>
-							</tasks>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
--->
+			<!-- <plugin> <artifactId>maven-antrun-plugin</artifactId> <executions> 
+				<execution> <id>pre-install-dependencies</id> <phase>clean</phase> <goals> 
+				<goal>run</goal> </goals> <configuration> <tasks> <mkdir dir="${jason.dir}" 
+				/> <unzip src="${jason.file}" dest="${project.build.directory}" /> <exec 
+				executable="cmd" dir="${env.MAVEN_HOME}\bin"> <arg value="/c" /> <arg value="mvn 
+				install:install-file -Dversion=1.0 -Dpackaging=jar -DgroupId=cartago -DartifactId=c4jason 
+				-Dfile=${jason.dir}/lib/c4jason.jar" /> </exec> <exec executable="cmd" dir="${env.MAVEN_HOME}\bin"> 
+				<arg value="/c" /> <arg value="mvn install:install-file -Dversion=1.0 -Dpackaging=jar 
+				-DgroupId=org.jedit -DartifactId=BufferTabs -Dfile=${jason.dir}/lib/jedit/BufferTabs.jar" 
+				/> </exec> <exec executable="cmd" dir="${env.MAVEN_HOME}\bin"> <arg value="/c" 
+				/> <arg value="mvn install:install-file -Dversion=1.0 -Dpackaging=jar -DgroupId=org.jedit 
+				-DartifactId=ErrorList -Dfile=${jason.dir}/lib/jedit/ErrorList.jar" /> </exec> 
+				<exec executable="cmd" dir="${env.MAVEN_HOME}\bin"> <arg value="/c" /> <arg 
+				value="mvn install:install-file -Dversion=1.0 -Dpackaging=jar -DgroupId=org.jedit 
+				-DartifactId=jedit -Dfile=${jason.dir}/lib/jedit/jedit.jar" /> </exec> <exec 
+				executable="cmd" dir="${env.MAVEN_HOME}\bin"> <arg value="/c" /> <arg value="mvn 
+				install:install-file -Dversion=1.0 -Dpackaging=jar -DgroupId=org.jedit -DartifactId=SideKick 
+				-Dfile=${jason.dir}/lib/jedit/SideKick.jar" /> </exec> </tasks> </configuration> 
+				</execution> </executions> </plugin> -->
 
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>

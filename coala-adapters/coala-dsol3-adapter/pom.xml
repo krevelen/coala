@@ -40,7 +40,7 @@
 
 		<dependency>
 			<groupId>dsol</groupId>
-			<artifactId>dsol</artifactId>
+			<artifactId>dsol-core</artifactId>
 			<version>${dsol.version}</version>
 		</dependency>
 

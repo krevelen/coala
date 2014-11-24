@@ -1,4 +1,4 @@
-/* $Id$
+/* $Id: 107ee0a96bd4034cf8be123e21f58331a7b67137 $
  * $URL: https://dev.almende.com/svn/abms/coala-common/src/main/java/com/almende/coala/service/AbstractService.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/
@@ -137,7 +137,7 @@ public abstract class AbstractCapability<ID extends CapabilityID> extends
 
 		try
 		{
-			LOG.trace("Got owner update: " + update);
+			LOG.trace("Got owner update: " + update.getStatus());
 			if (update.getStatus().isCreatedStatus())
 			{
 				if (!initialized)

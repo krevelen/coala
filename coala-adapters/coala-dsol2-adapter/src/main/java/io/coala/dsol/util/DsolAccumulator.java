@@ -1,4 +1,4 @@
-/* $Id$
+/* $Id: 28928059eafad3453000f8beae3e66bdc4b5991f $
  * $URL: https://dev.almende.com/svn/abms/dsol-util/src/main/java/io/coala/dsol/util/DsolAccumulator.java $
  * 
  * Part of the EU project INERTIA, see http://www.inertia-project.eu/
@@ -351,8 +351,9 @@ public class DsolAccumulator<S extends DEVSSimulatorInterface, M extends DsolMod
 		{
 			this.rate = rate;
 		}
-		fireEvent(new RateChangedEvent(this, simTime(), currentRate,
-				rate.doubleValue()));
+		if (!this.rate.equals(rate.doubleValue()))
+			fireEvent(new RateChangedEvent(this, simTime(), currentRate,
+					this.rate.doubleValue()));
 	}
 
 	/** @return the number of times the rate was read */

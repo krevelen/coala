@@ -70,7 +70,7 @@ public class AGlobeCreatingCapability extends BasicCapability implements Creatin
 	@Override
 	public Observable<AgentID> getChildIDs(boolean currentOnly)
 	{
-		return AGlobeAgentManager.getInstance().getChildIDs(getID().getClientID(), currentOnly);
+		return AGlobeAgentManager.getInstance().getChildIDs(getID().getOwnerID(), currentOnly);
 	}
 
 }

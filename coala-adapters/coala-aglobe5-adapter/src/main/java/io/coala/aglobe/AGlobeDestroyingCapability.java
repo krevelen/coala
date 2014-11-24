@@ -36,7 +36,7 @@ public class AGlobeDestroyingCapability extends BasicCapability implements
 	@Override
 	public AgentID destroy()
 	{
-		return destroy(getID().getClientID());
+		return destroy(getID().getOwnerID());
 	}
 
 	@Override

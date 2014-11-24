@@ -6,11 +6,11 @@ import io.coala.agent.BasicAgentStatus;
 import io.coala.bind.Binder;
 import io.coala.capability.BasicCapability;
 import io.coala.capability.configure.ConfiguringCapability;
-import io.coala.capability.interpret.InterpretingCapability;
 import io.coala.log.InjectLogger;
 import io.coala.message.Message;
 import io.coala.nodyn.NodynRunner;
 import io.coala.resource.ResourceStreamer;
+import io.nodyn.runtime.dynjs.DynJSRuntime;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,6 +19,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.log4j.Logger;
+import org.dynjs.runtime.DynJS;
 import org.dynjs.runtime.DynObject;
 import org.dynjs.runtime.ExecutionContext;
 import org.dynjs.runtime.Types;
@@ -36,7 +37,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * @author <a href="mailto:Rick@almende.org">Rick</a>
  * @author <a href="mailto:Suki@almende.org">Suki</a>
  */
-public class DynJSInterpretingCapability extends BasicCapability implements InterpretingCapability
+public class DynJSInterpretingCapability extends BasicCapability implements
+		InterpretingCapability
 {
 
 	/** */
@@ -61,7 +63,8 @@ public class DynJSInterpretingCapability extends BasicCapability implements Inte
 	 * @param binder
 	 */
 	@Inject
-	private <T extends Message<?>> DynJSInterpretingCapability(final Binder binder)
+	private <T extends Message<?>> DynJSInterpretingCapability(
+			final Binder binder)
 	{
 		super(binder);
 	}
@@ -83,8 +86,8 @@ public class DynJSInterpretingCapability extends BasicCapability implements Inte
 	{
 		final DynJSAgentManager mgr = getAgentManager();
 		@SuppressWarnings("unchecked")
-		final Observable<AgentStatusUpdate> obs = mgr.boot(getID()
-				.getClientID(), this.ownerType);
+		final Observable<AgentStatusUpdate> obs = mgr.boot(
+				getID().getOwnerID(), this.ownerType);
 		// TODO push/call EveJS agent's status handler
 		obs.subscribe(new AgentStatusObserver()
 		{
@@ -124,9 +127,9 @@ public class DynJSInterpretingCapability extends BasicCapability implements Inte
 		getBinder().rebind(ConfiguringCapability.class,
 				getBinder().inject(ConfiguringCapability.class));
 
-		mgr.updateWrapperAgentStatus(getID().getClientID(),
+		mgr.updateWrapperAgentStatus(getID().getOwnerID(),
 				BasicAgentStatus.INITIALIZED);
-		mgr.updateWrapperAgentStatus(getID().getClientID(),
+		mgr.updateWrapperAgentStatus(getID().getOwnerID(),
 				BasicAgentStatus.ACTIVE);
 		return obs;
 	}
@@ -153,8 +156,8 @@ public class DynJSInterpretingCapability extends BasicCapability implements Inte
 	public <T> void subscribe(final Observable<T> observable,
 			final Object onNext, final Object onError, final Object onCompleted)
 	{
-		final ExecutionContext context = ExecutionContext
-				.createGlobalExecutionContext(NodynRunner.getRuntime());
+		// final ExecutionContext context = ExecutionContext
+		// .createGlobalExecutionContext(((DynJSRuntime)NodynRunner.getRuntime()).runtime);
 		// .createFunctionExecutionContext(((JavascriptFunction)onNext).,
 		// onNext, null, "test");
 		/*
@@ -182,33 +185,41 @@ public class DynJSInterpretingCapability extends BasicCapability implements Inte
 				throw new IllegalStateException("UNEXPECTED callback type: "
 						+ callback.getClass().getName());
 
-		observable.subscribe(new Observer<T>()
+		try
 		{
-			@Override
-			public void onCompleted()
+			final ExecutionContext context = ExecutionContext
+					.createGlobalExecutionContext((DynJS) DynJSRuntime.class
+							.getField("runtime").get(NodynRunner.getRuntime()));
+			observable.subscribe(new Observer<T>()
 			{
-				if (onCompleted != null)
-					((JavascriptFunction) onCompleted).call(context);
-			}
+				@Override
+				public void onCompleted()
+				{
+					if (onCompleted != null)
+						((JavascriptFunction) onCompleted).call(context);
+				}
 
-			@Override
-			public void onError(final Throwable e)
-			{
-				if (onError == null)
-					return;
-				context.setFunctionParameters(new Object[] { e });
-				((JavascriptFunction) onError).call(context);
-			}
+				@Override
+				public void onError(final Throwable e)
+				{
+					if (onError == null)
+						return;
+					context.setFunctionParameters(new Object[] { e });
+					((JavascriptFunction) onError).call(context);
+				}
 
-			@Override
-			public void onNext(final T t)
-			{
-				if (onNext == null)
-					return;
-				context.setFunctionParameters(new Object[] { t });
-				((JavascriptFunction) onNext).call(context);
-			}
-		});
-
+				@Override
+				public void onNext(final T t)
+				{
+					if (onNext == null)
+						return;
+					context.setFunctionParameters(new Object[] { t });
+					((JavascriptFunction) onNext).call(context);
+				}
+			});
+		} catch (final Exception e)
+		{
+			LOG.error("failed", e);
+		}
 	}
 }

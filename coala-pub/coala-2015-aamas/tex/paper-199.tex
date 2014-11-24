@@ -1,0 +1,269 @@
+%% AAMAS cls is based on ACM proceedings
+\documentclass{aamas2015}
+
+%% START PREAMBLE
+
+\usepackage[
+    unicode=false,          % non-Latin characters in Acrobat's bookmarks
+    pdfcreator={LaTeX/hyperref}
+    pdftoolbar=false,        % show Acrobat's toolbar?
+    pdfmenubar=false,        % show Acrobat's menu?
+    %pdffitwindow=false,     % page fit to window when opened
+    pdfnewwindow=true,      % links in new window
+    pdfstartview={FitH},    % Fit, FitB, FitV, FitH, FitBH, FitBV
+    pdfpagelayout=OneColumn, % SinglePage (flip page), OneColumn (scroll), TwoColumnLeft (2-page, odd to left), TwoColumnRight
+    pdfpagemode=UseOutlines, % UseOutlines or FullScreen,
+    %bookmarks=false,        % show bookmarks bar? already set
+    bookmarksnumbered=true,
+    backref=none,           % `section', `slide', `page', `none', or `false'
+]{hyperref} % special hyperlinks
+
+\hypersetup{
+    pdfauthor={Rick van Krevelen and Suki van Beusekom},     % author
+%    pdftitle={Nice title},    % title
+%    pdfkeywords={}, % list of keywords
+    colorlinks=true,        % false: boxed links; true: colored links
+    linkcolor=black,        % color of internal links
+    citecolor=black,        % color of links to bibliography
+    filecolor=black,        % color of file links
+    urlcolor=black,          % color of external links
+    anchorcolor=black,      % color of external links
+    urlbordercolor={1 1 1},
+    breaklinks=true, % for long URLs
+}
+\urlstyle{sf} % don't use mono-spaced fonts for urls but Roman (rm) or Serif (sf)
+
+% fix tilde-problem in html link
+\renewcommand{\htmladdnormallinkfoot}[2]{\href{#2}{#1}\footnote{\url{#2}}}
+\newcommand{\COALA}{\textsc{coala}}
+\newcommand{\sectionname}{Section}
+
+\author{Rick\,van\,Krevelen and Suki\,van\,Beusekom\thanks{This work was
+supported in part by the European Commission FP7 projects ADAPT4EE (Grant
+Agreement No. 288150) and INERTIA (Grant
+Agreement No. 318216)} \\
+\\
+\affaddr{Almende BV} \\
+\affaddr{Rotterdam, The Netherlands} \\
+\email{\href{mailto:rick@almende.org}{\nolinkurl{rick@almende.org}},
+\href{mailto:suki@almende.org}{\nolinkurl{suki@almende.org}}}}
+
+\title{Reusable Capabilities for Agent Based Modelling and Engineering}
+
+%% END PREAMBLE
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+The concept of \emph{agent} has brought many advances in domains of
+(agent-based) modeling and simulation (ABMS) as well as (agent oriented) 
+software engineering (AOSE). However in (component-based) software engineering 
+the concept has not become mainstream and is unlikely to be if current trends continue.
+One challenge to proliferating the agent concept in mainstream software
+engineering is marrying the granularity of the \emph{agents} perspective with
+that of the \emph{(micro) services} perspective on the other.
+With the aim of merging the best of both worlds, this paper (i) investigates 
+the concept of capabilities in agent-based design, (ii) describes a 
+framework for applying this concept using current (agent) middleware, and (iii) 
+reports on experiences of its practical use in several research projects. 
+Finally, results discussed in this paper show that the Holonic Capability 
+concept supports the match across software design granularities.
+\end{abstract}
+
+\category{I.2.11}{Computing methodologies}{Artificial intelligence}[Distributed
+artificial intelligence---Multi-agent systems]
+
+\terms{Design, Theory, Experimentation}
+
+\begin{keywords}
+Engineering Agent-Based Systems::Development techniques, tools and platforms;
+Agents and Mainstream Computing::Service oriented architectures; 
+Agent-based simulation::Simulation techniques, tools and environments
+% Verification and Validation::Testing of agent-based systems
+\end{keywords}
+
+
+\section{Introduction}
+\label{sec:intro}
+
+When creating a design for an (intelligent) agent-based model or system,
+agent-oriented designers typically consider how the ontological aspects of an
+information system, that is, the higher-level functionalities or or system
+roles, may be performed by autonomous, social, proactive and sometimes mobile
+entities called (software) agents. Such designs of agent organizations are often
+developed and tested using agent-oriented middlewares such as Jason, Jason,
+\textsc{jade}, A-globe, AgentScape, \textsc{2apl}, \textsc{goal}, \textsc{jack},
+Eve, which provide agents as needed with their essential capabilities: to
+maintain some active process and/or state, communicate with other agents,
+schedule future behavior, interact with their environment, and possibly migrate
+to new locations. Each middleware has its own focus and features to suit
+particular use cases. Some offer the designers comprehensive reasoning engines,
+based for instance on the AgentSpeak(L) language, that help them to further
+abstract from implementation issues and instead focus more on domain specific
+concepts at hand. The agent concept in turn helps to separate as well as
+localize concerns in terms of ownership, such that users and resources have
+direct representatives that have access to information relevant to
+only themselves and on behalf of their respective (legal) owner.
+
+By contrast, in component-based software engineering approaches designers also
+design complex systems composed of many components. However the functionalities
+or (micro-) services are typically offered system-wide to any interest user.
+Concerns are also separated as well as localized but rather in terms of their type of
+functionality, such as information persistence (databases), communication services (i/o) or behavioral
+triggers (schedulers). While this approach supports the efficient design and
+testing of high performance components, it also means that the information
+belonging to a certain owner may be processed across many service locations,
+and that certain service locations may get access to information belonging to
+many different owners, posing risks to privacy and security.
+
+Furthermore, many agent middlewares provide agents with
+capabilities that are based on this exact paradigm, such that each agent,
+although representing and acting on behalf of just their individual owners,
+all communicate, persist, and schedule using the same set of services
+provided by the middleware. Moreover, the agent middlewares
+often have little support for extending or replacing their constituent system services to suit the individual agents' or owners' needs separately.
+
+This mismatch in the way concerns are separated, either by the represented
+(owner) object or by their technical similarity, is thought by the authors to be
+an important reason why the two worlds of AOSE and CBSE have remained largely
+separate to this day.
+
+\subsection{Problem Statement}
+
+Extending from related efforts (SCGame, Eve/CHAP refs here) the Holonic
+Capability concept has been developed to increase the practical usability of
+(any) agent middleware by applying mainstream and emerging engineering
+techniques that are often inspired by, yet not always incorporated into, agent
+technologies
+
+Agent-based designs are
+
+often forced to integrate with many heterogeneous parts, protocols, and hosts
+
+often (deeply) embedded in (favorite) tooling
+
+engineered with varying quality
+
+engineered with various approaches
+
+not always documented nor replicable
+
+How to make (past) experience and know-how of (possibly agent-based) algorithms
+and models, (possibly multi-agent) middleware and platforms more useful in future work?
+
+\subsection{Outline}
+
+\sectionname\ \ref{sec:theory}
+\sectionname\ \ref{sec:framework}
+\sectionname\ \ref{sec:application}
+\sectionname\ \ref{sec:discussion}
+
+\section{Best of Both Worlds}
+\label{sec:theory}
+
+\subsection{Agents and Services}
+Component-based software engineering has proven to be a successful approach
+being applied across a wide range of technologies.
+
+Candidates for reuse
+
+\paragraph{Tooling}
+Eve, Vis.js, AIModules, DEAL/2, SenseOS, etc.
+
+\paragraph{Algorithms}
+
+Energy negotiation (All4Green, Inertia)
+
+Model calibration for prediction (Adapt4EE, Inertia)
+
+\paragraph{Models}
+
+Business activity \& occupancy (Adapt4EE)
+
+Value Chains (PhD, All4Green)
+
+
+\subsection{Definition}
+what is a reusable capability
+
+Holonic Capabilities offer a solution to reduce the impact of the earlier
+mentioned design choices by isolating distinctive properties of both model and
+architecture. The definition of a Holonic Capability is driven by the idea to
+ensure the ability to create testable reusable and generic facets of the
+entities modelled and/or designed without the necessity to bootstrap a complete
+representation of the to be modelled problem domain.
+Moreover a Holonic Capability has to be autonomous but can use distinctive
+properties of other holons.
+
+
+\subsection{Motivation}
+why use it
+
+\section{Framework}
+\label{sec:framework}
+
+\subsection{Design Principles}
+how to use
+
+The Common Ontological Abstraction Layer for Agents
+(\htmladdnormallinkfoot{\COALA}{http://github.com/krevelen/coala}) is entirely
+centered around the concept of Capability injection.
+
+\COALA\ supports the reuse and
+reproduction of behavior (how to negotiate, learn, coordinate, ...) across platforms and middleware (multi-agent systems, application servers, ...) through
+common capabilities related to agents and organizations
+
+In \COALA\ each Agent belongs to some Model and owns its own Binder for
+OSGi-like Capability injection.
+A Binder provides Capabilities lazily (as needed) as per the localized Configuration. 
+Capabilities may be extended per domain to provide any functionality, also to each other. 
+
+\COALA\ is entirely centered around the concept of Capability injection, that
+is:
+
+localized, self-contained functionalities 
+
+highly flexible at any abstraction level
+
+dynamically reconfigurable
+
+easily wraps legacy tooling (also non-agent)
+
+use individually or in full fledged agent-based designs (models, systems)
+
+\subsection{Available Defaults}
+Bindings for current (agent and non-agent) technologies
+
+\section{Illustrative Use Cases}
+\label{sec:application}
+
+\subsection{Example Application}
+game of life
+
+\subsection{The Adapt4EE Project}
+experiences
+
+\subsection{The INERTIA Project}
+experiences
+
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{Comparison}
+
+\subsection{Related Work}
+
+\subsection{Conclusion}
+ 
+\subsection{Future Work}
+
+
+apply owner-api universally, including for configuring Binders, thus deprecating commons-configuration
+update to latest extension APIs and dependencies (RXJava, Joda, Jackson, ...)
+increase test coverage
+add introspection tools (sniffing, ...)
+get examples working, also in Groovy, Scala, etc.
+provide vert.x-based AgentSpeak-like behavioral script interpreter/reasoner (a la Jason, SL, GOAL, 2APL, ...)
+
+\end{document}

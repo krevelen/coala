@@ -15,16 +15,17 @@
 	<name>${project.artifactId}</name>
 	<description>
 		Utility and demo code for the NoDyn libraries
-		$Id$
+		$Id: 375afb498bdb01fda2b035f7fd4f48efcedb7bbe $
 		$URL: https://dev.almende.com/svn/abms/coala-nodyn-adapter/pom.xml $
 	</description>
 
 	<properties>
 		<nodyn.version>0.1.1-SNAPSHOT</nodyn.version>
-		<dynjs.version>0.3.0</dynjs.version>
-		<vertx.version>2.1.1</vertx.version>
+		<dynjs.version>0.3.1</dynjs.version>
+		<vertx.version>2.1.4</vertx.version>
 		<jetty.version>9.2.0.v20140526</jetty.version>
 		<evejs.version>0.3.3</evejs.version>
+		<npm.dir>${basedir}/node_modules</npm.dir>
 	</properties>
 
 	<repositories>
@@ -51,6 +52,14 @@
 			</repository> -->
 	</repositories>
 
+	<pluginRepositories>
+		<pluginRepository>
+			<id>mulesoft-releases</id>
+			<name>MuleSoft Repository</name>
+			<url>https://repository.mulesoft.org/releases/</url>
+		</pluginRepository>
+	</pluginRepositories>
+
 	<dependencies>
 
 		<dependency>
@@ -68,19 +77,12 @@
 			<groupId>io.nodyn</groupId>
 			<artifactId>nodyn</artifactId>
 			<version>${nodyn.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.dynjs</groupId>
-					<artifactId>dynjs</artifactId>
-				</exclusion>
-			</exclusions>
+			<!-- <exclusions> <exclusion> <groupId>org.dynjs</groupId> <artifactId>dynjs</artifactId> 
+				</exclusion> </exclusions> -->
 		</dependency>
 
-		<dependency>
-			<groupId>org.dynjs</groupId>
-			<artifactId>dynjs</artifactId>
-			<version>${dynjs.version}</version>
-		</dependency>
+		<!-- <dependency> <groupId>org.dynjs</groupId> <artifactId>dynjs</artifactId> 
+			<version>${dynjs.version}</version> </dependency> -->
 
 		<dependency>
 			<groupId>io.vertx</groupId>
@@ -129,6 +131,25 @@
 					<configuration>
 						<lifecycleMappingMetadata>
 							<pluginExecutions>
+
+								<!-- Configure "org.mule.tools.javascript.npm-maven-plugin:fetch-modules" 
+									goal execution in Eclipse IDE -->
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.mule.tools.javascript</groupId>
+										<artifactId>npm-maven-plugin</artifactId>
+										<versionRange>[1.0.0,)</versionRange>
+										<goals>
+											<goal>fetch-modules</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute>
+											<runOnConfiguration>true</runOnConfiguration>
+											<runOnIncremental>false</runOnIncremental>
+										</execute>
+									</action>
+								</pluginExecution>
 
 								<!-- Configure "org.codehaus.mojo.build-helper-maven-plugin:add-source" 
 									goal execution in Eclipse IDE -->
@@ -218,48 +239,42 @@
 						<configuration>
 							<sources>
 								<source>src/test/javascript</source>
-							</sources>
-						</configuration>
-					</execution>
-					<execution>
-						<id>add-javascript</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>add-source</goal>
-						</goals>
-						<configuration>
-							<sources>
 								<source>src/main/javascript</source>
+								<source>${npm.dir}</source>
 							</sources>
 						</configuration>
 					</execution>
 				</executions>
 			</plugin>
 
-			<!-- executes "npm install evejs@0.3.3" -->
-			<!-- 
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
+				<groupId>org.mule.tools.javascript</groupId>
+				<artifactId>npm-maven-plugin</artifactId>
+				<version>1.0</version>
 				<executions>
 					<execution>
-						<id>add-source</id>
-						<phase>generate-test-sources</phase>
+						<id>get-node-modules</id>
+						<phase>generate-sources</phase>
 						<goals>
-							<goal>exec</goal>
+							<goal>fetch-modules</goal>
 						</goals>
+						<configuration>
+							<outputDirectory>${npm.dir}</outputDirectory>
+							<packages>
+								<package>evejs:${evejs.version}</package>
+							</packages>
+						</configuration>
 					</execution>
 				</executions>
-				<configuration>
-					<executable>npm</executable>
-					<workingDirectory>${basedir}</workingDirectory>
-					<arguments>
-						<argument>install</argument>
-						<argument>evejs@${evejs.version}</argument>
-					</arguments>
-				</configuration>
 			</plugin>
-			 -->
+
+			<!-- executes "npm install evejs@0.3.3" -->
+			<!-- <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>exec-maven-plugin</artifactId> 
+				<executions> <execution> <id>add-source</id> <phase>generate-test-sources</phase> 
+				<goals> <goal>exec</goal> </goals> </execution> </executions> <configuration> 
+				<executable>npm</executable> <workingDirectory>${basedir}</workingDirectory> 
+				<arguments> <argument>install</argument> <argument>evejs@${evejs.version}</argument> 
+				</arguments> </configuration> </plugin> -->
 		</plugins>
 	</build>
 </project>
