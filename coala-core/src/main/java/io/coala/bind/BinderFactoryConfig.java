@@ -183,7 +183,7 @@ public interface BinderFactoryConfig extends Config
 				throws CoalaException
 		{
 			CoalaPropertyMap.getInstance(false).load(configPath);
-
+			
 			final Builder builder = new Builder();
 
 			builder.withBinderFactoryType(CoalaProperty.binderFactoryType
