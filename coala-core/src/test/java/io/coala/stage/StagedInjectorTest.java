@@ -72,7 +72,7 @@ public class StagedInjectorTest
 		@Staged(on = StageEvent.BEFORE_STAGE)
 		void activate();
 
-		@Staged(onCustom = ACTIVE_STAGE, ignore = NullPointerException.class)
+		@Staged(onCustom = ACTIVE_STAGE, ignore = Throwable.class)
 		void active();
 
 		@Staged(on = StageEvent.BEFORE_FAIL)
@@ -110,6 +110,7 @@ public class StagedInjectorTest
 		}
 
 		@Override
+		@Staged(onCustom = ACTIVE_STAGE, ignore = NullPointerException.class)
 		public void active()
 		{
 			LOG.info("called activate()");

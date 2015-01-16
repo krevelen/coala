@@ -286,9 +286,13 @@ public class StageUtil implements Util
 	public static Set<Class<? extends Throwable>> findAbsorptionLevels(
 			final Class<?> type, final Method method)
 	{
-		final Set<Class<? extends Throwable>> result = findAbsorptionLevels(type);
+		final Set<Class<? extends Throwable>> result;
 		final Staged staged = method.getAnnotation(Staged.class);
-		if (staged != null)
+		if (staged == null)
+			result = findAbsorptionLevels(type);
+		else // override class-level annotation by method-level annotation
+		{
+			result = new HashSet<>();
 			outer: for (Class<? extends Throwable> cls : staged.ignore())
 			{
 				for (Class<? extends Throwable> old : result)
@@ -310,9 +314,10 @@ public class StageUtil implements Util
 				}
 				result.add(cls);
 			}
-		else
-			LOG.warn("Not annotated as @" + Staged.class.getSimpleName() + ": "
-					+ toSignatureString(method));
+		}
+//		else
+//			LOG.warn("Not annotated as @" + Staged.class.getSimpleName() + ": "
+//					+ toSignatureString(method));
 
 		LOG.trace("Absorption for " + type.getSimpleName() + "#"
 				+ toSignatureString(method) + ": " + result);
