@@ -61,6 +61,12 @@ public @interface Staged
 	Class<? extends Throwable>[] ignore() default {};
 
 	/**
+	 * @return the priority of this method, smaller values ensure earlier
+	 *         execution
+	 */
+	int priority() default 0;
+
+	/**
 	 * Indicates that the {@link Staged}-annotated method is to be invoked when
 	 * some managed stage in the (owner) {@link InjectStaged} throws a
 	 * {@link Throwable}. If the method takes a relevant {@link Throwable} as

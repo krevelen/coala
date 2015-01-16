@@ -72,7 +72,10 @@ public class StagedInjectorTest
 		@Staged(on = StageEvent.BEFORE_STAGE)
 		void activate();
 
-		@Staged(onCustom = ACTIVE_STAGE, ignore = Throwable.class)
+		@Staged(onCustom = ACTIVE_STAGE)
+		void zactive();
+
+		@Staged(onCustom = ACTIVE_STAGE, ignore = { NullPointerException.class })
 		void active();
 
 		@Staged(on = StageEvent.BEFORE_FAIL)
@@ -110,11 +113,19 @@ public class StagedInjectorTest
 		}
 
 		@Override
-		@Staged(onCustom = ACTIVE_STAGE, ignore = NullPointerException.class)
+		// @Staged(onCustom = ACTIVE_STAGE, ignore = NullPointerException.class)
 		public void active()
 		{
-			LOG.info("called activate()");
+			LOG.info("called active()");
 			throw new IllegalStateException("Handleable exception 0");
+		}
+
+		@Override
+		@Staged(onCustom = ACTIVE_STAGE, ignore = NullPointerException.class, priority = -1)
+		public void zactive()
+		{
+			LOG.info("called zactive()");
+			// throw new IllegalStateException("Handleable exception 0");
 		}
 
 		@Override
