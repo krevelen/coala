@@ -25,6 +25,11 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.SortedSet;
+
+import javax.inject.Provider;
 
 /**
  * {@link InjectStaged}
@@ -69,4 +74,72 @@ public @interface InjectStaged
 	 *         are to be absorbed rather than thrown
 	 */
 	Class<? extends Throwable>[] ignore() default {};
+
+	/**
+	 * {@link StageSelector}
+	 * 
+	 * @date $Date$
+	 * @version $Id: 4315b371d925dca6e1609359465a960d25eab26d $
+	 * @author <a href="mailto:Rick@almende.org">Rick</a>
+	 */
+	interface StageSelector
+	{
+		/**
+		 * @param staging
+		 * @return
+		 */
+		String[] selectStages(InjectStaged staging);
+
+		Map<Class<?>, SortedSet<String>> getCache();
+
+		/** */
+		StageSelector BEFORE_PROVIDE_SELECTOR = new StageSelector()
+		{
+			/** */
+			private final Map<Class<?>, SortedSet<String>> cache = new HashMap<>();
+
+			@Override
+			public String[] selectStages(final InjectStaged staging)
+			{
+				return staging.beforeProvide();
+			}
+
+			@Override
+			public Map<Class<?>, SortedSet<String>> getCache()
+			{
+				return this.cache;
+			}
+
+			@Override
+			public String toString()
+			{
+				return "beforeProvide";
+			}
+		};
+
+		/** */
+		StageSelector AFTER_PROVIDE_SELECTOR = new StageSelector()
+		{
+			/** */
+			private final Map<Class<?>, SortedSet<String>> cache = new HashMap<>();
+
+			@Override
+			public String[] selectStages(final InjectStaged staging)
+			{
+				return staging.afterProvide();
+			}
+
+			@Override
+			public Map<Class<?>, SortedSet<String>> getCache()
+			{
+				return this.cache;
+			}
+
+			@Override
+			public String toString()
+			{
+				return "afterProvide";
+			}
+		};
+	}
 }

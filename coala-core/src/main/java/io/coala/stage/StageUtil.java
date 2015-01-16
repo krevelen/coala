@@ -34,6 +34,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.inject.Provider;
 
@@ -60,6 +62,9 @@ public class StageUtil implements Util
 	/** */
 	private static final Map<Class<?>, Map<String, Map<Method, Staged>>> customStageHandlerCache = new HashMap<>();
 
+	/** */
+	private static final Map<Class<?>, Set<Class<? extends Throwable>>> absorptionLevelCache = new HashMap<>();
+
 	/**
 	 * {@link StageUtil} singleton constructor
 	 */
@@ -71,7 +76,7 @@ public class StageUtil implements Util
 	/**
 	 * @param type
 	 */
-	private static synchronized void cacheHandlers(final Class<?> type)
+	private static synchronized void findHandlers(final Class<?> type)
 	{
 		LOG.trace("Caching handlers for " + type.getName());
 		final Map<StageEvent, Map<Method, Staged>> handlersByEvent = type
@@ -137,7 +142,7 @@ public class StageUtil implements Util
 
 		if (result == null)
 		{
-			cacheHandlers(type);
+			findHandlers(type);
 			result = stageEventHandlerCache.get(type);
 		}
 		return result;
@@ -156,7 +161,7 @@ public class StageUtil implements Util
 
 		if (result == null)
 		{
-			cacheHandlers(type);
+			findHandlers(type);
 			result = customStageHandlerCache.get(type);
 		}
 		return result;
@@ -191,31 +196,125 @@ public class StageUtil implements Util
 	}
 
 	/**
-	 * TODO merge inherited declarations?
+	 * @param type
+	 * @return
+	 */
+	public synchronized static SortedSet<String> findStages(
+			final Class<?> type, final InjectStaged.StageSelector selector)
+	{
+		LOG.trace("Caching " + selector + " stages for " + type.getName());
+		SortedSet<String> result = selector.getCache().get(type);
+		if (result != null)
+			return result;
+
+		result = new TreeSet<>();
+		selector.getCache().put(type, result);
+
+		InjectStaged staging = type.getAnnotation(InjectStaged.class);
+		if (staging != null)
+			for (String stage : selector.selectStages(staging))
+				result.add(stage);
+
+		for (Class<?> iface : type.getInterfaces())
+			result.addAll(findStages(iface, selector));
+
+		if (type.getSuperclass() != Object.class
+				&& type.getSuperclass() != null)
+			result.addAll(findStages(type.getSuperclass(), selector));
+
+		return result;
+	}
+
+	/**
+	 * use sub-most available specification (if any) from Objects only (ignore
+	 * interfaces and possibly overridden specifications)
 	 * 
+	 * @param type
+	 * @return
+	 */
+	public synchronized static Set<Class<? extends Throwable>> findAbsorptionLevels(
+			final Class<?> type)
+	{
+		LOG.trace("Caching absorption levels for " + type.getName());
+		Set<Class<? extends Throwable>> result = absorptionLevelCache.get(type);
+		if (result != null)
+			return result;
+
+		result = new HashSet<>();
+		absorptionLevelCache.put(type, result);
+
+		Class<?> stagingType = type;
+		InjectStaged staging = stagingType.getAnnotation(InjectStaged.class);
+		while (staging == null && stagingType.getSuperclass() != Object.class)
+		{
+			stagingType = stagingType.getSuperclass();
+			staging = stagingType.getAnnotation(InjectStaged.class);
+		}
+		if (staging != null)
+			outer: for (Class<? extends Throwable> cls : staging.ignore())
+			{
+				for (Class<? extends Throwable> old : result)
+				{
+					if (old.isAssignableFrom(cls))
+					{
+						LOG.info("ignore() level '" + old.getName()
+								+ "' subsumes '" + cls.getName()
+								+ "' annotated in " + type.getName());
+						continue outer;
+					}
+					if (cls.isAssignableFrom(old))
+					{
+						LOG.info("ignore() level '" + cls.getName()
+								+ "' annotated in " + type.getName()
+								+ " subsumes '" + old.getName() + "'");
+						result.remove(old);
+					}
+				}
+				result.add(cls);
+			}
+		// else
+		// LOG.warn("(Super)type missing @"
+		// + InjectStaged.class.getSimpleName() + ": "
+		//	+ type.getName());
+		return result;
+	}
+
+	/**
 	 * @param type
 	 * @return
 	 */
 	public static Set<Class<? extends Throwable>> findAbsorptionLevels(
 			final Class<?> type, final Method method)
 	{
-		final Set<Class<? extends Throwable>> result = new HashSet<>();
-		final InjectStaged staging = type.getAnnotation(InjectStaged.class);
-		if (staging != null)
-			for (Class<? extends Throwable> cls : staging.ignore())
-				result.add(cls);
-		else
-			LOG.warn("Not annotated as @" + InjectStaged.class.getSimpleName()
-					+ ": " + type.getName());
+		final Set<Class<? extends Throwable>> result = findAbsorptionLevels(type);
 		final Staged staged = method.getAnnotation(Staged.class);
 		if (staged != null)
-			for (Class<? extends Throwable> cls : staged.ignore())
+			outer: for (Class<? extends Throwable> cls : staged.ignore())
+			{
+				for (Class<? extends Throwable> old : result)
+				{
+					if (old.isAssignableFrom(cls))
+					{
+						LOG.warn("ignore() level '" + old.getName()
+								+ "' subsumes '" + cls.getName()
+								+ "' annotated in " + type.getName());
+						continue outer;
+					}
+					if (cls.isAssignableFrom(old))
+					{
+						LOG.warn("ignore() level '" + cls.getName()
+								+ "' annotated in " + type.getName()
+								+ " subsumes '" + old.getName() + "'");
+						result.remove(old);
+					}
+				}
 				result.add(cls);
+			}
 		else
 			LOG.warn("Not annotated as @" + Staged.class.getSimpleName() + ": "
 					+ toSignatureString(method));
 
-		LOG.trace("Verifying absorption for " + type.getSimpleName() + "#"
+		LOG.trace("Absorption for " + type.getSimpleName() + "#"
 				+ toSignatureString(method) + ": " + result);
 		return result;
 	}
@@ -254,14 +353,12 @@ public class StageUtil implements Util
 		success &= invokeHandlers(stageObserver, type, null, null,
 				StageEvent.BEFORE_PROVIDE);
 
-		final InjectStaged stages = type.getAnnotation(InjectStaged.class);
-
-		if (stages != null)
-			success &= invokeStages(stageObserver, type, null,
-					stages.beforeProvide());
-		else
-			LOG.warn("Not annotated as @" + InjectStaged.class.getSimpleName()
-					+ ": " + type.getName());
+		success &= invokeStages(
+				stageObserver,
+				type,
+				null,
+				findStages(type,
+						InjectStaged.StageSelector.BEFORE_PROVIDE_SELECTOR));
 
 		if (stageObserver != null)
 			stageObserver.onNext(new StageChangeImpl(type, null,
@@ -276,9 +373,12 @@ public class StageUtil implements Util
 		success &= invokeHandlers(stageObserver, type, subject.getTarget(),
 				null, StageEvent.AFTER_PROVIDE);
 
-		if (stages != null)
-			success &= invokeStages(stageObserver, type, subject.getTarget(),
-					stages.afterProvide());
+		success &= invokeStages(
+				stageObserver,
+				type,
+				subject.getTarget(),
+				findStages(type,
+						InjectStaged.StageSelector.AFTER_PROVIDE_SELECTOR));
 
 		if (stageObserver != null && success)
 			stageObserver.onNext(new StageChangeImpl(type, subject.getTarget(),
@@ -325,9 +425,9 @@ public class StageUtil implements Util
 
 	public static <T> boolean invokeStages(
 			final Observer<StageChange> stageObserver, final Class<T> type,
-			final T target, final String... stages) throws Throwable
+			final T target, final SortedSet<String> stages) throws Throwable
 	{
-		if (stages == null || stages.length == 0)
+		if (stages == null || stages.isEmpty())
 			return true;
 
 		boolean success = true;
@@ -423,7 +523,8 @@ public class StageUtil implements Util
 					target.getClass(), method))
 				if (sup.isAssignableFrom(t.getClass()))
 				{
-					LOG.trace("Absorbed error: " + t.getMessage());
+					LOG.trace("Absorbed " + t.getClass().getSimpleName() + ": "
+							+ t.getMessage());
 					return t;
 				}
 			throw t;

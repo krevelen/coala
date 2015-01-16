@@ -61,52 +61,77 @@ public class StagedInjectorTest
 		LOG.trace("Completed tests!");
 	}
 
-	@InjectStaged(afterProvide = { "active" })
-	public static class StagedObject extends AbstractIdentifiable<AgentID> implements
-			Serializable
+	private static final String ACTIVE_STAGE = "active";
+
+	@InjectStaged(afterProvide = ACTIVE_STAGE)
+	public static interface StagedObjectTest
+	{
+		@Staged(on = StageEvent.AFTER_PROVIDE)
+		void initialize();
+
+		@Staged(on = StageEvent.BEFORE_STAGE)
+		void activate();
+
+		@Staged(onCustom = ACTIVE_STAGE, ignore = NullPointerException.class)
+		void active();
+
+		@Staged(on = StageEvent.BEFORE_FAIL)
+		void deactivate(final Throwable t);
+
+		@Staged(on = StageEvent.AFTER_STAGE)
+		void deactivate();
+
+		@Staged(on = StageEvent.BEFORE_RECYCLE)
+		void finish();
+	}
+
+	@InjectStaged()
+	public static class StagedObject extends AbstractIdentifiable<AgentID>
+			implements Serializable, StagedObjectTest
 	{
 		/** */
 		private static final long serialVersionUID = 1L;
 
 		private StagedObject()
 		{
-			//super(UUID.nilUUID());
+			// super(UUID.nilUUID());
 		}
 
-		@Staged(on = StageEvent.AFTER_PROVIDE)
-		void initialize() throws Exception
+		@Override
+		public void initialize()
 		{
 			LOG.info("called initialize()");
 		}
 
-		@Staged(on = StageEvent.BEFORE_STAGE)
-		void activate()
+		@Override
+		public void activate()
 		{
 			LOG.info("called activate()");
 		}
 
-		@Staged(onCustom = { "active" })
-		void active()
+		@Override
+		public void active()
 		{
 			LOG.info("called activate()");
+			throw new IllegalStateException("Handleable exception 0");
 		}
 
-		@Staged(on = StageEvent.BEFORE_FAIL)
-		void deactivate(final Throwable t)
+		@Override
+		public void deactivate(final Throwable t)
 		{
 			LOG.info("called deactivate(" + t.getMessage() + ")");
 			throw new IllegalStateException("Unhandleable exception 1");
 		}
 
-		@Staged(on = StageEvent.AFTER_STAGE)
-		void deactivate()
+		@Override
+		public void deactivate()
 		{
 			LOG.info("called deactivate()");
 			throw new IllegalStateException("Deliberate exception");
 		}
 
-		@Staged(on = StageEvent.BEFORE_RECYCLE)
-		void finish() throws Exception
+		@Override
+		public void finish()
 		{
 			LOG.info("called finish()");
 			throw new IllegalStateException("Unhandleable exception 2");
