@@ -91,55 +91,55 @@ public @interface InjectStaged
 		String[] selectStages(InjectStaged staging);
 
 		Map<Class<?>, SortedSet<String>> getCache();
-
-		/** */
-		StageSelector BEFORE_PROVIDE_SELECTOR = new StageSelector()
-		{
-			/** */
-			private final Map<Class<?>, SortedSet<String>> cache = new HashMap<>();
-
-			@Override
-			public String[] selectStages(final InjectStaged staging)
-			{
-				return staging.beforeProvide();
-			}
-
-			@Override
-			public Map<Class<?>, SortedSet<String>> getCache()
-			{
-				return this.cache;
-			}
-
-			@Override
-			public String toString()
-			{
-				return "beforeProvide";
-			}
-		};
-
-		/** */
-		StageSelector AFTER_PROVIDE_SELECTOR = new StageSelector()
-		{
-			/** */
-			private final Map<Class<?>, SortedSet<String>> cache = new HashMap<>();
-
-			@Override
-			public String[] selectStages(final InjectStaged staging)
-			{
-				return staging.afterProvide();
-			}
-
-			@Override
-			public Map<Class<?>, SortedSet<String>> getCache()
-			{
-				return this.cache;
-			}
-
-			@Override
-			public String toString()
-			{
-				return "afterProvide";
-			}
-		};
 	}
+
+	/** */
+	StageSelector BEFORE_PROVIDE_SELECTOR = new StageSelector()
+	{
+		/** */
+		private final Map<Class<?>, SortedSet<String>> cache = new HashMap<>();
+
+		@Override
+		public String[] selectStages(final InjectStaged staging)
+		{
+			return staging.beforeProvide();
+		}
+
+		@Override
+		public Map<Class<?>, SortedSet<String>> getCache()
+		{
+			return this.cache;
+		}
+
+		@Override
+		public String toString()
+		{
+			return "beforeProvide";
+		}
+	};
+
+	/** */
+	StageSelector AFTER_PROVIDE_SELECTOR = new StageSelector()
+	{
+		/** */
+		private final Map<Class<?>, SortedSet<String>> cache = new HashMap<>();
+
+		@Override
+		public String[] selectStages(final InjectStaged staging)
+		{
+			return staging.afterProvide();
+		}
+
+		@Override
+		public Map<Class<?>, SortedSet<String>> getCache()
+		{
+			return this.cache;
+		}
+
+		@Override
+		public String toString()
+		{
+			return "afterProvide";
+		}
+	};
 }

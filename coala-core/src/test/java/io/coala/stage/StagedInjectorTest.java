@@ -33,6 +33,8 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.eaio.uuid.UUID;
+
 import rx.Observer;
 
 /**
@@ -117,15 +119,30 @@ public class StagedInjectorTest
 		public void active()
 		{
 			LOG.info("called active()");
-			throw new IllegalStateException("Handleable exception 0");
+			// throw new IllegalStateException("Deliberate exception 1");
 		}
 
 		@Override
-		@Staged(onCustom = ACTIVE_STAGE, ignore = NullPointerException.class, priority = -1)
+		@Staged(onCustom = ACTIVE_STAGE, ignore = NullPointerException.class, priority = -1, returnsNextStage = true)
 		public void zactive()
 		{
 			LOG.info("called zactive()");
-			// throw new IllegalStateException("Handleable exception 0");
+			// throw new IllegalStateException("Deliberate exception 3");
+		}
+
+		@Staged(onCustom = ACTIVE_STAGE, ignore = NullPointerException.class, priority = -2, returnsNextStage = true)
+		public Object zzzactive()
+		{
+			LOG.info("called zzzactive()");
+			// throw new IllegalStateException("Deliberate exception 4");
+			return "nestedStage";
+		}
+
+		@Staged(onCustom = "nestedStage")
+		public Object ZZZactive()
+		{
+			LOG.info("called ZZZactive()");
+			throw new IllegalStateException("Deliberate exception 5");
 		}
 
 		@Override
@@ -139,7 +156,7 @@ public class StagedInjectorTest
 		public void deactivate()
 		{
 			LOG.info("called deactivate()");
-			throw new IllegalStateException("Deliberate exception");
+			// throw new IllegalStateException("Deliberate exception 2");
 		}
 
 		@Override

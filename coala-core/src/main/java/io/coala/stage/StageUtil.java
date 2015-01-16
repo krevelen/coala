@@ -28,11 +28,14 @@ import io.coala.util.Util;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
@@ -85,7 +88,7 @@ public class StageUtil implements Util
 		{
 			if (o1 == o2)
 				return 0;
-			
+
 			// compare priority
 			int result = Integer.compare(o1.getAnnotation(Staged.class)
 					.priority(), o2.getAnnotation(Staged.class).priority());
@@ -308,11 +311,9 @@ public class StageUtil implements Util
 		if (staged == null)
 			result = findAbsorptionLevels(type);
 		else
-			result = subsume(type.getName() + '#' + toSignatureString(method),
-					staged.ignore());
+			result = subsume(toSignatureString(method), staged.ignore());
 
-		LOG.trace("Absorption for " + type.getSimpleName() + "#"
-				+ toSignatureString(method) + ": " + result);
+		LOG.trace("Absorption for " + toSignatureString(method) + ": " + result);
 		return result;
 	}
 
@@ -385,12 +386,8 @@ public class StageUtil implements Util
 		success &= invokeEventHandlers(stageObserver, type, null, null,
 				StageEvent.BEFORE_PROVIDE);
 
-		success &= invokeStages(
-				stageObserver,
-				type,
-				null,
-				findStages(type,
-						InjectStaged.StageSelector.BEFORE_PROVIDE_SELECTOR));
+		success &= invokeStages(stageObserver, type, null,
+				findStages(type, InjectStaged.BEFORE_PROVIDE_SELECTOR));
 
 		if (stageObserver != null)
 			stageObserver.onNext(new StageChangeImpl(type, null,
@@ -405,12 +402,8 @@ public class StageUtil implements Util
 		success &= invokeEventHandlers(stageObserver, type,
 				subject.getTarget(), null, StageEvent.AFTER_PROVIDE);
 
-		success &= invokeStages(
-				stageObserver,
-				type,
-				subject.getTarget(),
-				findStages(type,
-						InjectStaged.StageSelector.AFTER_PROVIDE_SELECTOR));
+		success &= invokeStages(stageObserver, type, subject.getTarget(),
+				findStages(type, InjectStaged.AFTER_PROVIDE_SELECTOR));
 
 		if (stageObserver != null && success)
 			stageObserver.onNext(new StageChangeImpl(type, subject.getTarget(),
@@ -420,7 +413,7 @@ public class StageUtil implements Util
 
 	public static <T> boolean invokeStages(
 			final Observer<StageChange> stageObserver, final Class<T> type,
-			final T target, final SortedSet<String> stages) throws Throwable
+			final T target, final Collection<String> stages) throws Throwable
 	{
 		if (stages == null || stages.isEmpty())
 			return true;
@@ -437,13 +430,21 @@ public class StageUtil implements Util
 			if (stageObserver != null)
 				stageObserver.onNext(new StageChangeImpl(type, target,
 						Stage.STARTED, stage));
-			success &= invokeStageHandlers(stageObserver, type, target, stage);
+			final List<String> nextStages = invokeStageHandlers(stageObserver,
+					type, target, stage);
+			success &= nextStages != null;
 
 			if (stageObserver != null)
 				stageObserver.onNext(new StageChangeImpl(type, target,
 						Stage.STOPPING, stage));
 			success &= invokeEventHandlers(stageObserver, type, target, stage,
 					StageEvent.AFTER_STAGE);
+
+			if (nextStages != null && !nextStages.isEmpty())
+			{
+				LOG.trace("Starting *nested* stage: " + nextStages);
+				invokeStages(stageObserver, type, target, nextStages);
+			}
 		}
 		return success;
 	}
@@ -467,12 +468,21 @@ public class StageUtil implements Util
 		return !failed;
 	}
 
-	public static <T> boolean invokeStageHandlers(
+	/**
+	 * @param stageObserver
+	 * @param type
+	 * @param target
+	 * @param currentStage
+	 * @return the next stage, or {@code null} if failed
+	 * @throws Throwable
+	 */
+	public static <T> List<String> invokeStageHandlers(
 			final Observer<StageChange> stageObserver, final Class<T> type,
 			final T target, final String currentStage) throws Throwable
 	{
 		Object result;
 		boolean failed = false;
+		final List<String> nextStages = new ArrayList<>();
 		for (Map.Entry<Method, Staged> entry : findStageHandlers(type,
 				currentStage).entrySet())
 		{
@@ -480,9 +490,21 @@ public class StageUtil implements Util
 					+ "' handler method: " + toSignatureString(entry.getKey()));
 			result = invoke(stageObserver, currentStage, type, target,
 					entry.getKey());
+			if (result instanceof Throwable)
+				failed = true;
+			else if (entry.getValue().returnsNextStage())
+			{
+				final String nextStage = result == null ? null : result
+						.toString();
+				if (nextStage == null)
+					LOG.error("Illegal (void or null) next stage returned by "
+							+ toSignatureString(entry.getKey()));
+				else
+					nextStages.add(nextStage);
+			}
 			failed |= result instanceof Throwable;
 		}
-		return !failed;
+		return failed ? null : nextStages;
 	}
 
 	/**
@@ -569,8 +591,9 @@ public class StageUtil implements Util
 	 */
 	public static String toSignatureString(final Method method)
 	{
-		final StringBuilder result = new StringBuilder(method.getName())
-				.append('(');
+		final StringBuilder result = new StringBuilder(method
+				.getDeclaringClass().getSimpleName()).append('#')
+				.append(method.getName()).append('(');
 		boolean first = true;
 		for (Class<?> type : method.getParameterTypes())
 		{

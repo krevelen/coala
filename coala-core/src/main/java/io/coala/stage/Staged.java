@@ -66,6 +66,8 @@ public @interface Staged
 	 */
 	int priority() default 0;
 
+	boolean returnsNextStage() default false;
+
 	/**
 	 * Indicates that the {@link Staged}-annotated method is to be invoked when
 	 * some managed stage in the (owner) {@link InjectStaged} throws a
