@@ -12,6 +12,10 @@
 	<url>http://coala.io/</url>
 	<description> 
 		Almende agent-based modeling and simulation parent POM
+		$Author: asd $
+		$File asd$
+		$Revision sdf$
+		$Date asdadsa$
 		$Id: pom.xml 354 2014-08-09 06:14:14Z krevelen $
 		$URL: https://dev.almende.com/svn/abms/coala-parent/pom.xml $
 	</description>
