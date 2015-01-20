@@ -1,0 +1,3 @@
+*.java filter=rcs-keywords
+*.xml filter=rcs-keywords
+*.properties filter=rcs-keywords
