@@ -1,22 +1,20 @@
-/* $Id$
- * $URL: https://dev.almende.com/svn/abms/coala-common/src/main/java/com/almende/coala/lifecycle/MachineUtil.java $
- * 
+/*
+ * $Id$
+ * $URL:
+ * https://dev.almende.com/svn/abms/coala-common/src/main/java/com/almende/
+ * coala/lifecycle/MachineUtil.java $
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/
- * 
  * @license
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
  * of the License at
- * 
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
  * License for the specific language governing permissions and limitations under
  * the License.
- * 
- * Copyright (c) 2010-2014 Almende B.V. 
+ * Copyright (c) 2010-2014 Almende B.V.
  */
 package io.coala.lifecycle;
 
@@ -45,23 +43,66 @@ import rx.Observer;
  * @version $Revision: 296 $
  * @author <a href="mailto:Rick@almende.org">Rick</a>
  */
-public class MachineUtil implements Util
-{
+public class MachineUtil implements Util {
 
 	/** */
-	private static final Logger LOG = LogUtil.getLogger(MachineUtil.class);
+	private static final Logger	LOG	= LogUtil.getLogger(MachineUtil.class);
 
 	/**
 	 * {@link MachineUtil} constructor
 	 */
-	private MachineUtil()
-	{
+	private MachineUtil() {
 		// utility class should not provide protected/public instances
 	}
 
 	/** */
-	private static final ExecutorService STATUS_NOTIFIER = Executors
-			.newCachedThreadPool();
+	private static final ExecutorService	STATUS_NOTIFIER	= Executors
+																	.newCachedThreadPool();
+
+	static class Maps {
+		final Map<Field, Class<?>>	statusFields	= new HashMap<Field, Class<?>>();
+		final Map<Field, Class<?>>	statusObservers	= new HashMap<Field, Class<?>>();
+	}
+
+	final static Map<String, Maps>	machineMaps	= new HashMap<String, Maps>();
+
+	final static <S extends MachineStatus<S>> void fillMaps(Machine<S> target, Class<?> type) {
+		Maps maps = machineMaps.get(target.getClass().getName());
+		if (maps == null){
+			maps = new Maps();
+		}
+		// move up the ancestor class
+		for (Class<?> declaringType = target.getClass(); declaringType != Object.class; declaringType = declaringType
+				.getSuperclass()) {
+			for (Field field : declaringType.getDeclaredFields()) {
+				if (!field.isAnnotationPresent(LifeCycleManaged.class))
+					continue;
+
+				try {
+					field.setAccessible(true);
+					if (ClassUtil.isAssignableFrom(Observer.class,
+							field.getType()))
+						maps.statusObservers.put(field, declaringType);
+					else if (ClassUtil.isAssignableFrom(field.getType(),
+							type))
+						maps.statusFields.put(field, declaringType);
+					else
+						LOG.error(String.format(
+								"Field annotated with %s should declare "
+										+ "either a (subtype of) %s "
+										+ "or a (supertype of) %s, "
+										+ "but is: %s", LifeCycleManaged.class
+										.getSimpleName(), Observer.class
+										.getName(), type.getName(), field.getType().getName()));
+				} catch (final Throwable t) {
+					throw CoalaExceptionFactory.STATUS_UPDATE_FAILED
+							.createRuntime(t, target, type);
+				}
+			}
+			
+		}
+		machineMaps.put(target.getClass().getName(), maps);
+	}
 
 	/**
 	 * @param target
@@ -70,8 +111,7 @@ public class MachineUtil implements Util
 	 */
 	@SuppressWarnings("unchecked")
 	public static <S extends MachineStatus<S>> void setStatus(
-			final Machine<S> target, final S newValue, final boolean completed)
-	{
+			final Machine<S> target, final S newValue, final boolean completed) {
 		if (target == null)
 			throw CoalaExceptionFactory.VALUE_NOT_SET.createRuntime("target");
 
@@ -80,56 +120,21 @@ public class MachineUtil implements Util
 						((Identifiable<?>) target).getID()) : target.getClass()
 				.getSimpleName();
 
-		final Map<Field, Class<?>> statusObservers = new HashMap<Field, Class<?>>();
-		final Map<Field, Class<?>> statusFields = new HashMap<Field, Class<?>>();
-
-		// move up the ancestor class
-		for (Class<?> declaringType = target.getClass(); declaringType != Object.class; declaringType = declaringType
-				.getSuperclass())
-		{
-			for (Field field : declaringType.getDeclaredFields())
-			{
-				if (!field.isAnnotationPresent(LifeCycleManaged.class))
-					continue;
-
-				try
-				{
-					field.setAccessible(true);
-					if (ClassUtil.isAssignableFrom(Observer.class,
-							field.getType()))
-						statusObservers.put(field, declaringType);
-					else if (ClassUtil.isAssignableFrom(field.getType(),
-							newValue.getClass()))
-						statusFields.put(field, declaringType);
-					else
-						LOG.error(String.format(
-								"Field annotated with %s should declare "
-										+ "either a (subtype of) %s "
-										+ "or a (supertype of) %s, "
-										+ "but is: %s", LifeCycleManaged.class
-										.getSimpleName(), Observer.class
-										.getName(), newValue.getClass()
-										.getName(), field.getType().getName()));
-				} catch (final Throwable t)
-				{
-					throw CoalaExceptionFactory.STATUS_UPDATE_FAILED
-							.createRuntime(t, target, newValue);
-				}
-			}
+		Maps maps = machineMaps.get(target.getClass().getName());
+		if (maps == null) {
+			fillMaps(target,newValue.getClass());
+			maps = machineMaps.get(target.getClass().getName());
 		}
 
-		if (statusFields.isEmpty())
-		{
+		if (maps.statusFields.isEmpty()) {
 			LOG.warn(String.format("No %s fields found to update for %s of "
 					+ "concrete type: %s", newValue.getClass().getSimpleName(),
 					Machine.class.getSimpleName(), target.getClass().getName()));
 			return;
 		}
-		synchronized (target)
-		{
+		synchronized (target) {
 			// update the status fields
-			for (Entry<Field, Class<?>> entry : statusFields.entrySet())
-			{
+			for (Entry<Field, Class<?>> entry : maps.statusFields.entrySet()) {
 				final Field statusField = entry.getKey();
 				final Class<?> statusType = entry.getValue();
 				final Exception error = new IllegalStateException();
@@ -138,12 +143,10 @@ public class MachineUtil implements Util
 				// @Override
 				// public void run()
 				// {
-				try
-				{
+				try {
 					final S oldValue = (S) statusField.get(target);
 					if (oldValue != null
-							&& !oldValue.permitsTransitionTo(newValue))
-					{
+							&& !oldValue.permitsTransitionTo(newValue)) {
 						LOG.warn(String.format("Illegal transition "
 								+ "from %s to %s at %s (field %s.%s)",
 								oldValue, newValue, targetName,
@@ -154,22 +157,17 @@ public class MachineUtil implements Util
 					statusField.set(target, newValue);
 
 					// notify the status observers
-					for (Entry<Field, Class<?>> obsEntry : statusObservers
-							.entrySet())
-					{
+					for (Entry<Field, Class<?>> obsEntry : maps.statusObservers
+							.entrySet()) {
 						final Field observerField = obsEntry.getKey();
 						final Class<?> observerType = obsEntry.getValue();
-						try
-						{
+						try {
 							final Observer<S> observer = (Observer<S>) observerField
 									.get(target);
-							STATUS_NOTIFIER.submit(new Runnable()
-							{
+							STATUS_NOTIFIER.submit(new Runnable() {
 								@Override
-								public void run()
-								{
-									try
-									{
+								public void run() {
+									try {
 										observer.onNext(newValue);
 										// System.err.println(String
 										// .format("Notified %s at "
@@ -180,8 +178,7 @@ public class MachineUtil implements Util
 										// .getSimpleName(),
 										// observerField
 										// .getName()));
-									} catch (final Throwable t)
-									{
+									} catch (final Throwable t) {
 										LOG.error(String.format(
 												"Problem notifying %s at "
 														+ "%s (field %s.%s)",
@@ -192,8 +189,7 @@ public class MachineUtil implements Util
 
 									// notify completed to observers
 									if (completed)
-										try
-										{
+										try {
 											observer.onCompleted();
 											// System.err.println(String
 											// .format("Notified COMPLETED at %s (field %s.%s)",
@@ -202,8 +198,7 @@ public class MachineUtil implements Util
 											// .getSimpleName(),
 											// observerField
 											// .getName()));
-										} catch (final Throwable t)
-										{
+										} catch (final Throwable t) {
 											LOG.error(
 													String.format(
 															"Problem notifying COMPLETED at "
@@ -217,8 +212,7 @@ public class MachineUtil implements Util
 										}
 								}
 							});
-						} catch (final Throwable t)
-						{
+						} catch (final Throwable t) {
 							LOG.error(String.format("Problem accessing %s at "
 									+ "%s.%s of %s", observerField.getType()
 									.getSimpleName(), observerType.getName(),
@@ -227,28 +221,22 @@ public class MachineUtil implements Util
 						}
 					}
 
-				} catch (final Throwable t)
-				{
+				} catch (final Throwable t) {
 					// notify the status observers of an error
-					for (Entry<Field, Class<?>> obsEntry : statusObservers
-							.entrySet())
-					{
+					for (Entry<Field, Class<?>> obsEntry : maps.statusObservers
+							.entrySet()) {
 						final Field observerField = obsEntry.getKey();
 						final Class<?> declaringType = obsEntry.getValue();
-						try
-						{
+						try {
 							final Observer<S> observer = (Observer<S>) observerField
 									.get(target);
-							STATUS_NOTIFIER.submit(new Runnable()
-							{
+							STATUS_NOTIFIER.submit(new Runnable() {
 								@Override
-								public void run()
-								{
+								public void run() {
 									observer.onError(t);
 								}
 							});
-						} catch (final Throwable t1)
-						{
+						} catch (final Throwable t1) {
 							LOG.error(String.format("Problem accessing %s at "
 									+ "%s.%s of %s", observerField.getType()
 									.getSimpleName(), declaringType.getName(),
