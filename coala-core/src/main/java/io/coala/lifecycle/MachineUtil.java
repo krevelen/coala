@@ -29,12 +29,13 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import org.apache.log4j.Logger;
 
 import rx.Observer;
+import rx.Scheduler;
+import rx.functions.Action0;
+import rx.schedulers.Schedulers;
 
 /**
  * {@link MachineUtil} utility class, e.g. to manage the {@link MachineStatus}
@@ -56,8 +57,7 @@ public class MachineUtil implements Util {
 	}
 
 	/** */
-	private static final ExecutorService	STATUS_NOTIFIER	= Executors
-																	.newCachedThreadPool();
+	private static final Scheduler	STATUS_NOTIFIER	= Schedulers.computation();
 
 	static class Maps {
 		final Map<Field, Class<?>>	statusFields	= new HashMap<Field, Class<?>>();
@@ -66,9 +66,11 @@ public class MachineUtil implements Util {
 
 	final static Map<String, Maps>	machineMaps	= new HashMap<String, Maps>();
 
-	final static <S extends MachineStatus<S>> void fillMaps(Machine<S> target, Class<?> type) {
-		Maps maps = machineMaps.get(target.getClass().getName());
-		if (maps == null){
+	final static <S extends MachineStatus<S>> void fillMaps(Machine<S> target,
+			Class<?> type) {
+		final String classname = target.getClass().getName();
+		Maps maps = machineMaps.get(classname);
+		if (maps == null) {
 			maps = new Maps();
 		}
 		// move up the ancestor class
@@ -83,8 +85,7 @@ public class MachineUtil implements Util {
 					if (ClassUtil.isAssignableFrom(Observer.class,
 							field.getType()))
 						maps.statusObservers.put(field, declaringType);
-					else if (ClassUtil.isAssignableFrom(field.getType(),
-							type))
+					else if (ClassUtil.isAssignableFrom(field.getType(), type))
 						maps.statusFields.put(field, declaringType);
 					else
 						LOG.error(String.format(
@@ -93,15 +94,16 @@ public class MachineUtil implements Util {
 										+ "or a (supertype of) %s, "
 										+ "but is: %s", LifeCycleManaged.class
 										.getSimpleName(), Observer.class
-										.getName(), type.getName(), field.getType().getName()));
+										.getName(), type.getName(), field
+										.getType().getName()));
 				} catch (final Throwable t) {
 					throw CoalaExceptionFactory.STATUS_UPDATE_FAILED
 							.createRuntime(t, target, type);
 				}
 			}
-			
+
 		}
-		machineMaps.put(target.getClass().getName(), maps);
+		machineMaps.put(classname, maps);
 	}
 
 	/**
@@ -114,22 +116,20 @@ public class MachineUtil implements Util {
 			final Machine<S> target, final S newValue, final boolean completed) {
 		if (target == null)
 			throw CoalaExceptionFactory.VALUE_NOT_SET.createRuntime("target");
+		final String classname = target.getClass().getName();
 
 		final String targetName = target instanceof Identifiable ? String
-				.format("%s[%s]", target.getClass().getSimpleName(),
-						((Identifiable<?>) target).getID()) : target.getClass()
-				.getSimpleName();
+				.format("%s[%s]", classname, ((Identifiable<?>) target).getID())
+				: classname;
 
-		Maps maps = machineMaps.get(target.getClass().getName());
-		if (maps == null) {
-			fillMaps(target,newValue.getClass());
-			maps = machineMaps.get(target.getClass().getName());
+		if (!machineMaps.containsKey(classname)) {
+			fillMaps(target, newValue.getClass());
 		}
-
+		Maps maps = machineMaps.get(classname);
 		if (maps.statusFields.isEmpty()) {
 			LOG.warn(String.format("No %s fields found to update for %s of "
 					+ "concrete type: %s", newValue.getClass().getSimpleName(),
-					Machine.class.getSimpleName(), target.getClass().getName()));
+					Machine.class.getSimpleName(), classname));
 			return;
 		}
 		synchronized (target) {
@@ -137,7 +137,6 @@ public class MachineUtil implements Util {
 			for (Entry<Field, Class<?>> entry : maps.statusFields.entrySet()) {
 				final Field statusField = entry.getKey();
 				final Class<?> statusType = entry.getValue();
-				final Exception error = new IllegalStateException();
 				// STATUS_NOTIFIER.submit(new Runnable()
 				// {
 				// @Override
@@ -151,7 +150,8 @@ public class MachineUtil implements Util {
 								+ "from %s to %s at %s (field %s.%s)",
 								oldValue, newValue, targetName,
 								statusType.getSimpleName(),
-								statusField.getName()), error);
+								statusField.getName()),
+								new IllegalStateException());
 						// return;
 					}
 					statusField.set(target, newValue);
@@ -164,54 +164,60 @@ public class MachineUtil implements Util {
 						try {
 							final Observer<S> observer = (Observer<S>) observerField
 									.get(target);
-							STATUS_NOTIFIER.submit(new Runnable() {
-								@Override
-								public void run() {
-									try {
-										observer.onNext(newValue);
-										// System.err.println(String
-										// .format("Notified %s at "
-										// + "%s (field %s.%s)",
-										// newValue,
-										// targetName,
-										// observerType
-										// .getSimpleName(),
-										// observerField
-										// .getName()));
-									} catch (final Throwable t) {
-										LOG.error(String.format(
-												"Problem notifying %s at "
-														+ "%s (field %s.%s)",
-												newValue, targetName,
-												observerType.getSimpleName(),
-												observerField.getName()), t);
-									}
+							STATUS_NOTIFIER.createWorker().schedule(
+									new Action0() {
+										@Override
+										public void call() {
+											try {
+												observer.onNext(newValue);
+												// System.err.println(String
+												// .format("Notified %s at "
+												// + "%s (field %s.%s)",
+												// newValue,
+												// targetName,
+												// observerType
+												// .getSimpleName(),
+												// observerField
+												// .getName()));
+											} catch (final Throwable t) {
+												LOG.error(
+														String.format(
+																"Problem notifying %s at "
+																		+ "%s (field %s.%s)",
+																newValue,
+																targetName,
+																observerType
+																		.getSimpleName(),
+																observerField
+																		.getName()),
+														t);
+											}
 
-									// notify completed to observers
-									if (completed)
-										try {
-											observer.onCompleted();
-											// System.err.println(String
-											// .format("Notified COMPLETED at %s (field %s.%s)",
-											// targetName,
-											// observerType
-											// .getSimpleName(),
-											// observerField
-											// .getName()));
-										} catch (final Throwable t) {
-											LOG.error(
-													String.format(
-															"Problem notifying COMPLETED at "
-																	+ "%s (field %s.%s)",
-															targetName,
-															observerType
-																	.getSimpleName(),
-															observerField
-																	.getName()),
-													t);
+											// notify completed to observers
+											if (completed)
+												try {
+													observer.onCompleted();
+													// System.err.println(String
+													// .format("Notified COMPLETED at %s (field %s.%s)",
+													// targetName,
+													// observerType
+													// .getSimpleName(),
+													// observerField
+													// .getName()));
+												} catch (final Throwable t) {
+													LOG.error(
+															String.format(
+																	"Problem notifying COMPLETED at "
+																			+ "%s (field %s.%s)",
+																	targetName,
+																	observerType
+																			.getSimpleName(),
+																	observerField
+																			.getName()),
+															t);
+												}
 										}
-								}
-							});
+									});
 						} catch (final Throwable t) {
 							LOG.error(String.format("Problem accessing %s at "
 									+ "%s.%s of %s", observerField.getType()
@@ -230,12 +236,13 @@ public class MachineUtil implements Util {
 						try {
 							final Observer<S> observer = (Observer<S>) observerField
 									.get(target);
-							STATUS_NOTIFIER.submit(new Runnable() {
-								@Override
-								public void run() {
-									observer.onError(t);
-								}
-							});
+							STATUS_NOTIFIER.createWorker().schedule(
+									new Action0() {
+										@Override
+										public void call() {
+											observer.onError(t);
+										}
+									});
 						} catch (final Throwable t1) {
 							LOG.error(String.format("Problem accessing %s at "
 									+ "%s.%s of %s", observerField.getType()
