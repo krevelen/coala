@@ -10,10 +10,14 @@
 
 	<name>${project.artifactId} ${project.version}</name>
 	<url>http://coala.io/</url>
-	<description>
+	<description> 
 		Almende agent-based modeling and simulation parent POM
-		$Id: pom.xml 354 2014-08-09 06:14:14Z krevelen $
-		$URL: https://dev.almende.com/svn/abms/coala-parent/pom.xml $
+		$Author: asd $
+		$File asd$
+		$Revision sdf$
+		$Date asdadsa$
+		$Id: sdf$
+		$URL:  $
 	</description>
 
 	<modules>

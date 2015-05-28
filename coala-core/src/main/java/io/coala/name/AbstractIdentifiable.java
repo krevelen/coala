@@ -1,4 +1,4 @@
-/* $Id$
+/* $Id: 5e294a74e4c087d25cd899618010bf19544ad1bd $
  * $URL: https://dev.almende.com/svn/abms/coala-common/src/main/java/com/almende/coala/identity/AbstractIdentifiable.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/
@@ -126,7 +126,7 @@ public abstract class AbstractIdentifiable<ID extends Identifier<?, ?>>
 	@Override
 	public int hashCode()
 	{
-		return getID().hashCode();
+		return getID() == null ? super.hashCode() : getID().hashCode();
 	}
 
 	/** @see Object#equals(Object) */

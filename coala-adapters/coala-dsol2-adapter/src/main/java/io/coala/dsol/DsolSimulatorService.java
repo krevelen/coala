@@ -1,7 +1,4 @@
 /* $Id$
- * $URL: https://dev.almende.com/svn/abms/dsol-util/src/main/java/io/coala/dsol/DsolSimulatorService.java $
- * 
- * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/
  * 
  * @license
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -16,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  * 
- * Copyright (c) 2010-2014 Almende B.V. 
+ * Copyright (c)  Almende B.V. 
  */
 package io.coala.dsol;
 
@@ -42,6 +39,7 @@ import io.coala.random.RandomNumberStreamID;
 import io.coala.time.ClockID;
 import io.coala.time.Instant;
 import io.coala.time.SimTime;
+import io.coala.time.SimTimeFactory;
 import io.coala.time.TimeUnit;
 import io.coala.time.Timed;
 import io.coala.time.Trigger;
@@ -102,6 +100,15 @@ public class DsolSimulatorService extends BasicCapability implements
 	private transient ReplicationConfig config;
 
 	/** */
+	private transient SimTimeFactory newTime;
+
+	/** */
+	private transient ClockID clockID;
+
+	/** */
+	private transient TimeUnit baseTimeUnit;
+
+	/** */
 	private boolean complete = false;
 
 	/** */
@@ -138,12 +145,12 @@ public class DsolSimulatorService extends BasicCapability implements
 	 * @throws NamingException
 	 * @throws SimRuntimeException
 	 */
-	protected static ReplicationBuilder getReplication(
+	protected static ReplicationBuilder getReplication(final ClockID clockID,
 			final ReplicationConfig config)
 	{
 		synchronized (SIMULATORS)
 		{
-			if (!SIMULATORS.containsKey(config.getClockID()))
+			if (!SIMULATORS.containsKey(clockID))
 			{
 				final DEVSSimulatorInterface simulator = new DEVSSimulator();
 
@@ -166,11 +173,11 @@ public class DsolSimulatorService extends BasicCapability implements
 							.createRuntime(e, "initialize", simulator);
 				}
 
-				System.err.println("Built clock: " + config.getClockID());
-				SIMULATORS.put(config.getClockID(), repl);
+				System.err.println("Built clock: " + clockID);
+				SIMULATORS.put(clockID, repl);
 			}
 
-			return SIMULATORS.get(config.getClockID());
+			return SIMULATORS.get(clockID);
 		}
 	}
 
@@ -242,15 +249,19 @@ public class DsolSimulatorService extends BasicCapability implements
 		final SimTimeFactory newTime = getBinder().inject(SimTimeFactory.class);
 		*/
 		this.config = getBinder().inject(ReplicationConfig.class);
+		this.clockID = this.config.getClockID();
+		this.baseTimeUnit = this.config.getBaseTimeUnit();
+		this.newTime = this.config.newTime();
 		this.statusUpdates = BehaviorSubject
 				.create((ClockStatusUpdate) new ClockStatusUpdateImpl(
-						this.config.getClockID(), DsolSimulatorStatus.CREATED));
-		this.timeUpdates = BehaviorSubject.create(this.config.newTime().create(
-				Double.NaN, this.config.getBaseTimeUnit()));
+						getClockID(), DsolSimulatorStatus.CREATED));
+		this.timeUpdates = BehaviorSubject.create(this.newTime.create(
+				Double.NaN, this.baseTimeUnit));
 
 		synchronized (SIMULATORS)
 		{
-			final ReplicationBuilder repl = getReplication(this.config);
+			final ReplicationBuilder repl = getReplication(getClockID(),
+					this.config);
 			final DEVSSimulatorInterface simulator = (DEVSSimulatorInterface) repl
 					.getExperiment().getSimulator();
 
@@ -272,7 +283,7 @@ public class DsolSimulatorService extends BasicCapability implements
 							final DsolSimulatorStatus status = DsolSimulatorStatus
 									.of(event.getType());
 							statusUpdates.onNext(new ClockStatusUpdateImpl(
-									config.getClockID(), status));
+									getClockID(), status));
 						}
 					}, type);
 				} catch (final RemoteException e)
@@ -298,7 +309,7 @@ public class DsolSimulatorService extends BasicCapability implements
 							System.err.println("Resetting thread name: "
 									+ Thread.currentThread().getName());
 							Thread.currentThread().setName(
-									config.getClockID().getValue());
+									getClockID().getValue());
 						}
 						setTime((Double) event.getContent());
 					}
@@ -325,7 +336,7 @@ public class DsolSimulatorService extends BasicCapability implements
 			if (!simulator.isRunning())
 			{
 				repl.initialize();
-				LOG.info("[t=0] INITIALIZED replication " + config.getClockID());
+				LOG.info("[t=0] INITIALIZED replication " + getClockID());
 				// simulator.start(); // needed to initialize time to 0
 				// simulator.stop();
 				setTime(new Double(0));
@@ -333,7 +344,7 @@ public class DsolSimulatorService extends BasicCapability implements
 			{
 				setTime(simulator.getSimulatorTime());
 				LOG.info("JOINED [t=" + getTime().getValue() + "] replication "
-						+ config.getClockID());
+						+ getClockID());
 			}
 		}
 	}
@@ -346,14 +357,12 @@ public class DsolSimulatorService extends BasicCapability implements
 			if (getSimulator().isRunning())
 			{
 				getSimulator().stop();
-				LOG.warn("Simulator " + this.config.getClockID() + " stopped");
+				LOG.warn("Simulator " + getClockID() + " stopped");
 			} else
-				LOG.warn("Simulator " + this.config.getClockID()
-						+ " already stopped");
+				LOG.warn("Simulator " + getClockID() + " already stopped");
 		} catch (final Exception e)
 		{
-			LOG.error("Problem stopping simulator " + this.config.getClockID(),
-					e);
+			LOG.error("Problem stopping simulator " + getClockID(), e);
 			e.printStackTrace();
 		}
 	}
@@ -365,15 +374,13 @@ public class DsolSimulatorService extends BasicCapability implements
 		{
 			if (!getSimulator().isRunning())
 			{
-				getReplication(this.config).start();
-				LOG.warn("Simulator " + this.config.getClockID() + " running");
+				getReplication(getClockID(), this.config).start();
+				LOG.warn("Simulator " + getClockID() + " running");
 			} else
-				LOG.warn("Simulator " + this.config.getClockID()
-						+ " already running");
+				LOG.warn("Simulator " + getClockID() + " already running");
 		} catch (final Exception e)
 		{
-			LOG.error("Problem starting simulator " + this.config.getClockID(),
-					e);
+			LOG.error("Problem starting simulator " + getClockID(), e);
 			e.printStackTrace();
 		}
 	}
@@ -389,8 +396,7 @@ public class DsolSimulatorService extends BasicCapability implements
 			return;
 
 		// System.err.println("SETTING TIME: " + value);
-		final SimTime time = this.config.newTime().create(value,
-				this.config.getBaseTimeUnit());
+		final SimTime time = this.newTime.create(value, this.baseTimeUnit);
 		this.time = time;
 		this.timeUpdates.onNext(time);
 		// notifyAll();
@@ -418,13 +424,13 @@ public class DsolSimulatorService extends BasicCapability implements
 	@Override
 	public ClockID getClockID()
 	{
-		return this.config.getClockID();
+		return this.clockID;
 	}
 
 	protected DEVSSimulatorInterface getSimulator()
 	{
-		return (DEVSSimulatorInterface) getReplication(this.config)
-				.getExperiment().getSimulator();
+		return (DEVSSimulatorInterface) getReplication(getClockID(),
+				this.config).getExperiment().getSimulator();
 	}
 
 	private Map<Identifier<?, ?>, List<SimEvent>> pendingEvents = new HashMap<>();
@@ -525,8 +531,8 @@ public class DsolSimulatorService extends BasicCapability implements
 					{
 						LOG.trace("Scheduling " + job.getID() + " @ " + time);
 						// System.err.println(-1);
-						final SimEvent event = new CallableSimEvent(config
-								.getBaseTimeUnit(), time, (Callable<Void>) job);
+						final SimEvent event = new CallableSimEvent(
+								baseTimeUnit, time, (Callable<Void>) job);
 						// System.err.println(0);
 						simulator.scheduleEvent(event);
 						// System.err.println(1);

@@ -1,4 +1,4 @@
-/* $Id$
+/* $Id: 54bbae10ba4d6e5d83e152c6dec87d93e99450dc $
  * $URL: https://dev.almende.com/svn/abms/coala-common/src/main/java/com/almende/coala/identity/AbstractIdentifier.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/
@@ -114,7 +114,7 @@ public abstract class AbstractIdentifier<T extends Comparable<T> & Serializable>
 	@Override
 	public int hashCode()
 	{
-		return (getValue() == null) ? super.hashCode() : getValue().hashCode();
+		return getValue() == null ? super.hashCode() : getValue().hashCode();
 	}
 
 	/** @see Object#equals(Object) */

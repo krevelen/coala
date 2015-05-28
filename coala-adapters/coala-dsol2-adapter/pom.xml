@@ -15,7 +15,7 @@
 	<name>${project.artifactId}</name>
 	<description>
 		Utility and demo code for the Distributed Simulation Objects Library (DSOL)
-		$Id$
+		$Id: b6536b77d864b60414a7b2d1cfa85da644697bc9 $
 		$URL: https://dev.almende.com/svn/abms/dsol-util/pom.xml $
 	</description>
 
@@ -32,7 +32,8 @@
 		<repository>
 			<name>DSOL Public Repository</name>
 			<id>dsol</id>
-			<url>http://simulation.tudelft.nl/maven</url>
+			<!-- <url>http://simulation.tudelft.nl/maven</url> -->
+			<url>http://sk-33.tbm.tudelft.nl/maven/</url>
 			<releases>
 				<enabled>true</enabled>
 				<updatePolicy>daily</updatePolicy>
