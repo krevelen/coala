@@ -13,7 +13,7 @@
 	<name>${project.artifactId}</name>
 	<description>
 		Utility and demo code for the JADE Semantics Add-on
-		$Id: d78452da98e487f764f93f7b0d192fbd250e9d9c $
+		$Id: fffe3645ecec01209748f2d56bf6c0f1092ed0b8 $
 		$URL: https://dev.almende.com/svn/abms/jsa-util/pom.xml $
 	</description>
 	<url>https://eve.almende.com/</url>
