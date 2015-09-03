@@ -37,7 +37,7 @@
 	</developers>
 	<description>
 		Mavenized version of original Jason distribution
-		$Id$
+		$Id: ff8c7d0d75791d3376543bebf181d6b437410477 $
 		$URL: https://dev.almende.com/svn/abms/jason/pom.xml $
 	</description>
 
@@ -46,6 +46,7 @@
 		<project.build.sourceLevel>1.5</project.build.sourceLevel>
 		<project.build.targetLevel>1.5</project.build.targetLevel>
 
+		<jade.version>4.3.3</jade.version>
 		<jason.file>Jason-${project.version}.zip</jason.file>
 		<jason.dir>${project.build.directory}/${jason.file}</jason.dir>
 		<jason.src.dir>${jason.dir}/Jason-${project.version}/src</jason.src.dir>
@@ -62,7 +63,7 @@
 		<dependency>
 			<groupId>com.tilab.jade</groupId>
 			<artifactId>jade</artifactId>
-			<version>4.3.0</version>
+			<version>${jade.version}</version>
 			<scope>provided</scope>
 		</dependency>
 
