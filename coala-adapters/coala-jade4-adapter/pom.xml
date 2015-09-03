@@ -18,7 +18,7 @@
 		
 		TODO consider (industrial) WADE framework for distributed JADE runtime
 		
-		$Id$
+		$Id: acc19139827d0c7407b89e36114da86f98e02d7a $
 		$URL: https://dev.almende.com/svn/abms/jade-util/pom.xml $
 	</description>
 	<url>http://jade.tilab.com/</url>
@@ -28,10 +28,10 @@
 		<project.build.sourceLevel>1.5</project.build.sourceLevel>
 		<project.build.targetLevel>1.5</project.build.targetLevel>
 		
-		<jade.version>4.3.2</jade.version>
+		<jade.version>4.3.3</jade.version>
 		<javacc-maven-plugin.version>2.6</javacc-maven-plugin.version>
 		
-		<jade.file>JADE-src-4.3.2.zip</jade.file>
+		<jade.file>JADE-src-${jade.version}.zip</jade.file>
 		<jade.dir>${project.build.directory}/${jade.file}</jade.dir>
 		<jade.src.dir>${jade.dir}/jade/src</jade.src.dir>
 	</properties>
