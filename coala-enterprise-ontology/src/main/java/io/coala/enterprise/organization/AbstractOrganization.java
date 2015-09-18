@@ -1,4 +1,4 @@
-/* $Id$
+/* $Id: ec23e7aafd0e52a041ba7241eeb0cce4cc307b5d $
  * $URL: https://dev.almende.com/svn/abms/enterprise-ontology/src/main/java/io/coala/enterprise/organization/AbstractOrganization.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

@@ -1,5 +1,5 @@
 ///*
-// * $Id$
+// * $Id: 06ea05ac557971cc8566cf182ae6b4609163b843 $
 // * $URL:
 // * https://redmine.almende.com/svn/a4eesim/trunk/adapt4ee-gui/src/main/java
 // * /eu/a4ee/gui/rest/SimulationManagementServlet.java $

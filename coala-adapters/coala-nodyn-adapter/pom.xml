@@ -15,7 +15,7 @@
 	<name>${project.artifactId}</name>
 	<description>
 		Utility and demo code for the NoDyn libraries
-		$Id: 375afb498bdb01fda2b035f7fd4f48efcedb7bbe $
+		$Id: b53374aab9393bf5f9cedd142c73dacd6c5e03ce $
 		$URL: https://dev.almende.com/svn/abms/coala-nodyn-adapter/pom.xml $
 	</description>
 

@@ -1,4 +1,4 @@
-/* $Id$
+/* $Id: 47ec6c4978e3c1cd8cc0e6a045c006fcd04424d4 $
  * $URL: https://dev.almende.com/svn/abms/enterprise-ontology/src/main/java/io/coala/enterprise/grammar/Grammar.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

@@ -1,4 +1,4 @@
-/* $Id$
+/* $Id: e1440da31f542c8ccee1622816b52d5327497ffe $
  * $URL: https://dev.almende.com/svn/abms/enterprise-ontology/src/main/java/io/coala/enterprise/role/AbstractSelfInitiator.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

@@ -1,4 +1,4 @@
-/* $Id$
+/* $Id: bfa25b5a80e42fa09db5a7cdd4892a15072ad6d0 $
  * $URL: https://dev.almende.com/svn/abms/jsa-util/src/test/java/test/MySemanticAgent.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

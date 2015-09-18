@@ -17,7 +17,7 @@
 	<name>${project.artifactId}</name>
 	<description>
 		The JADE Semantics Add-on
-		$Id$
+		$Id: 086cf04035836128608734b200ccc6802400c644 $
 		$URL: https://dev.almende.com/svn/abms/jade-semantics-addon/pom.xml $
 	</description>
 	<url>http://jade.tilab.com/</url>
@@ -27,6 +27,7 @@
 		<project.build.sourceLevel>1.5</project.build.sourceLevel>
 		<project.build.targetLevel>1.5</project.build.targetLevel>
 
+		<jade.version>4.3.3</jade.version>
 		<jfreechart.version>1.0.13</jfreechart.version>
 		<javacc-maven-plugin.version>2.6</javacc-maven-plugin.version>
 
@@ -36,6 +37,12 @@
 	</properties>
 
 	<repositories>
+		<repository>
+			<!-- TiLab's public repository -->
+			<id>tilab-public</id>
+			<name>tilab public</name>
+			<url>http://jade.tilab.com/maven/</url>
+		</repository>
 	</repositories>
 
 	<pluginRepositories>
@@ -54,12 +61,19 @@
 		</dependency>
 
 		<dependency>
+			<groupId>com.tilab.jade</groupId>
+			<artifactId>jade</artifactId>
+			<version>${jade.version}</version>
+		</dependency>
+
+		<!-- 
+		<dependency>
 			<groupId>io.coala</groupId>
 			<artifactId>coala-jade4-adapter</artifactId>
 			<version>1.0.0</version>
 			<scope>provided</scope>
 		</dependency>
-
+		 -->
 	</dependencies>
 
 	<build>

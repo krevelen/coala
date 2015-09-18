@@ -1,4 +1,4 @@
-/* $Id$
+/* $Id: a6402e7a6b803bb8847eb9d53fcd4c7fc725ef5e $
  * $URL: https://dev.almende.com/svn/abms/enterprise-ontology/src/test/java/io/coala/enterprise/test/TestInitiatorWorld.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

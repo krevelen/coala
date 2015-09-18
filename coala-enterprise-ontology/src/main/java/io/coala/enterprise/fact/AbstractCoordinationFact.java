@@ -1,4 +1,4 @@
-/* $Id$
+/* $Id: fae48dd75c67a41d26e856531d7d4ced697d9825 $
  * $URL: https://dev.almende.com/svn/abms/enterprise-ontology/src/main/java/io/coala/enterprise/fact/AbstractCoordinationFact.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

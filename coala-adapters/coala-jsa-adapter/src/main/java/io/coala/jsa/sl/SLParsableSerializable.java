@@ -1,4 +1,4 @@
-/* $Id$
+/* $Id: 8bcf129bc71729775f4844be33ed2b98abb92c13 $
  * $URL: https://dev.almende.com/svn/abms/jsa-util/src/main/java/com/almende/coala/jsa/sl/SLParsableSerializable.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

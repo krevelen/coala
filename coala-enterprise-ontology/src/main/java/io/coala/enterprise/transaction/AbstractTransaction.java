@@ -1,4 +1,4 @@
-/* $Id: b243a5d1dbbb7fdf4dd3b44df31f027f5a8b0951 $
+/* $Id: d5a9a0abe0a92ffbc60a84cf33d0bf0b20b18703 $
  * $URL: https://dev.almende.com/svn/abms/enterprise-ontology/src/main/java/io/coala/enterprise/transaction/AbstractTransaction.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

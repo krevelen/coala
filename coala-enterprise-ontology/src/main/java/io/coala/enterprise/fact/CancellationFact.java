@@ -1,4 +1,4 @@
-/* $Id$
+/* $Id: 48c94822924e2d090ceb78950ec3427bd8355934 $
  * $URL: https://dev.almende.com/svn/abms/enterprise-ontology/src/main/java/io/coala/enterprise/fact/CancellationFact.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

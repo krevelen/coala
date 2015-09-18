@@ -1,4 +1,4 @@
-/* $Id$
+/* $Id: e8b69dd0ad4cc3521f7609cef62c5bae0162e02c $
  * $URL: https://dev.almende.com/svn/abms/enterprise-ontology/src/main/java/io/coala/enterprise/role/AbstractActorRole.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

@@ -1,4 +1,4 @@
-/* $Id$
+/* $Id: a73d2e9f70750c75da5e7bdc6cfe3d01af583e59 $
  * $URL: https://dev.almende.com/svn/abms/enterprise-ontology/src/main/java/io/coala/enterprise/transaction/TransactionTypeID.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/

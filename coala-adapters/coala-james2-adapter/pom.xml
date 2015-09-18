@@ -14,7 +14,7 @@
 	<name>${project.artifactId}</name>
 	<description>
 		Utility and demo code for the JAMES II framework
-		$Id$
+		$Id: d275a056c586255f71bf688e4438513f7cf1c3dd $
 		$URL: https://dev.almende.com/svn/abms/coala-james2-adapter/pom.xml $
 	</description>
 	<url>http://www.jamesii.org/</url>

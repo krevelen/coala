@@ -14,7 +14,7 @@
 	<name>${project.artifactId}</name>
 	<description>
 		Utility and demo code for the Jason agent platform
-		$Id$
+		$Id: 0307af5a3fe9c8bb8339774653632afe6ee1524e $
 		$URL: https://dev.almende.com/svn/abms/jason-util/pom.xml $
 	</description>
 	<url>http://jason.sf.net/</url>

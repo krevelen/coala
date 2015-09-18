@@ -1,4 +1,4 @@
-/* $Id$
+/* $Id: 5b690749a3606a04ef5d34fcc9eefad68552ca82 $
  * $URL: https://dev.almende.com/svn/abms/enterprise-ontology/src/main/java/io/coala/enterprise/role/Executor.java $
  * 
  * Part of the EU project Adapt4EE, see http://www.adapt4ee.eu/
