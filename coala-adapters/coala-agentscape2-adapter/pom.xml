@@ -15,7 +15,7 @@
 	<name>${project.artifactId}</name>
 	<description>
 		Utility and demo code for the AgentScape agent platform
-		$Id: 9ece685718bca5ae606aeab869def2f137aa2167 $
+		$Id: 301fddec0fb32e79eee704cd9481f50a28e42eb6 $
 		$URL: https://dev.almende.com/svn/abms/agentscape-util/pom.xml $
 	</description>
 	<url>http://agentscape.org/</url>
@@ -31,7 +31,7 @@
 	<repositories>
 
 		<repository>
-			<!-- AgentScape repository (milestones 2.0-m4...2.0-m5) -->
+			<!-- AgentScape repository (milestones 2.0-m4...2.0.0) -->
 			<name>AgentScape Nexus Repository</name>
 			<id>agentscape-public</id>
 			<url>http://nexus.agentscape.org/content/groups/public-agentscape</url>
